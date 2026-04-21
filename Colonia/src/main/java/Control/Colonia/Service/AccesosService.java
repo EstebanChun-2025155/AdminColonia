@@ -1,6 +1,6 @@
-package com.Administracion.Colonia.Service;
+package Control.Colonia.Service;
 
-import com.Administracion.Colonia.Entity.Accesos;
+import Control.Colonia.Entity.Accesos;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
