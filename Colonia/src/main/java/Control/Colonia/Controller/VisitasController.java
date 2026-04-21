@@ -1,7 +1,7 @@
-package com.Administracion.Colonia.Controller;
+package Control.Colonia.Controller;
 
 import Control.Colonia.Service.VisitasService;
-import com.Administracion.Colonia.Entity.Visitas;
+import Control.Colonia.Entity.Visitas;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
