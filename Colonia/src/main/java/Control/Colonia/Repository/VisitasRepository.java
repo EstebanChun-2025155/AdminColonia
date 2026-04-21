@@ -1,6 +1,6 @@
-package com.Administracion.Colonia.Repository;
+package Control.Colonia.Repository;
 
-import com.Administracion.Colonia.Entity.Visitas;
+import Control.Colonia.Entity.Visitas;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
