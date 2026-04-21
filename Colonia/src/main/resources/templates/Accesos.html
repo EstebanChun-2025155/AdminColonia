@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesos</title>
+    <meta name="description" content="Accesos">
+    <link rel="stylesheet" href="../Styles/Accesos.css">
+</head>
+<body>
+
+    <div class="menuAccesos">
+        <div class="container menuAccesos_row">
+            <nav class="menu" aria-label="Menu Principal">
+                <a class="menuAccesos_link is-active" href="VistaHome.html">Inicio</a>
+                <a class="menuAccesos_link" href="#adminAccesos">Administracion</a>
+                <a class="menuAccesos_link" href="#ayuda">Ayuda</a>
+            </nav>
+        </div>
+    </div>
+
+    <main>
+        <section class="frontAccesos" aria-label="PortadaAccesos">
+            <img class="frontAccesos_img" src="../Images/VisitaAccesos.png" alt="Accesos">
+            <div class="frontAccesos_overlay">
+                <div class="container frontAccesos_content">
+                    <h1>ACCESOS</h1>
+                    <p>
+                        Aqui podras manejar todas las consultas relacionadas con la informacion
+                        almacenada sobre el registro de Accesos dentro de la Colonia
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="panelAccesos">
+            <span>CONSULTAS</span>
+        </div>
+
+        <div class="seccionAccesos" id="adminAccesos">
+            <img src="../Images/VisitaAccesos.png" alt="Icono de Accesos">
+            <h2>CONSULTA DE ACCESOS</h2>
+        </div>
+
+        <section class="vista">
+            <h2 class="vista_titulo">REGISTRO DE ACCESOS</h2>
+
+            <input type="radio" name="tabs_acc" id="a1" checked style="display:none;">
+            <input type="radio" name="tabs_acc" id="a2" style="display:none;">
+            <input type="radio" name="tabs_acc" id="a3" style="display:none;">
+
+            <div class="tabs">
+                <label for="a1" class="tab label1">Consultar</label>
+                <label for="a2" class="tab label2">Registrar</label>
+                <label for="a3" class="tab label3">Editar</label>
+            </div>
+
+            <!-- Tab 1: Consultar -->
+            <div class="panel content1">
+                <h3 class="panel_titulo">Consulta de Accesos</h3>
+                <div class="panel_list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Acceso</th>
+                                <th>Tipo Persona</th>
+                                <th>No. Seguridad</th>
+                                <th>Hora Entrada</th>
+                                <th>Hora Salida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A001</td>
+                                <td>Visita</td>
+                                <td>1</td>
+                                <td>2025-06-01 06:05</td>
+                                <td>2025-06-01 08:30</td>
+                            </tr>
+                            <tr>
+                                <td>A002</td>
+                                <td>Residente</td>
+                                <td>2</td>
+                                <td>2025-06-01 22:10</td>
+                                <td>2025-06-01 23:45</td>
+                            </tr>
+                            <tr>
+                                <td>A003</td>
+                                <td>Personal</td>
+                                <td>3</td>
+                                <td>2025-06-02 07:00</td>
+                                <td>2025-06-02 15:00</td>
+                            </tr>
+                            <tr>
+                                <td>A004</td>
+                                <td>Visita</td>
+                                <td>4</td>
+                                <td>2025-06-02 21:30</td>
+                                <td>2025-06-02 22:00</td>
+                            </tr>
+                            <tr>
+                                <td>A005</td>
+                                <td>Residente</td>
+                                <td>5</td>
+                                <td>2025-06-03 20:15</td>
+                                <td>2025-06-03 21:00</td>
+                            </tr>
+                            <tr>
+                                <td>A006</td>
+                                <td>Personal</td>
+                                <td>6</td>
+                                <td>2025-06-03 06:50</td>
+                                <td>2025-06-03 14:50</td>
+                            </tr>
+                            <tr>
+                                <td>A007</td>
+                                <td>Visita</td>
+                                <td>7</td>
+                                <td>2025-06-04 23:00</td>
+                                <td>— Sin salida —</td>
+                            </tr>
+                            <tr>
+                                <td>A008</td>
+                                <td>Residente</td>
+                                <td>8</td>
+                                <td>2025-06-04 07:45</td>
+                                <td>2025-06-04 09:00</td>
+                            </tr>
+                            <tr>
+                                <td>A009</td>
+                                <td>Personal</td>
+                                <td>9</td>
+                                <td>2025-06-05 22:00</td>
+                                <td>2025-06-05 23:30</td>
+                            </tr>
+                            <tr>
+                                <td>A010</td>
+                                <td>Visita</td>
+                                <td>10</td>
+                                <td>2025-06-05 08:00</td>
+                                <td>— Sin salida —</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel content2">
+                <h3 class="panel_titulo">Registrar Acceso</h3>
+                <div class="panel_list">
+                    <span><b>Tipo Persona:</b> visita / residente / personal</span>
+                    <span><b>No. Seguridad:</b> ID del guardia que registra el acceso</span>
+                    <span><b>Hora Entrada:</b> Fecha y hora de ingreso</span>
+                    <span><b>Hora Salida:</b> Fecha y hora de salida (opcional)</span>
+                </div>
+            </div>
+
+            <div class="panel content3">
+                <h3 class="panel_titulo">Editar Acceso</h3>
+                <div class="panel_list">
+                    <span><b>Buscar acceso:</b> Ingrese el número de acceso a editar</span>
+                    <span><b>Modificar datos:</b> Actualice la información requerida</span>
+                    <span><b>Guardar cambios:</b> Confirme la actualización del registro</span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="seccion seccion--soft" id="ayuda">
+            <div class="container">
+                <h2>Ayuda</h2>
+                <p class="muted">
+                    En este módulo podrás consultar todos los accesos registrados dentro de la colonia.
+                    Cada registro incluye el tipo de persona, el guardia de seguridad que autorizó,
+                    la hora de entrada y la hora de salida del recinto.
+                </p>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
