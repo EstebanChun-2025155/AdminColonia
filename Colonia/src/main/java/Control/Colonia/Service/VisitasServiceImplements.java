@@ -1,9 +1,9 @@
 package Control.Colonia.Service;
 
 
-import Control.Colonia.Service.VisitasService;
-import com.Administracion.Colonia.Entity.Visitas;
-import com.Administracion.Colonia.Repository.VisitasRepository;
+import Control.Colonia.Entity.Visitas;
+import Control.Colonia.Entity.Visitas;
+import Control.Colonia.Repository.VisitasRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
