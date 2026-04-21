@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Casa</title>
+    <link rel="stylesheet" th:href="@{/styles/casa.css}">
+</head>
+
+<body>
+
+<div class="menuCasa">
+    <div class="container menuCasa_row">
+        <nav class="menu">
+            <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menuCasa_link" href="#adminCasa"> Administración </a>
+            <a class="menuCasa_link" href="#ayuda"> Ayuda </a>
+        </nav>
+    </div>
+</div>
+
+<main>
+    <section class="frontCasa">
+
+        <img class="frontCasa_img" th:src="@{/images/VistaCasa.png}" alt="Casas">
+
+        <div class="frontCasa_overlay">
+            <div class="container frontCasa_content">
+                <h1>CASAS</h1>
+                <p>
+                    Aquí podrás consultar, registrar y editar la información
+                    relacionada con las casas registradas en la colonia.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="panelCasa">
+        <span>CONSULTAS</span>
+    </div>
+
+    <div class="seccionCasa" id="adminCasa">
+        <img th:src="@{/images/VistaCasa.png}" alt="Icono Casa">
+        <h2>CONSULTA DE CASAS</h2>
+    </div>
+
+    <section class="vista">
+        <h2 class="vista_titulo">REGISTRO DE CASAS</h2>
+
+        <input type="radio" name="tabs_casa" id="c1" checked hidden>
+        <input type="radio" name="tabs_casa" id="c2" hidden>
+        <input type="radio" name="tabs_casa" id="c3" hidden>
+
+        <div class="tabs">
+            <label for="c1" class="tab">Consultar</label>
+            <label for="c2" class="tab">Registrar</label>
+            <label for="c3" class="tab">Editar</label>
+        </div>
+
+        <div class="panel content1">
+
+            <h3 class="panel_titulo">Consulta de Casas</h3>
+
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No. Casa</th>
+                        <th>Dirección</th>
+                        <th>Estado</th>
+                        <th>Propietario</th>
+                        <th>Precio</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="casa : ${casas}">
+                        <td th:text="${casa.codigo}"></td>
+                        <td th:text="${casa.direccion}"></td>
+                        <td th:text="${casa.estado}"></td>
+                        <td th:text="${casa.propietario}"></td>
+                        <td th:text="${casa.precio}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="panel content2">
+            <h3 class="panel_titulo">Registrar Casa</h3>
+
+            <div class="panel_list">
+                <span><b>Dirección:</b> ubicación del inmueble</span>
+                <span><b>Estado:</b> disponible / ocupada / mantenimiento</span>
+                <span><b>Propietario:</b> asignar residente</span>
+                <span><b>Precio:</b> valor registrado</span>
+            </div>
+
+        </div>
+
+        <div class="panel content3">
+            <h3 class="panel_titulo">Editar Casa</h3>
+
+            <div class="panel_list">
+                <span><b>Buscar casa:</b> ingresar número de casa</span>
+                <span><b>Modificar datos:</b> actualizar información</span>
+                <span><b>Guardar cambios:</b> confirmar actualización</span>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="seccion seccion--soft" id="ayuda">
+        <div class="container">
+            <h2>Ayuda</h2>
+
+            <p class="muted">
+                En este módulo podrás consultar, registrar y editar
+                la información relacionada con las casas registradas.
+            </p>
+
+        </div>
+    </section>
+</main>
+</body>
+</html>
