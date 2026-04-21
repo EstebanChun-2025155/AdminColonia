@@ -67,18 +67,22 @@
                 <table>
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nombre</th>
                         <th>DPI</th>
                         <th>Teléfono</th>
                         <th>Estado</th>
+                        <th>ID Casa</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="residente : ${residentes}">
-                        <td th:text="${residente.nombre}"></td>
-                        <td th:text="${residente.dpi}"></td>
-                        <td th:text="${residente.telefono}"></td>
-                        <td th:text="${residente.estado}"></td>
+                    <tr th:each="residentes : ${residente}">
+                        <td th:text="${residentes.idResidente}"></td>
+                        <td th:text="${residentes.nombreResidente}"></td>
+                        <td th:text="${residentes.dpiResidente}"></td>
+                        <td th:text="${residentes.telefonoResidente}"></td>
+                        <td th:text="${residentes.posicion}"></td>
+                        <td th:text="${residentes.idCasa}"></td>
                     </tr>
                     </tbody>
                 </table>
