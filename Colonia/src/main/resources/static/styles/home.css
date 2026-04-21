@@ -1,0 +1,209 @@
+/*  Variables */
+:root{
+    --bg: #ffffff;
+    --ink: #0b1b33;
+    --muted: #5a6c82;
+
+    --blue: #0b3b8c;
+    --blue2: #102a5c;
+    --line: rgba(11,27,51,.12);
+
+    --soft: #f4f7fb;
+    --green: #78b62f;
+
+    --radius: 14px;
+    --shadow: 0 10px 28px rgba(0,0,0,.10);
+}
+
+/* Base */
+*{
+    box-sizing: border-box;}
+html {scroll-behavior: smooth;}
+body{
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+}
+a{
+    color: inherit;
+    text-decoration: none;
+}
+.container{
+    width: min(1120px, 92vw);
+    margin: 0 auto ;
+}
+
+
+/* Menu */
+.menubar{
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+.menubar_row{
+    padding: 10px 0;
+}
+.menu{
+    display: flex;
+    justify-content: center;
+    gap:22px; flex-wrap: wrap;
+    }
+.menu_link{
+    font-weight: 900;
+     letter-spacing: .8px;
+     color: var(--blue);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+.menu_link:hover{ background: rgba(11, 59, 140, .06);}
+.is-active{
+    border-bottom: 3px solid rgba(11, 59, 140, .45);
+    border-radius: 10px 10px 6px 6px;
+}
+
+
+/* Portada */
+.front{
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+}
+.front_img{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+.front_overlay{
+    position:absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+
+    background:
+        linear-gradient(0deg, rgba(11,27,51,.55), rgba(11,27,51,.55)),
+        radial-gradient(100px 500px at 20% 10%, rgba(11,59,140,.55), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(120, 182, 47,.35), transparent 60%);
+}
+.front_content{
+     color: #fff;
+     padding: 26px 0;
+}
+
+
+/* Botones de la Portada */
+.btn{
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 12px;  padding: 10px 14px; font-weight: 900;
+    border: 1px solid rgba(255,255,255,.28);
+    background: rgba(255,255,255,.10);
+    color: #fff;
+    transition: transform .12s ease, background .12s ease;
+}
+
+.btn:hover{
+    transform: translate(-1px); background: rgba(255,255,255,.16);
+    }
+.btn--primary{
+    background: #fff; color: var(--blue2); border-color: transparent;
+}
+.btn--primary:hover{
+    background: rgba(255,255,255,.92);
+}
+
+
+/* Seccion Administracion */
+.seccion{
+    padding: 34px 0 44px;
+}
+.seccion--soft{
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    }
+.seccion_panel{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin: 6px 0 22px;
+}
+.seccion_panel::before, .seccion_panel::after{
+    content: "";
+    height: 3px;
+    background: var(--green);
+    flex: 1;
+    max-width: 260px;
+}
+.seccion_panel span{
+    font-weight: 900;
+    color: var(--blue);
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    font-size: 15px;
+    white-space: nowrap;
+}
+.seccion h2{
+    margin: 0 0 10px;
+    color: var(--blue2);
+}
+.muted{
+    color: var(--muted);
+}
+.hint{
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* Acceso a entidades*/
+.tiles{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.tile{
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 14px;
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(0,0,0,.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.tile:hover{
+    transform: translateY(-2px);
+    border-color: rgba(11, 59, 140, .35);
+    box-shadow: var(--shadow);
+}
+.tile_icono{
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    border: 2px solid rgba(11, 59, 140, .28);
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+    background: rgba(11, 59, 140, .05);
+}
+.tile_icono svg{
+    width: 32px;
+    height: 32px;
+}
+.tile_label{
+    font-weight: 800;
+    color: var(--blue2);
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-align: center;
+}
