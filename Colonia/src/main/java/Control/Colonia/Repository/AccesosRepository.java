@@ -1,6 +1,6 @@
-package com.Administracion.Colonia.Repository;
+package Control.Colonia.Repository;
 
-import com.Administracion.Colonia.Entity.Accesos;
+import Control.Colonia.Entity.Accesos;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
