@@ -1,0 +1,161 @@
+/* ===== Amenidades.css ===== */
+
+/* Banner */
+.banner {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+}
+.banner_img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+.banner_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    background:
+        linear-gradient(0deg, rgba(11,27,51,.55), rgba(11,27,51,.55)),
+        radial-gradient(100px 500px at 20% 10%, rgba(11,59,140,.55), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(120,182,47,.35), transparent 60%);
+}
+.banner_overlay h1 {
+    color: #fff;
+    font-size: 52px;
+    margin: 0;
+    padding: 26px 4%;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Sección tabla */
+.tabla-seccion {
+    padding: 34px 0 50px;
+}
+.tabla-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 22px;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+thead tr {
+    background: #0b3b8c;
+}
+th {
+    color: #fff;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    border-right: 1px solid rgba(255,255,255,.15);
+}
+th:last-child { border-right: none; }
+td {
+    padding: 13px 16px;
+    font-size: 14px;
+    color: #0b1b33;
+    border-right: 1px solid rgba(11,27,51,.08);
+    border-bottom: 1px solid rgba(11,27,51,.08);
+}
+td:last-child { border-right: none; }
+tbody tr:nth-child(even) { background: #f4f7fb; }
+tbody tr:hover { background: rgba(11,59,140,.06); transition: background .12s; }
+
+/* Badges de estado */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.badge--disponible {
+    background: rgba(120,182,47,.15);
+    color: #3a6e00;
+}
+.badge--reservado {
+    background: rgba(11,59,140,.12);
+    color: #0b3b8c;
+}
+
+/* Componente vista con pestañas */
+.vista {
+    padding: 20px 0;
+}
+.vista_titulo {
+    margin: 0 0 10px;
+    color: var(--blue2);
+    font-weight: 900;
+}
+
+/* Pestañas */
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px;
+    width: fit-content;
+}
+
+.tab {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--blue2);
+    font-weight: 800;
+}
+
+.tab_activa {
+    background: rgba(11,59,140,.08);
+    border-color: rgba(11,59,140,.35);
+}
+
+.panel {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 14px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+
+.panel_titulo {
+    margin: 0 0 6px;
+    color: var(--blue);
+    font-weight: 900;
+}
+
+.panel_texto {
+    margin: 0 0 10px;
+    color: var(--muted);
+}
+
+/* Demo simple */
+.panel_demo {
+    display: grid;
+    gap: 6px;
+}
+.panel_demo span {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--soft);
+}
