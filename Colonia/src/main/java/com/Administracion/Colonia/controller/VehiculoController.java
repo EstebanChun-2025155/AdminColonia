@@ -1,20 +1,19 @@
 package com.Administracion.Colonia.controller;
+
 import com.Administracion.Colonia.entity.Vehiculo;
 import com.Administracion.Colonia.service.VehiculoService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller; // Cambiado de @RestController
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Objects;
 
-
-@RestController
-@RequestMapping("/api/vehiculos")
+@Controller // Cambiado para poder retornar vistas HTML
+@RequestMapping("/vehiculos") // Ruta para la vista
 public class VehiculoController {
 
     private final VehiculoService vehiculoService;
@@ -23,65 +22,47 @@ public class VehiculoController {
         this.vehiculoService = vehiculoService;
     }
 
-
+    /**
+     * Este método carga la página HTML en el navegador.
+     * Acceso: GET /vehiculos
+     */
     @GetMapping
-    public List<Vehiculo> listarTodos(){
+    public String listarVehiculosVista(Model model) {
+        List<Vehiculo> vehiculos = vehiculoService.getAllVehiculo();
+        model.addAttribute("listaVehiculos", vehiculos);
+        model.addAttribute("nuevoVehiculo", new Vehiculo()); // Para el formulario de creación
+        return "Vehiculos"; // Retorna Vehiculos.html de la carpeta templates
+    }
+
+    /**
+     * Mantenemos tus métodos de API, pero usamos @ResponseBody
+     * para que sigan devolviendo JSON en lugar de buscar un HTML.
+     */
+    @GetMapping("/api/listar")
+    @ResponseBody
+    public List<Vehiculo> listarTodosApi(){
         return vehiculoService.getAllVehiculo();
     }
 
-
-    @PostMapping
-    public ResponseEntity<Object> createVehiculo(@Valid @RequestBody Vehiculo vehiculo, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
+    @PostMapping("/guardar")
+    public String saveVehiculoThymeleaf(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculo,
+                                        BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute("listaVehiculos", vehiculoService.getAllVehiculo());
+            return "Vehiculos"; // Regresa a la vista con errores
         }
-
-        try {
-            Vehiculo crateVehiculo = vehiculoService.saveVehiculo(vehiculo);
-            return new ResponseEntity<>(crateVehiculo, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        vehiculoService.saveVehiculo(vehiculo);
+        return "redirect:/vehiculos"; // Recarga la página para ver el cambio
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getVehiculoById(@PathVariable Integer id){
-        try {
-            Vehiculo searchedVehiculo = vehiculoService.getVehiculoByid(id);
-            return new ResponseEntity<>(searchedVehiculo,HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
+    @ResponseBody
     public ResponseEntity<Object> deleteVehiculo(@PathVariable Integer id){
         try {
-            if(vehiculoService.getVehiculoByid(id) == null) {
-                return ResponseEntity.status(404).body("No existe este Vehiculo");
-            }
             vehiculoService.deleteVehiculo(id);
-            return ResponseEntity.status(202).build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al eliminar Vehiculo");
+            return ResponseEntity.badRequest().body("Error al eliminar");
         }
     }
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateVehiculo(@PathVariable Integer id, @Valid @RequestBody Vehiculo vehiculo, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
-        try {
-            Vehiculo actualizado = vehiculoService.updateVehiculo(id, vehiculo);
-            return ResponseEntity.ok(actualizado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-
-    }
-
-
 }
