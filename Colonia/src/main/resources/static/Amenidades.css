@@ -1,0 +1,216 @@
+/* ===== Variables Globales (Aseguran que el diseño no se rompa) ===== */
+:root {
+    --blue: #0b3b8c;
+    --blue2: #0b1b33;
+    --line: rgba(11, 27, 51, 0.1);
+    --soft: #f4f7fb;
+    --radius: 12px;
+    --muted: #6c757d;
+}
+
+/* ===== Banner ===== */
+.banner {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+}
+
+.banner_img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+
+.banner_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    background:
+        linear-gradient(0deg, rgba(11,27,51,.55), rgba(11,27,51,.55)),
+        radial-gradient(100px 500px at 20% 10%, rgba(11,59,140,.55), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(120,182,47,.35), transparent 60%);
+}
+
+.banner_overlay h1 {
+    color: #fff;
+    font-size: 52px;
+    margin: 0;
+    padding: 26px 4%;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* ===== Sección Tabla y Contenedores ===== */
+.tabla-seccion {
+    padding: 34px 0 50px;
+}
+
+.tabla-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 22px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+/* ===== Tabla Estilizada ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+thead tr {
+    background: var(--blue);
+}
+
+th {
+    color: #fff;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    border-right: 1px solid rgba(255,255,255,.15);
+}
+
+th:last-child { border-right: none; }
+
+td {
+    padding: 13px 16px;
+    font-size: 14px;
+    color: var(--blue2);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+td:last-child { border-right: none; }
+
+tbody tr:nth-child(even) { background: #f9fbfd; }
+
+tbody tr:hover {
+    background: rgba(11,59,140,.06);
+    transition: background .12s;
+}
+
+/* ===== Badges de Estado ===== */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge--disponible {
+    background: rgba(120,182,47,.15);
+    color: #3a6e00;
+}
+
+.badge--reservado {
+    background: rgba(11,59,140,.12);
+    color: var(--blue);
+}
+
+/* ===== Componente de Pestañas (Tabs) ===== */
+.vista {
+    padding: 20px 0;
+}
+
+.vista_titulo {
+    margin: 0 0 15px;
+    color: var(--blue2);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--blue2);
+    font-weight: 800;
+    text-decoration: none; /* Elimina subrayado */
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab_activa {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+}
+
+.tab:hover:not(.tab_activa) {
+    background: #eef2f7;
+}
+
+/* ===== Paneles de Contenido ===== */
+.panel {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+
+.panel_titulo {
+    margin: 0 0 10px;
+    color: var(--blue);
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.panel_texto {
+    margin: 0 0 15px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* Botón de acción dentro de la tabla */
+.btn-ver-encargado {
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-ver-encargado:hover {
+    background: #124ba8;
+}
+
+/* Contenedor del listado de encargado */
+.list-item {
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--soft);
+    font-size: 15px;
+    color: var(--blue2);
+}
