@@ -46,6 +46,7 @@
         <table>
           <thead>
           <tr>
+            <th>ID</th>
             <th>Monto</th>
             <th>Descripción</th>
             <th>Fecha Emisión</th>
@@ -54,76 +55,16 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>150.00</td>
-            <td>Estacionarse en lugar prohibido</td>
-            <td>2026-01-10</td>
-            <td><span class="badge badge--pendiente">pendiente</span></td>
-            <td>visita</td>
-          </tr>
-          <tr>
-            <td>300.00</td>
-            <td>Ruido excesivo</td>
-            <td>2026-01-15</td>
-            <td><span class="badge badge--pagado">pagado</span></td>
-            <td>residente</td>
-          </tr>
-          <tr>
-            <td>200.00</td>
-            <td>Basura fuera de horario</td>
-            <td>2026-01-18</td>
-            <td><span class="badge badge--pendiente">pendiente</span></td>
-            <td>residente</td>
-          </tr>
-          <tr>
-            <td>500.00</td>
-            <td>Daño a propiedad común</td>
-            <td>2026-01-20</td>
-            <td><span class="badge badge--anulada">anulada</span></td>
-            <td>visita</td>
-          </tr>
-          <tr>
-            <td>120.00</td>
-            <td>Mascota sin correa</td>
-            <td>2026-01-22</td>
-            <td><span class="badge badge--pagado">pagado</span></td>
-            <td>residente</td>
-          </tr>
-          <tr>
-            <td>250.00</td>
-            <td>Uso indebido de parqueo</td>
-            <td>2026-01-25</td>
-            <td><span class="badge badge--pendiente">pendiente</span></td>
-            <td>visita</td>
-          </tr>
-          <tr>
-            <td>180.00</td>
-            <td>Alteración del orden</td>
-            <td>2026-01-28</td>
-            <td><span class="badge badge--pagado">pagado</span></td>
-            <td>residente</td>
-          </tr>
-          <tr>
-            <td>400.00</td>
-            <td>Modificación sin permiso</td>
-            <td>2026-02-01</td>
-            <td><span class="badge badge--pendiente">pendiente</span></td>
-            <td>residente</td>
-          </tr>
-          <tr>
-            <td>220.00</td>
-            <td>Invitado no registrado</td>
-            <td>2026-02-05</td>
-            <td><span class="badge badge--pagado">pagado</span></td>
-            <td>visita</td>
-          </tr>
-          <tr>
-            <td>350.00</td>
-            <td>Incumplimiento reglamento</td>
-            <td>2026-02-10</td>
-            <td><span class="badge badge--pendiente">pendiente</span></td>
-            <td>residente</td>
-          </tr>
+            <tbody>
+            <tr th:each="multa : ${multas}">
+                <td th:text="${multa.idMulta}"></td>
+                <td th:text="${multa.monto}"></td>
+                <td th:text="${multa.descripcion}"></td>
+                <td th:text="${multa.fechaEmision}"></td>
+                <td th:text="${multa.estado}"></td>
+                <td th:text="${multa.tipoPersona}"></td>
+            </tr>
+            </tbody>
           </tbody>
           <section class="multa">
 

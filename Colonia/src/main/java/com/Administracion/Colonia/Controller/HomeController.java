@@ -16,11 +16,6 @@ public class HomeController {
         return "VistaHome";
     }
 
-    @GetMapping("/multa")
-    public String mostrarMulta () {
-        return "VistaMulta";
-    }
-
     @GetMapping("/pago")
     public String mostrarPago () {
         return "VistaPago";
