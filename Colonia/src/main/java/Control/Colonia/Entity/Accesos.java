@@ -1,4 +1,4 @@
-package com.Administracion.Colonia.Entity;
+package Control.Colonia.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
