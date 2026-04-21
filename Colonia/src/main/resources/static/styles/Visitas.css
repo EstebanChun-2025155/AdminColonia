@@ -1,0 +1,255 @@
+/* Variables */
+:root {
+    --bg: #ffffff;
+    --ink: #0b1b33;
+    --muted: #5a6c82;
+    --blue: #0b3b8c;
+    --blue2: #102a5c;
+    --line: rgba(11,27,51,.12);
+    --soft: #f4f7fb;
+    --green: #78b62f;
+
+    --radius: 14px;
+    --shadow: 0 10px 28px rgba(0,0,0,.10);
+}
+
+/* Base */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+.container {
+    width: min(1120px, 92vw);
+    margin: 0 auto;
+}
+
+/* Menu Accesos */
+.menuAccesos {
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+.menuAccesos_row {
+    padding: 10px;
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+.menuAccesos_link {
+    font-weight: 900;
+    letter-spacing: .8px;
+    color: var(--blue);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+.menuAccesos_link:hover {
+    background: rgba(11, 59, 140, .06);
+}
+.is-active {
+    border-bottom: 3px solid rgba(11,59,140,.45);
+    border-radius: 10px 10px 6px 6px;
+}
+
+/* Portada Accesos */
+.frontAccesos {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+}
+.frontAccesos_img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+.frontAccesos_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    background:
+        linear-gradient(0deg, rgba(11,27,51,.55), rgba(11,27,51,.55)),
+        radial-gradient(100px 500px at 20% 10%, rgba(11,59,140,.55), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(120,182,47,.35), transparent 60%);
+}
+.frontAccesos_content {
+    color: #fff;
+    padding: 26px 0;
+}
+
+/* Seccion Accesos */
+.panelAccesos {
+    text-align: center;
+    border-top: 4px solid var(--green);
+    margin: 40px 20px;
+    position: relative;
+}
+.panelAccesos span {
+    background: #fff;
+    padding: 0 20px;
+    color: var(--blue2);
+    font-weight: bold;
+    font-size: 28px;
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.seccionAccesos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.seccionAccesos img {
+    height: 55px;
+    width: auto;
+}
+.seccionAccesos h2 {
+    color: var(--blue);
+    font-size: 24px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Tabla de datos */
+table {
+    width: 98%;
+    margin: 0 auto 50px;
+    border-collapse: collapse;
+    border: 1px solid var(--line);
+}
+th {
+    background-color: var(--ink);
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    border: 1px solid var(--ink);
+}
+td {
+    padding: 15px;
+    border: 1px solid var(--ink);
+    color: var(--blue2);
+    font-weight: bold;
+    font-size: 16px;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* ── Vista ── */
+.vista {
+    padding: 20px 0;
+    width: min(1120px, 92vw);
+    margin: 0 auto;
+}
+
+.vista_titulo {
+    margin: 0 0 10px;
+    color: var(--blue2);
+    font-weight: 900;
+}
+
+/* ── Tabs ── */
+.tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px;
+    width: fit-content;
+}
+
+.tab {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--blue2);
+    font-weight: 800;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.tab:hover {
+    background: rgba(11, 59, 140, .04);
+}
+
+#a1:checked ~ .tabs .label1,
+#a2:checked ~ .tabs .label2,
+#a3:checked ~ .tabs .label3 {
+    background: var(--blue);
+    color: #ffffff;
+    border-color: var(--blue);
+}
+
+/* ── Panel ── */
+.panel {
+    display: none;
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .06);
+}
+
+#a1:checked ~ .content1,
+#a2:checked ~ .content2,
+#a3:checked ~ .content3 {
+    display: block;
+}
+
+.panel_titulo {
+    margin: 0 0 20px;
+    color: var(--blue);
+    font-weight: 900;
+}
+
+.panel_texto {
+    margin: 0 0 10px;
+    color: var(--muted);
+}
+
+.panel_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel_list span {
+    padding: 15px;
+    background: var(--soft);
+    border-radius: 12px;
+    border-left: 5px solid var(--green);
+    font-weight: 600;
+}
+
+/* ── Seccion ayuda ── */
+.seccion {
+    padding: 50px 0;
+}
+.seccion--soft {
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+}
+.muted {
+    color: var(--muted);
+}
