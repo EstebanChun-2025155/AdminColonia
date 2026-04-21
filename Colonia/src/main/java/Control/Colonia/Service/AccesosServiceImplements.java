@@ -1,9 +1,9 @@
 package Control.Colonia.Service;
 
-import com.Administracion.Colonia.Entity.Accesos;
-import com.Administracion.Colonia.Repository.AccesosRepository;
+import Control.Colonia.Entity.Accesos;
+import Control.Colonia.Repository.AccesosRepository;
 import org.springframework.stereotype.Service;
-import com.Administracion.Colonia.Service.AccesosService;
+import Control.Colonia.Service.AccesosService;
 import java.util.List;
 
 
