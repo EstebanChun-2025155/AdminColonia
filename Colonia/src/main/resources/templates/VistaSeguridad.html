@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seguridad - Panel Operativo</title>
+    <link rel="stylesheet" th:href="@{/style-seguridad.css}">
+</head>
+<body>
+
+<div class="menubar">
+    <div class="menubar_row">
+        <nav class="menu">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
+            <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
+            <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
+            <a class="menu_link" th:href="@{/home#Contacto}">Contacto</a>
+        </nav>
+    </div>
+</div>
+
+<div class="banner">
+    <h1>SEGURIDAD</h1>
+</div>
+
+<div class="main-container">
+
+    <div class="divider-line">
+        <span>REMISIONES</span>
+    </div>
+
+    <div class="title-section">
+        <img th:src="@{/Images/icono-de-escritura.png}" alt="Escudo">
+        <h2>REMISIONES DE SEGURIDAD</h2>
+    </div>
+
+    <div class="section-description">
+        <p>
+            Panel de control para la vigilancia y protección de activos. Gestione el
+            despliegue del personal operativo, la asignación de equipo táctico y
+            incidentes en tiempo real.
+        </p>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Turno</th>
+            <th>Salario</th>
+            <th>Teléfono</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Juan Pérez</td>
+            <td>Guardia de Garita</td>
+            <td>día</td>
+            <td>3500.00</td>
+            <td>5544-3322</td>
+        </tr>
+        <tr>
+            <td>Roberto Gómez</td>
+            <td>Vigilante Nocturno</td>
+            <td>noche</td>
+            <td>3800.00</td>
+            <td>4433-2211</td>
+        </tr>
+        <tr>
+            <td>Carlos Méndez</td>
+            <td>Supervisor</td>
+            <td>día</td>
+            <td>4500.00</td>
+            <td>3322-1100</td>
+        </tr>
+        <tr>
+            <td>Luis Hernández</td>
+            <td>Operador CCTV</td>
+            <td>noche</td>
+            <td>3600.00</td>
+            <td>2211-0099</td>
+        </tr>
+        <tr>
+            <td>Mario Estrada</td>
+            <td>Patrullero</td>
+            <td>noche</td>
+            <td>3700.00</td>
+            <td>1100-9988</td>
+        </tr>
+        <tr>
+            <td>Fernando Ruiz</td>
+            <td>Guardia de Garita</td>
+            <td>día</td>
+            <td>3500.00</td>
+            <td>9988-7766</td>
+        </tr>
+        <tr>
+            <td>Jorge Blanco</td>
+            <td>Vigilante Nocturno</td>
+            <td>noche</td>
+            <td>3800.00</td>
+            <td>8877-6655</td>
+        </tr>
+        <tr>
+            <td>Samuel Sosa</td>
+            <td>Rondín</td>
+            <td>día</td>
+            <td>3400.00</td>
+            <td>7766-5544</td>
+        </tr>
+        <tr>
+            <td>Ricardo Paz</td>
+            <td>Seguridad Perimetral</td>
+            <td>noche</td>
+            <td>3750.00</td>
+            <td>6655-4433</td>
+        </tr>
+        <tr>
+            <td>Héctor Lima</td>
+            <td>Jefe de Seguridad</td>
+            <td>día</td>
+            <td>5000.00</td>
+            <td>5544-4433</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <section class="vista">
+        <h2 class="vista_titulo">ESTACIONES Y PUNTOS DE CONTROL</h2>
+
+        <input type="radio" name="tabs_seg" id="s1" checked style="display:none;">
+        <input type="radio" name="tabs_seg" id="s2" style="display:none;">
+        <input type="radio" name="tabs_seg" id="s3" style="display:none;">
+
+        <div class="tabs">
+            <label for="s1" class="tab label1">Monitoreo</label>
+            <label for="s2" class="tab label2">Asignaciones</label>
+            <label for="s3" class="tab label3">Reportes</label>
+        </div>
+
+        <div class="panel content1">
+            <h3 class="panel_titulo">Estado de Estaciones</h3>
+            <div class="panel_list">
+                <span><b>Garita Principal:</b> Operativa / Sin novedades</span>
+                <span><b>Central CCTV:</b> Grabación activa (16 canales)</span>
+                <span><b>Entrada Norte:</b> Control de acceso habilitado</span>
+                <span><b>Ronda Perimetral:</b> Iniciada (Sector 4)</span>
+            </div>
+        </div>
+
+        <div class="panel content2">
+            <h3 class="panel_titulo">Equipo Asignado</h3>
+            <div class="panel_list">
+                <span><b>Radio Frecuencia:</b> Canales 1 y 2 operativos</span>
+                <span><b>Unidad Móvil 05:</b> Tanque lleno / En patrullaje</span>
+                <span><b>Chalecos/EPP:</b> Verificados en cambio de turno</span>
+                <span><b>Armería:</b> Inventario de entrega completado</span>
+            </div>
+        </div>
+
+        <div class="panel content3">
+            <h3 class="panel_titulo">Incidentes</h3>
+            <div class="panel_list">
+                <span><b>07:00:</b> Relevo de turno sin contratiempos</span>
+                <span><b>09:15:</b> Mantenimiento preventivo en sensor S-04</span>
+                <span><b>11:00:</b> Recepción de paquetería externa registrada</span>
+                <span><b>14:30:</b> Simulacro de evacuación parcial finalizado</span>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
