@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multa</title>
+  <link rel="stylesheet" th:href="@{/styles/Home.css}">
+  <link rel="stylesheet" th:href="@{/styles/Multa.css}">
+</head>
+<body>
+
+<div class="menubar">
+  <div class="container menubar_row">
+    <nav class="menu" aria-label="Menú principal">
+      <a class="menu_link" th:href="@{/home}">Inicio</a>
+      <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
+      <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
+      <a class="menu_link" th:href="@{/home#contacto}">Contacto</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="banner">
+    <img th:src="@{/images/Multa.png}" alt="Fondo multa" class="banner_img">
+    <div class="banner_overlay">
+      <h1>MULTAS</h1>
+    </div>
+  </div>
+
+  <section class="tabla-seccion">
+    <div class="container">
+
+      <div class="divider-line">
+        <span>REMISIONES</span>
+      </div>
+
+      <div class="title-section">
+        <img th:src="@{/images/IconoMulta.png}" alt="Icono">
+        <h2>REGISTRO DE CONTROL DE MULTAS</h2>
+      </div>
+
+      <p class="panel_texto">Aquí se muestra el listado histórico de multas registrados.</p>
+
+      <div class="tabla-wrapper">
+        <table>
+          <thead>
+          <tr>
+            <th>Monto</th>
+            <th>Descripción</th>
+            <th>Fecha Emisión</th>
+            <th>Estado</th>
+            <th>Tipo Persona</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>150.00</td>
+            <td>Estacionarse en lugar prohibido</td>
+            <td>2026-01-10</td>
+            <td><span class="badge badge--pendiente">pendiente</span></td>
+            <td>visita</td>
+          </tr>
+          <tr>
+            <td>300.00</td>
+            <td>Ruido excesivo</td>
+            <td>2026-01-15</td>
+            <td><span class="badge badge--pagado">pagado</span></td>
+            <td>residente</td>
+          </tr>
+          <tr>
+            <td>200.00</td>
+            <td>Basura fuera de horario</td>
+            <td>2026-01-18</td>
+            <td><span class="badge badge--pendiente">pendiente</span></td>
+            <td>residente</td>
+          </tr>
+          <tr>
+            <td>500.00</td>
+            <td>Daño a propiedad común</td>
+            <td>2026-01-20</td>
+            <td><span class="badge badge--anulada">anulada</span></td>
+            <td>visita</td>
+          </tr>
+          <tr>
+            <td>120.00</td>
+            <td>Mascota sin correa</td>
+            <td>2026-01-22</td>
+            <td><span class="badge badge--pagado">pagado</span></td>
+            <td>residente</td>
+          </tr>
+          <tr>
+            <td>250.00</td>
+            <td>Uso indebido de parqueo</td>
+            <td>2026-01-25</td>
+            <td><span class="badge badge--pendiente">pendiente</span></td>
+            <td>visita</td>
+          </tr>
+          <tr>
+            <td>180.00</td>
+            <td>Alteración del orden</td>
+            <td>2026-01-28</td>
+            <td><span class="badge badge--pagado">pagado</span></td>
+            <td>residente</td>
+          </tr>
+          <tr>
+            <td>400.00</td>
+            <td>Modificación sin permiso</td>
+            <td>2026-02-01</td>
+            <td><span class="badge badge--pendiente">pendiente</span></td>
+            <td>residente</td>
+          </tr>
+          <tr>
+            <td>220.00</td>
+            <td>Invitado no registrado</td>
+            <td>2026-02-05</td>
+            <td><span class="badge badge--pagado">pagado</span></td>
+            <td>visita</td>
+          </tr>
+          <tr>
+            <td>350.00</td>
+            <td>Incumplimiento reglamento</td>
+            <td>2026-02-10</td>
+            <td><span class="badge badge--pendiente">pendiente</span></td>
+            <td>residente</td>
+          </tr>
+          </tbody>
+          <section class="multa">
+
+            <div class="tabs">
+              <a class="tab tab_activa" href="#">Consultar</a>
+              <a class="tab" href="#">Pagados</a>
+              <a class="tab" href="#">Pendiente</a>
+              <a class="tab" href="#">Anulados</a>
+            </div>
+
+            <div class="panel">
+              <h3 class="panel_titulo">Consultar</h3>
+              <p class="panel_texto"></p>
+
+              <div class="panel_demo">
+                <span><b>Monto</b> - 350.00</span>
+                <span><b>Descripción</b> - Incumplimiento reglamento</span>
+                <span><b>Fecha Emisión</b> - 2026-02-10</span>
+                <span><b>Estado</b> - pendiente</span>
+                <span><b>Tipo Persona</b> - residente</span>
+              </div>
+            </div>
+          </section>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>
