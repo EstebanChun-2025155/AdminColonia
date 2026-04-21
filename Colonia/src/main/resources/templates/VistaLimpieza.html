@@ -43,83 +43,22 @@
     <table>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Nombre</th>
-            <th>Cargo</th>
-            <th>Turno</th>
+            <th>Puesto</th>
+            <th>Jornada</th>
             <th>Salario</th>
             <th>Teléfono</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Ana Martínez</td>
-            <td>Conserje Áreas Verdes</td>
-            <td>mañana</td>
-            <td>3200.00</td>
-            <td>5566-7788</td>
-        </tr>
-        <tr>
-            <td>María López</td>
-            <td>Mantenimiento</td>
-            <td>tarde</td>
-            <td>3200.00</td>
-            <td>4455-6677</td>
-        </tr>
-        <tr>
-            <td>Elena Rodríguez</td>
-            <td>Jefe de Cuadrilla</td>
-            <td>mañana</td>
-            <td>4000.00</td>
-            <td>3344-5566</td>
-        </tr>
-        <tr>
-            <td>José García</td>
-            <td>Recolector</td>
-            <td>tarde</td>
-            <td>3300.00</td>
-            <td>2233-4455</td>
-        </tr>
-        <tr>
-            <td>Lucía Torres</td>
-            <td>Auxiliar</td>
-            <td>mañana</td>
-            <td>3100.00</td>
-            <td>1122-3344</td>
-        </tr>
-        <tr>
-            <td>Marta Quiñónez</td>
-            <td>Limpieza Salones</td>
-            <td>tarde</td>
-            <td>3150.00</td>
-            <td>9900-1122</td>
-        </tr>
-        <tr>
-            <td>Pedro Alvarado</td>
-            <td>Jardinero</td>
-            <td>mañana</td>
-            <td>3400.00</td>
-            <td>8899-2233</td>
-        </tr>
-        <tr>
-            <td>Sofía Méndez</td>
-            <td>Limpieza Oficinas</td>
-            <td>mañana</td>
-            <td>3100.00</td>
-            <td>7788-3344</td>
-        </tr>
-        <tr>
-            <td>Raúl Cano</td>
-            <td>Mantenimiento General</td>
-            <td>tarde</td>
-            <td>3250.00</td>
-            <td>6677-4455</td>
-        </tr>
-        <tr>
-            <td>Clara Villeda</td>
-            <td>Conserje</td>
-            <td>mañana</td>
-            <td>3100.00</td>
-            <td>5566-5566</td>
+        <tr th:each="limpieza : ${listaLimpieza}">
+            <td th:text="${limpieza.idLimpieza}"></td>
+            <td th:text="${limpieza.nombre}"></td>
+            <td th:text="${limpieza.puesto}"></td>
+            <td th:text="${limpieza.jornada}"></td>
+            <td th:text="${limpieza.salario}"></td>
+            <td th:text="${limpieza.telefono}"></td>
         </tr>
         </tbody>
     </table>
