@@ -16,14 +16,4 @@ public class HomeController {
         return "VistaHome";
     }
 
-    @GetMapping("/limpieza")
-    public String mostrarLimpieza () {
-        return "VistaLimpieza";
-    }
-
-    @GetMapping("/seguridad")
-    public String mostrarSeguridad () {
-        return "VistaSeguridad";
-    }
-
     }
