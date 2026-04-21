@@ -65,6 +65,7 @@
                 <table>
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>No. Casa</th>
                         <th>Dirección</th>
                         <th>Estado</th>
@@ -73,12 +74,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="casa : ${casas}">
-                        <td th:text="${casa.codigo}"></td>
-                        <td th:text="${casa.direccion}"></td>
-                        <td th:text="${casa.estado}"></td>
-                        <td th:text="${casa.propietario}"></td>
-                        <td th:text="${casa.precio}"></td>
+                    <tr th:each="casas : ${casa}">
+                        <td th:text="${casas.idCasa}"></td>
+                        <td th:text="${casas.noDeCasa}"></td>
+                        <td th:text="${casas.direccion}"></td>
+                        <td th:text="${casas.estado}"></td>
+                        <td th:text="${casas.propietario}"></td>
+                        <td th:text="${casas.precioCasa}"></td>
                     </tr>
                     </tbody>
                 </table>
