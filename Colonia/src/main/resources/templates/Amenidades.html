@@ -1,10 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amenidades - ControlColonia</title>
+    <link rel="stylesheet" th:href="@{/Home.css}">
+    <link rel="stylesheet" th:href="@{/Amenidades.css}">
 </head>
 <body>
-$END$
+
+<div class="menubar">
+    <div class="container menubar_row">
+        <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link" th:href="@{/VistaHome}">Inicio</a>
+            <a class="menu_link" th:href="@{/VistaHome#admin}">Administración</a>
+            <a class="menu_link" th:href="@{/ayuda}">Ayuda</a>
+            <a class="menu_link" th:href="@{/contacto}">Contacto</a>
+        </nav>
+    </div>
+</div>
+
+<main>
+    <div class="banner">
+        <img class="banner_img" th:src="@{/Images/ImagenAmenidades.png}" alt="Entrada Colonia">
+        <div class="banner_overlay">
+            <h1>Amenidades</h1>
+        </div>
+    </div>
+
+    <section class="tabla-seccion">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>ADMINISTRACIÓN DE AMENIDADES</span>
+            </div>
+
+            <p class="muted" style="text-align: center; margin-bottom: 20px;">
+                Gestión centralizada de recursos y áreas comunes.
+            </p>
+
+            <section class="vista">
+                <h2 class="vista_titulo">AMENIDADES</h2>
+
+                <div class="tabs">
+                    <a class="tab tab_activa" href="#" data-target="consultar">Consultar</a>
+                    <a class="tab" href="#" data-target="descripcion">Costo y Detalles</a>
+                    <a class="tab" href="#" data-target="encargado">Encargado</a>
+                </div>
+
+                <div class="panel panel--tab" id="consultar">
+                    <h3 class="panel_titulo">Listado General</h3>
+                    <div class="tabla-wrapper">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Amenidad</th>
+                                <th>Horario</th>
+                                <th>Capacidad</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="amenidad : ${amenidades}">
+                                <td th:text="${amenidad.nombreAmenidad}">Piscina</td>
+                                <td th:text="${amenidad.horarioUso}">07:00 - 20:00</td>
+                                <td th:text="${amenidad.capacidad != null ? amenidad.capacidad + ' pers.' : 'N/A'}">30</td>
+                                <td>
+                                    <span th:classappend="${amenidad.estado == 'disponible' ? 'badge--disponible' : 'badge--reservado'}"
+                                          class="badge"
+                                          th:text="${amenidad.estado}">
+                                        disponible
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn-ver-encargado">Ver Encargado</button>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(amenidades)}">
+                                <td colspan="5">No hay amenidades registradas.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel--tab" id="descripcion" style="display:none;">
+                    <h3 class="panel_titulo">Costos y Capacidad</h3>
+                    <div class="tabla-wrapper" style="margin-top:12px;">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Amenidad</th>
+                                <th>Costo de Uso</th>
+                                <th>Capacidad Máxima</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="amenidad : ${amenidades}">
+                                <td th:text="${amenidad.nombreAmenidad}">Piscina</td>
+                                <td th:text="${'$' + amenidad.costoUso}">$0.00</td>
+                                <td th:text="${amenidad.capacidad}">30</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel--tab" id="encargado" style="display:none;">
+                    <h3 class="panel_titulo">Información del Encargado</h3>
+                    <p class="panel_texto">Haz clic en una fila de la tabla para ver quién gestiona el área.</p>
+                    <div class="panel_list" id="list-encargado">
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+<script th:inline="javascript">
+    (function(){
+        // Cambiar entre pestañas
+        function showPanel(id){
+            document.querySelectorAll('.panel.panel--tab').forEach(p=>{
+                p.style.display = p.id === id ? 'block' : 'none';
+            });
+            document.querySelectorAll('.tabs .tab').forEach(t=> {
+                t.classList.toggle('tab_activa', t.dataset.target === id);
+            });
+        }
+
+        document.querySelectorAll('.tabs .tab').forEach(tab=>{
+            tab.addEventListener('click', function(e){
+                e.preventDefault();
+                showPanel(this.dataset.target);
+            });
+        });
+
+        // Lógica para mostrar encargado al hacer clic en la fila
+        document.addEventListener('click', function(e){
+            const tr = e.target.closest('table tbody tr');
+            if(!tr || tr.cells.length < 4) return;
+
+            const nombreAmenidad = tr.cells[0].textContent.trim();
+            const listEnc = document.getElementById('list-encargado');
+
+            if(listEnc){
+                listEnc.innerHTML = `
+                    <div class="list-item">
+                        <div><strong>Administración Central</strong> gestiona actualmente: ${nombreAmenidad}</div>
+                    </div>`;
+                showPanel('encargado');
+            }
+        });
+    })();
+</script>
 </body>
 </html>
