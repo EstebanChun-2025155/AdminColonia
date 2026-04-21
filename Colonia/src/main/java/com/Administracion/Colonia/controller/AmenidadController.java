@@ -2,17 +2,15 @@ package com.Administracion.Colonia.controller;
 
 import com.Administracion.Colonia.entity.Amenidad;
 import com.Administracion.Colonia.service.AmenidadService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Objects;
 
-@RestController
-@RequestMapping("/api/amenidades")
+@Controller
+@RequestMapping("/amenidades") // Ruta solicitada
 public class AmenidadController {
 
     private final AmenidadService amenidadService;
@@ -21,61 +19,32 @@ public class AmenidadController {
         this.amenidadService = amenidadService;
     }
 
-
     @GetMapping
-    public List<Amenidad> listarTodos(){return amenidadService.getAllAmenidad();}
-
-
-    @PostMapping
-   public ResponseEntity<Object> createAmenidad(@Valid @RequestBody Amenidad amenidad, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
-        try {
-            Amenidad createAmenidad = amenidadService.saveAmenidad(amenidad);
-            return new ResponseEntity<>(createAmenidad, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public String listarAmenidades(Model model) {
+        List<Amenidad> lista = amenidadService.getAllAmenidad();
+        model.addAttribute("amenidades", lista);
+        return "Amenidades";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getAmenidadById(@PathVariable Integer id){
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute("amenidad") Amenidad amenidad, RedirectAttributes flash) {
         try {
-            Amenidad searchedAmenidad = amenidadService.getAmenidadByid(id);
-            return new ResponseEntity<>(searchedAmenidad,HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            amenidadService.saveAmenidad(amenidad);
+            flash.addFlashAttribute("success", "Operación realizada con éxito");
+        } catch (Exception e) {
+            flash.addFlashAttribute("error", "Error: " + e.getMessage());
         }
+        return "redirect:/amenidades";
     }
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAmenidad(@PathVariable Integer id){
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id, RedirectAttributes flash) {
         try {
-            if (amenidadService.getAmenidadByid(id) == null) {
-                return ResponseEntity.status(404).body("No Existe esta Amenidad");
-            }
             amenidadService.deleteAmenidad(id);
-            return ResponseEntity.status(202).build();
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al eliminar Amenidad");
+            flash.addFlashAttribute("success", "Amenidad eliminada correctamente");
+        } catch (Exception e) {
+            flash.addFlashAttribute("error", "No se pudo eliminar la amenidad");
         }
+        return "redirect:/amenidades";
     }
-
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAmenidad(@PathVariable Integer id , @Valid @RequestBody Amenidad amenidad, BindingResult br){
-    if (br.hasErrors()){
-        return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-    }
-    try {
-        Amenidad actualizado = amenidadService.updateAmenidad(id,amenidad);
-            return ResponseEntity.ok(actualizado);
-     }  catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-         }
-     }
 }
-
