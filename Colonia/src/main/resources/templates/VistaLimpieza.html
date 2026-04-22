@@ -61,51 +61,18 @@
             <td th:text="${limpieza.telefono}"></td>
         </tr>
         </tbody>
+
+        <section class="limpieza">
+
+            <div class="tabs">
+                <a class="tab" href="#">Buscar</a>
+                <a class="tab" href="#">Agregar</a>
+                <a class="tab" href="#">Editar</a>
+                <a class="tab" href="#">Eliminar</a>
+            </div>
+        </section>
+
     </table>
-
-    <section class="vista">
-        <h2 class="vista_titulo">ESTACIONES Y PUNTOS DE CONTROL</h2>
-
-        <input type="radio" name="tabs_lim" id="op1" checked style="display:none;">
-        <input type="radio" name="tabs_lim" id="op2" style="display:none;">
-        <input type="radio" name="tabs_lim" id="op3" style="display:none;">
-
-        <div class="tabs">
-            <label for="op1" class="tab label1">Monitoreo</label>
-            <label for="op2" class="tab label2">Asignaciones</label>
-            <label for="op3" class="tab label3">Reportes</label>
-        </div>
-
-        <div class="panel content1">
-            <h3 class="panel_titulo">Estado de Áreas</h3>
-            <div class="panel_list">
-                <span><b>Bloque A:</b> Desinfectado</span>
-                <span><b>Bloque B:</b> En Proceso</span>
-                <span><b>Jardines:</b> Finalizado</span>
-                <span><b>Salones:</b> Pendiente</span>
-            </div>
-        </div>
-
-        <div class="panel content2">
-            <h3 class="panel_titulo">Equipo Asignado</h3>
-            <div class="panel_list">
-                <span><b>Kit 01:</b> Ana Martínez</span>
-                <span><b>Kit 02:</b> Raúl Cano</span>
-                <span><b>Insumos:</b> Stock Verificado</span>
-                <span><b>EPP:</b> Entregado</span>
-            </div>
-        </div>
-
-        <div class="panel content3">
-            <h3 class="panel_titulo">Bitácora Técnica</h3>
-            <div class="panel_list">
-                <span><b>Consumo:</b> 12L Desinfectante Grado Hospitalario</span>
-                <span><b>Maquinaria:</b> Pulidora de pisos en mantenimiento</span>
-                <span><b>Incidencia:</b> Fuga detectada en Baño de Hombres (Sector C)</span>
-                <span><b>Supervisión:</b> Firma de Elena Rodríguez (Cierre Turno)</span>
-            </div>
-        </div>
-    </section>
 
 </div>
 </body>
