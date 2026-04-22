@@ -46,8 +46,8 @@
 
             <section class="multa">
                 <div class="tabs">
-                    <a href="#" class="tab">Agregar</a>
-                    <a class="tab" href="#">Actualizar</a>
+                    <a th:href="@{/multa/nueva}" class="tab">Agregar</a>
+                    <a th:href="@{'/multa/editar/' + ${idSeleccionado}}" class="tab">Actualizar</a>
                     <a class="tab" href="#">Eliminar</a>
                     <a href="#" class="tab">Consultar</a>
                 </div>
@@ -67,7 +67,7 @@
 
                 <tbody>
                 <tr th:each="multa : ${multas}"
-                    th:onclick="'eliminar(' + ${multa.idMulta} + ')'"
+                    th:onclick="'seleccionarFila(' + ${multa.idMulta} + ')'"
                     style="cursor:pointer;">
 
                     <td th:text="${multa.idMulta}"></td>
@@ -84,9 +84,23 @@
   </section>
 </main>
 <script>
-    function eliminar(id) {
-        if (confirm("¿Seguro que deseas eliminar esta multa?")) {
-            window.location.href = "/multa/eliminar/" + id;
+    let idSeleccionado = null;
+
+    function seleccionarFila(id) {
+        idSeleccionado = id;
+        document.getElementById("panelAcciones").style.display = "block";
+    }
+
+    function eliminar() {
+        if (idSeleccionado == null) {
+            alert("Selecciona una multa primero");
+            return;
+        }
+
+        const confirmacion = confirm("¿Seguro que deseas eliminar esta multa?");
+
+        if (confirmacion) {
+            window.location.href = "/multa/eliminar/" + idSeleccionado;
         }
     }
 </script>
