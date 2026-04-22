@@ -23,11 +23,35 @@ public class LimpiezaController {
         return "VistaLimpieza";
     }
 
-    @GetMapping("/limpieza/eliminar/{id}")
+    @PostMapping("/eliminar/limpieza/{id}")
     public String eliminar(@PathVariable Integer id){
-
         limpiezaService.deleteLimpieza(id);
+        return "redirect/limpieza";
+    }
 
-        return "redirect:/limpieza";
+    @GetMapping("/nueva/limpieza")
+    public String nuevaLimpieza(Model model){
+        model.addAttribute("limpieza", new Limpieza());
+        return "limpieza";
+    }
+
+    @PostMapping("/guardar/limpieza")
+    public String guardar(@ModelAttribute Limpieza limpieza){
+        limpiezaService.saveLimpieza(limpieza);
+        return "redirect/limpieza";
+    }
+
+    @GetMapping("/editar/limpieza/{id}")
+    public String editar(@PathVariable Integer id, Model model){
+        Limpieza limpieza = limpiezaService.getLimpiezaById(id);
+        model.addAttribute("limpieza", limpieza);
+        return "limpieza";
+    }
+
+    @PostMapping("/actualizar/limpieza/{id}")
+    public String actualizar(@PathVariable Integer id, @ModelAttribute Limpieza limpieza){
+        limpiezaService.updateLimpieza(id, limpieza);
+        return "redirect/limpieza";
+
     }
 }
