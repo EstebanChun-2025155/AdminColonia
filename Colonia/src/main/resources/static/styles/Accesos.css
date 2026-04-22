@@ -219,4 +219,123 @@ tr:nth-child(even) { background-color: #f2f2f2; }
     background: var(--soft);
     border-top: 1px solid var(--line);
 }
-.muted { color: var(--muted); }
+.muted { color: var(--muted);}
+/* FORMULARIO REGISTRAR */
+.content2 form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    background: var(--soft);
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+}
+
+/* Inputs y selects */
+.content2 form select,
+.content2 form input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+/* Efecto focus */
+.content2 form select:focus,
+.content2 form input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px rgba(11,59,140,.15);
+}
+
+/* Tamaños más equilibrados */
+.content2 form select {
+    min-width: 160px;
+}
+
+.content2 form input[type="number"] {
+    width: 140px;
+}
+
+.content2 form input[type="datetime-local"] {
+    width: 190px;
+}
+
+/* Botón guardar */
+.content2 form button {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.content2 form button:hover {
+    background: var(--blue2);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0,0,0,.15);
+}
+/* BOTONES ACCIONES TABLA */
+.acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn.editar {
+    background-color: #0b3b8c;
+    color: white;
+}
+
+.btn.editar:hover {
+    background-color: #082c66;
+}
+
+.btn.eliminar {
+    background-color: #d9534f;
+    color: white;
+}
+
+.btn.eliminar:hover {
+    background-color: #b52b27;
+}
+
+/* FORMULARIO */
+.formAcceso {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.formAcceso input,
+.formAcceso select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+}
+
+.btn.guardar {
+    background-color: #78b62f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.guardar:hover {
+    background-color: #5e9424;
+}
