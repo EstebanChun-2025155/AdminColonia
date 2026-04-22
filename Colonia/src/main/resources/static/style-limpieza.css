@@ -48,8 +48,8 @@ body {
 .is-active { border-bottom: 3px solid rgba(11, 59, 140, .45); }
 
 .banner {
-    height: 600px;
-    background: linear-gradient(rgba(11,27,51,0.4), rgba(11,27,51,0.4)),
+    height: 320px;
+    background: linear-gradient(rgba(11,27,51,0.5), rgba(11,27,51,0.5)),
                 url('../Images/Imagen-fondo.png') center/cover;
     display: flex;
     align-items: center;
