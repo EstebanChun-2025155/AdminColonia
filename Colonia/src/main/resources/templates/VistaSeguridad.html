@@ -62,51 +62,18 @@
             <td th:text="${seguridad.telefono}"></td>
         </tr>
         </tbody>
+
+        <section class="seguridad">
+
+            <div class="tabs">
+                <a class="tab" href="#">Buscar</a>
+                <a class="tab" href="#">Agregar</a>
+                <a class="tab" href="#">Editar</a>
+                <a class="tab" href="#">Eliminar</a>
+            </div>
+        </section>
+
     </table>
-
-    <section class="vista">
-        <h2 class="vista_titulo">ESTACIONES Y PUNTOS DE CONTROL</h2>
-
-        <input type="radio" name="tabs_seg" id="s1" checked style="display:none;">
-        <input type="radio" name="tabs_seg" id="s2" style="display:none;">
-        <input type="radio" name="tabs_seg" id="s3" style="display:none;">
-
-        <div class="tabs">
-            <label for="s1" class="tab label1">Monitoreo</label>
-            <label for="s2" class="tab label2">Asignaciones</label>
-            <label for="s3" class="tab label3">Reportes</label>
-        </div>
-
-        <div class="panel content1">
-            <h3 class="panel_titulo">Estado de Estaciones</h3>
-            <div class="panel_list">
-                <span><b>Garita Principal:</b> Operativa / Sin novedades</span>
-                <span><b>Central CCTV:</b> Grabación activa (16 canales)</span>
-                <span><b>Entrada Norte:</b> Control de acceso habilitado</span>
-                <span><b>Ronda Perimetral:</b> Iniciada (Sector 4)</span>
-            </div>
-        </div>
-
-        <div class="panel content2">
-            <h3 class="panel_titulo">Equipo Asignado</h3>
-            <div class="panel_list">
-                <span><b>Radio Frecuencia:</b> Canales 1 y 2 operativos</span>
-                <span><b>Unidad Móvil 05:</b> Tanque lleno / En patrullaje</span>
-                <span><b>Chalecos/EPP:</b> Verificados en cambio de turno</span>
-                <span><b>Armería:</b> Inventario de entrega completado</span>
-            </div>
-        </div>
-
-        <div class="panel content3">
-            <h3 class="panel_titulo">Incidentes</h3>
-            <div class="panel_list">
-                <span><b>07:00:</b> Relevo de turno sin contratiempos</span>
-                <span><b>09:15:</b> Mantenimiento preventivo en sensor S-04</span>
-                <span><b>11:00:</b> Recepción de paquetería externa registrada</span>
-                <span><b>14:30:</b> Simulacro de evacuación parcial finalizado</span>
-            </div>
-        </div>
-    </section>
 
 </div>
 </body>
