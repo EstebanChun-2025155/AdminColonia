@@ -21,4 +21,11 @@ public class MultaController {
         model.addAttribute("multas", multas);
         return "VistaMulta";
     }
+
+    @GetMapping("/multa/eliminar/{id}")
+    public String eliminarMulta(@PathVariable Integer id) {
+        multaService.deleteMulta(id);
+        return "redirect:/multa";
+    }
+
 }

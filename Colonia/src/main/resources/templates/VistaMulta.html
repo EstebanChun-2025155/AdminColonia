@@ -42,44 +42,53 @@
 
       <p class="panel_texto">Aquí se muestra el listado histórico de multas registrados.</p>
 
-      <div class="tabla-wrapper">
-        <table>
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-            <th>Fecha Emisión</th>
-            <th>Estado</th>
-            <th>Tipo Persona</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tbody>
-            <tr th:each="multa : ${multas}">
-                <td th:text="${multa.idMulta}"></td>
-                <td th:text="${multa.monto}"></td>
-                <td th:text="${multa.descripcion}"></td>
-                <td th:text="${multa.fechaEmision}"></td>
-                <td th:text="${multa.estado}"></td>
-                <td th:text="${multa.tipoPersona}"></td>
-            </tr>
-            </tbody>
-          </tbody>
-          <section class="multa">
+        <div class="tabla-wrapper">
 
-            <div class="tabs">
-              <a class="tab tab_activa" href="#">Agregar</a>
-              <a class="tab" href="#">Actualizar</a>
-              <a class="tab" href="#">Eliminar</a>
-              <a class="tab" href="#">Consultar</a>
-            </div>
-          </section>
-        </table>
-      </div>
+            <section class="multa">
+                <div class="tabs">
+                    <a href="#" class="tab">Agregar</a>
+                    <a class="tab" href="#">Actualizar</a>
+                    <a class="tab" href="#">Eliminar</a>
+                    <a href="#" class="tab">Consultar</a>
+                </div>
+            </section>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                    <th>Fecha Emisión</th>
+                    <th>Estado</th>
+                    <th>Tipo Persona</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="multa : ${multas}"
+                    th:onclick="'eliminar(' + ${multa.idMulta} + ')'"
+                    style="cursor:pointer;">
+
+                    <td th:text="${multa.idMulta}"></td>
+                    <td th:text="${multa.monto}"></td>
+                    <td th:text="${multa.descripcion}"></td>
+                    <td th:text="${multa.fechaEmision}"></td>
+                    <td th:text="${multa.estado}"></td>
+                    <td th:text="${multa.tipoPersona}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
   </section>
 </main>
-
+<script>
+    function eliminar(id) {
+        if (confirm("¿Seguro que deseas eliminar esta multa?")) {
+            window.location.href = "/multa/eliminar/" + id;
+        }
+    }
+</script>
 </body>
 </html>
