@@ -22,4 +22,12 @@ public class LimpiezaController {
 
         return "VistaLimpieza";
     }
+
+    @GetMapping("/limpieza/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id){
+
+        limpiezaService.deleteLimpieza(id);
+
+        return "redirect:/limpieza";
+    }
 }
