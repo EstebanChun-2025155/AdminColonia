@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Limpieza - Panel Operativo</title>
     <link rel="stylesheet" th:href="@{/style-limpieza.css}">
+
 </head>
+
 <body>
 
 <div class="menubar">
@@ -35,12 +37,20 @@
 
     <div class="section-description">
         <p>
-            Gestión centralizada del personal de mantenimiento. Use las herramientas de control
-            inferiores para verificar el estado de las áreas y el uso de suministros.
+            Gestión centralizada del personal de mantenimiento.
+            Use las herramientas de control inferiores para verificar el estado de las áreas.
         </p>
     </div>
 
-    <table>
+    <div class="tabs">
+        <a class="tab" th:href="@{/limpieza/buscar}">Buscar</a>
+        <a class="tab" th:href="@{/limpieza/nuevo}">Agregar</a>
+        <a class="tab" onclick="editarSeleccionado()">Editar</a>
+        <a class="tab" onclick="eliminarSeleccionado()">Eliminar</a>
+    </div>
+
+    <table border="1" cellspacing="0" cellpadding="8">
+
         <thead>
         <tr>
             <th>ID</th>
@@ -51,29 +61,52 @@
             <th>Teléfono</th>
         </tr>
         </thead>
+
         <tbody>
-        <tr th:each="limpieza : ${listaLimpieza}">
+        <tr th:each="limpieza : ${listaLimpieza}"
+            th:attr="data-id=${limpieza.idLimpieza}"
+            onclick="seleccionarFila(this)">
+
             <td th:text="${limpieza.idLimpieza}"></td>
             <td th:text="${limpieza.nombre}"></td>
             <td th:text="${limpieza.puesto}"></td>
             <td th:text="${limpieza.jornada}"></td>
             <td th:text="${limpieza.salario}"></td>
             <td th:text="${limpieza.telefono}"></td>
+
         </tr>
         </tbody>
-
-        <section class="limpieza">
-
-            <div class="tabs">
-                <a class="tab" href="#">Buscar</a>
-                <a class="tab" href="#">Agregar</a>
-                <a class="tab" href="#">Editar</a>
-                <a class="tab" href="#">Eliminar</a>
-            </div>
-        </section>
 
     </table>
 
 </div>
+
+<script>
+    let idSeleccionado = null;
+
+    function seleccionarFila(fila) {
+
+        document.querySelectorAll("tr").forEach(tr => {
+            tr.classList.remove("fila-activa");
+        });
+
+        fila.classList.add("fila-activa");
+
+        idSeleccionado = fila.dataset.id;
+    }
+
+    function eliminarSeleccionado() {
+
+        if (!idSeleccionado) {
+            alert("Selecciona un registro primero");
+            return;
+        }
+
+        if (confirm("¿Seguro que quieres eliminar este registro?")) {
+            window.location.href = "/limpieza/eliminar/" + idSeleccionado;
+        }
+    }
+</script>
+
 </body>
 </html>
