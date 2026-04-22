@@ -2,27 +2,39 @@ package com.Administracion.Colonia.controller;
 
 import com.Administracion.Colonia.entity.Amenidad;
 import com.Administracion.Colonia.service.AmenidadService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/amenidades") // Ruta solicitada
+@RequestMapping("/amenidades")
 public class AmenidadController {
 
-    private final AmenidadService amenidadService;
+    @Autowired
+    private AmenidadService amenidadService;
 
-    public AmenidadController(AmenidadService amenidadService){
-        this.amenidadService = amenidadService;
+    // RUTA PRINCIPAL
+    @GetMapping
+    public String inicio(Model model) {
+        model.addAttribute("amenidades", amenidadService.getAllAmenidad());
+        // Si no viene de un redirect con errores, mandamos un objeto limpio
+        if (!model.containsAttribute("amenidad")) {
+            model.addAttribute("amenidad", new Amenidad());
+        }
+        return "Amenidades";
     }
 
-    @GetMapping
-    public String listarAmenidades(Model model) {
-        List<Amenidad> lista = amenidadService.getAllAmenidad();
-        model.addAttribute("amenidades", lista);
+    // RUTA DE EDICIÓN (La que causaba el error)
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        Amenidad a = (Amenidad) amenidadService.getAmenidadById(id);
+        if (a == null) {
+            return "redirect:/amenidades";
+        }
+        model.addAttribute("amenidad", a); // Cargamos el objeto encontrado
+        model.addAttribute("amenidades", amenidadService.getAllAmenidad()); // Cargamos la tabla
         return "Amenidades";
     }
 
@@ -30,7 +42,7 @@ public class AmenidadController {
     public String guardar(@ModelAttribute("amenidad") Amenidad amenidad, RedirectAttributes flash) {
         try {
             amenidadService.saveAmenidad(amenidad);
-            flash.addFlashAttribute("success", "Operación realizada con éxito");
+            flash.addFlashAttribute("success", "Registro procesado con éxito.");
         } catch (Exception e) {
             flash.addFlashAttribute("error", "Error: " + e.getMessage());
         }
@@ -41,9 +53,9 @@ public class AmenidadController {
     public String eliminar(@PathVariable Integer id, RedirectAttributes flash) {
         try {
             amenidadService.deleteAmenidad(id);
-            flash.addFlashAttribute("success", "Amenidad eliminada correctamente");
+            flash.addFlashAttribute("success", "Eliminado correctamente.");
         } catch (Exception e) {
-            flash.addFlashAttribute("error", "No se pudo eliminar la amenidad");
+            flash.addFlashAttribute("error", "No se puede eliminar: " + e.getMessage());
         }
         return "redirect:/amenidades";
     }
