@@ -3,6 +3,7 @@ package com.Administracion.Colonia.service;
 
 import com.Administracion.Colonia.entity.Amenidad;
 import com.Administracion.Colonia.repository.AmenidadRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,5 +77,10 @@ public class AmenidadServiceimplements  implements AmenidadService {
 
         }
         amenidadRepository.deleteById(id);
+    }
+
+    @Override
+    public @Nullable Object getAmenidadById(Integer id) {
+        return null;
     }
 }
