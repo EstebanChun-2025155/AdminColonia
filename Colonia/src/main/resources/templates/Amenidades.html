@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amenidades - ControlColonia</title>
+    <title>Gestión de Amenidades - ControlColonia</title>
     <link rel="stylesheet" th:href="@{/Home.css}">
     <link rel="stylesheet" th:href="@{/Amenidades.css}">
 </head>
@@ -11,108 +11,115 @@
 
 <div class="menubar">
     <div class="container menubar_row">
-        <nav class="menu" aria-label="Menú principal">
-            <a class="menu_link" th:href="@{/VistaHome}">Inicio</a>
+        <nav class="menu">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
             <a class="menu_link" th:href="@{/VistaHome#admin}">Administración</a>
-            <a class="menu_link" th:href="@{/ayuda}">Ayuda</a>
-            <a class="menu_link" th:href="@{/contacto}">Contacto</a>
         </nav>
     </div>
 </div>
 
 <main>
     <div class="banner">
-        <img class="banner_img" th:src="@{/Images/ImagenAmenidades.png}" alt="Entrada Colonia">
-        <div class="banner_overlay">
-            <h1>Amenidades</h1>
-        </div>
+        <img class="banner_img" th:src="@{/Images/ImagenAmenidades.png}" alt="Amenidades">
+        <div class="banner_overlay"><h1>Amenidades</h1></div>
     </div>
 
     <section class="tabla-seccion">
         <div class="container">
-            <div class="seccion_panel">
-                <span>ADMINISTRACIÓN DE AMENIDADES</span>
-            </div>
+            <div th:if="${success}" class="alert alert--success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
 
-            <p class="muted" style="text-align: center; margin-bottom: 20px;">
-                Gestión centralizada de recursos y áreas comunes.
-            </p>
+            <div class="seccion_panel"><span>ADMINISTRACIÓN DE AMENIDADES</span></div>
 
             <section class="vista">
-                <h2 class="vista_titulo">AMENIDADES</h2>
-
                 <div class="tabs">
-                    <a class="tab tab_activa" href="#" data-target="consultar">Consultar</a>
-                    <a class="tab" href="#" data-target="descripcion">Costo y Detalles</a>
-                    <a class="tab" href="#" data-target="encargado">Encargado</a>
+                    <a class="tab tab_activa" href="#" data-target="consultar">Listado General</a>
+                    <a class="tab" href="#" data-target="gestionar"
+                       th:text="${amenidad?.idAmenidad != null ? 'Editar Registro' : 'Nuevo Registro'}"></a>
+                    <a class="tab" href="#" data-target="detalles">Costos y Capacidad</a>
                 </div>
 
                 <div class="panel panel--tab" id="consultar">
-                    <h3 class="panel_titulo">Listado General</h3>
+                    <h3 class="panel_titulo">Listado de Áreas Comunes</h3>
                     <div class="tabla-wrapper">
                         <table>
                             <thead>
                             <tr>
                                 <th>Amenidad</th>
                                 <th>Horario</th>
-                                <th>Capacidad</th>
                                 <th>Estado</th>
-                                <th>Acción</th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="amenidad : ${amenidades}">
-                                <td th:text="${amenidad.nombreAmenidad}">Piscina</td>
-                                <td th:text="${amenidad.horarioUso}">07:00 - 20:00</td>
-                                <td th:text="${amenidad.capacidad != null ? amenidad.capacidad + ' pers.' : 'N/A'}">30</td>
+                            <tr th:each="a : ${amenidades}">
+                                <td th:text="${a.nombreAmenidad}"></td>
+                                <td th:text="${a.horarioUso}"></td>
+                                <td><span th:classappend="'badge--' + ${a.estado}" class="badge" th:text="${a.estado}"></span></td>
                                 <td>
-                                    <span th:classappend="${amenidad.estado == 'disponible' ? 'badge--disponible' : 'badge--reservado'}"
-                                          class="badge"
-                                          th:text="${amenidad.estado}">
-                                        disponible
-                                    </span>
+                                    <div class="acciones-cell">
+                                        <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}" class="btn-ver-encargado btn--editar">Editar</a>
+                                        <a th:href="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}" class="btn-ver-encargado btn--eliminar" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+                                    </div>
                                 </td>
-                                <td>
-                                    <button class="btn-ver-encargado">Ver Encargado</button>
-                                </td>
-                            </tr>
-                            <tr th:if="${#lists.isEmpty(amenidades)}">
-                                <td colspan="5">No hay amenidades registradas.</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="panel panel--tab" id="descripcion" style="display:none;">
-                    <h3 class="panel_titulo">Costos y Capacidad</h3>
-                    <div class="tabla-wrapper" style="margin-top:12px;">
+                <div class="panel panel--tab" id="gestionar" style="display:none;">
+                    <h3 class="panel_titulo" th:text="${amenidad?.idAmenidad != null ? 'Modificar Amenidad' : 'Registrar Nueva Amenidad'}"></h3>
+                    <form th:action="@{/amenidades/guardar}" th:object="${amenidad}" method="post" class="form-grid-container">
+                        <input type="hidden" th:field="*{idAmenidad}">
+                        <div class="form-grid">
+                            <div class="campo-grupo">
+                                <label>Nombre:</label>
+                                <input type="text" th:field="*{nombreAmenidad}" required class="input-estilo">
+                            </div>
+                            <div class="campo-grupo">
+                                <label>Horario:</label>
+                                <input type="text" th:field="*{horarioUso}" class="input-estilo">
+                            </div>
+                            <div class="campo-grupo">
+                                <label>Costo (Q):</label>
+                                <input type="number" step="0.01" th:field="*{costoUso}" class="input-estilo">
+                            </div>
+                            <div class="campo-grupo">
+                                <label>Capacidad:</label>
+                                <input type="number" th:field="*{capacidad}" class="input-estilo">
+                            </div>
+                            <div class="campo-grupo">
+                                <label>Estado:</label>
+                                <select th:field="*{estado}" class="input-estilo">
+                                    <option value="disponible">Disponible</option>
+                                    <option value="ocupada">Ocupada</option>
+                                    <option value="mantenimiento">Mantenimiento</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-acciones">
+                            <button type="submit" class="btn-ver-encargado btn--guardar">Guardar</button>
+                            <a th:href="@{/amenidades}" class="btn-ver-encargado btn--cancelar">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel panel--tab" id="detalles" style="display:none;">
+                    <h3 class="panel_titulo">Resumen de Costos</h3>
+                    <div class="tabla-wrapper">
                         <table>
-                            <thead>
-                            <tr>
-                                <th>Amenidad</th>
-                                <th>Costo de Uso</th>
-                                <th>Capacidad Máxima</th>
-                            </tr>
-                            </thead>
+                            <thead><tr><th>Amenidad</th><th>Costo</th><th>Capacidad</th></tr></thead>
                             <tbody>
-                            <tr th:each="amenidad : ${amenidades}">
-                                <td th:text="${amenidad.nombreAmenidad}">Piscina</td>
-                                <td th:text="${'$' + amenidad.costoUso}">$0.00</td>
-                                <td th:text="${amenidad.capacidad}">30</td>
+                            <tr th:each="a : ${amenidades}">
+                                <td th:text="${a.nombreAmenidad}"></td>
+                                <td th:text="'Q' + ${a.costoUso}"></td>
+                                <td th:text="${a.capacidad} + ' personas'"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                <div class="panel panel--tab" id="encargado" style="display:none;">
-                    <h3 class="panel_titulo">Información del Encargado</h3>
-                    <p class="panel_texto">Haz clic en una fila de la tabla para ver quién gestiona el área.</p>
-                    <div class="panel_list" id="list-encargado">
-                    </div>
-                </div>
-
             </section>
         </div>
     </section>
@@ -120,39 +127,17 @@
 
 <script th:inline="javascript">
     (function(){
-        // Cambiar entre pestañas
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.panel--tab');
         function showPanel(id){
-            document.querySelectorAll('.panel.panel--tab').forEach(p=>{
-                p.style.display = p.id === id ? 'block' : 'none';
-            });
-            document.querySelectorAll('.tabs .tab').forEach(t=> {
-                t.classList.toggle('tab_activa', t.dataset.target === id);
-            });
+            panels.forEach(p => p.style.display = p.id === id ? 'block' : 'none');
+            tabs.forEach(t => t.classList.toggle('tab_activa', t.dataset.target === id));
         }
+        tabs.forEach(tab => tab.addEventListener('click', e => { e.preventDefault(); showPanel(tab.dataset.target); }));
 
-        document.querySelectorAll('.tabs .tab').forEach(tab=>{
-            tab.addEventListener('click', function(e){
-                e.preventDefault();
-                showPanel(this.dataset.target);
-            });
-        });
-
-        // Lógica para mostrar encargado al hacer clic en la fila
-        document.addEventListener('click', function(e){
-            const tr = e.target.closest('table tbody tr');
-            if(!tr || tr.cells.length < 4) return;
-
-            const nombreAmenidad = tr.cells[0].textContent.trim();
-            const listEnc = document.getElementById('list-encargado');
-
-            if(listEnc){
-                listEnc.innerHTML = `
-                    <div class="list-item">
-                        <div><strong>Administración Central</strong> gestiona actualmente: ${nombreAmenidad}</div>
-                    </div>`;
-                showPanel('encargado');
-            }
-        });
+        // Si hay un ID presente, saltamos directo a la pestaña de edición
+        const id = [[${amenidad?.idAmenidad}]];
+        if(id) showPanel('gestionar');
     })();
 </script>
 </body>
