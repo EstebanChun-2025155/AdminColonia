@@ -1,9 +1,7 @@
 package com.Administracion.Colonia.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "Amenidades")
@@ -14,23 +12,22 @@ public class Amenidad {
     @Column(name = "idAmenidad")
     private Integer idAmenidad;
 
-    @NotBlank(message = "Debe rellenar el nombre")
+    @NotBlank(message = "El nombre es obligatorio")
     @Column(name = "nombreAmenidad")
     private String nombreAmenidad;
 
-    @NotBlank(message = "Debe rellenar el horario")
+    @NotBlank(message = "El horario es obligatorio")
     @Column(name = "horarioUso")
     private String horarioUso;
 
+    @Min(value = 0, message = "El costo no puede ser negativo")
     @Column(name = "costoUso")
     private double costoUso;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacios")
-    @Pattern( regexp  = "^(ocupada|disponible|mantenimiento)$",
-            message =  "El estado es valido unicamente bajo los dominios: ocupada, disponible, mantenimiento")
-    @NotBlank(message = "Se agrego el campos")
-
-    @Column (name = "estado", nullable = false)
+    @NotBlank(message = "El estado es obligatorio")
+    @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
+            message = "Estado no válido")
+    @Column(name = "estado", nullable = false)
     private String estado;
 
     @Min(value = 0, message = "La capacidad no puede ser menor a 0")
@@ -45,43 +42,45 @@ public class Amenidad {
         this.idAmenidad = idAmenidad;
     }
 
-    public String getNombreAmenidad() {
+    public @NotBlank(message = "El nombre es obligatorio") String getNombreAmenidad() {
         return nombreAmenidad;
     }
 
-    public void setNombreAmenidad(String nombreAmenidad) {
+    public void setNombreAmenidad(@NotBlank(message = "El nombre es obligatorio") String nombreAmenidad) {
         this.nombreAmenidad = nombreAmenidad;
     }
 
-    public String getHorarioUso() {
+    public @NotBlank(message = "El horario es obligatorio") String getHorarioUso() {
         return horarioUso;
     }
 
-    public void setHorarioUso(String horarioUso) {
+    public void setHorarioUso(@NotBlank(message = "El horario es obligatorio") String horarioUso) {
         this.horarioUso = horarioUso;
     }
 
-    public double getCostoUso() {
+    public @Min(value = 0, message = "El costo no puede ser negativo") double getCostoUso() {
         return costoUso;
     }
 
-    public void setCostoUso(double costoUso) {
+    public void setCostoUso(@Min(value = 0, message = "El costo no puede ser negativo") double costoUso) {
         this.costoUso = costoUso;
     }
 
-    public String getEstado() {
+    public @NotBlank(message = "El estado es obligatorio") @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
+            message = "Estado no válido") String getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(@NotBlank(message = "El estado es obligatorio") @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
+            message = "Estado no válido") String estado) {
         this.estado = estado;
     }
 
-    public Integer getCapacidad() {
+    public @Min(value = 0, message = "La capacidad no puede ser menor a 0") Integer getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(Integer capacidad) {
+    public void setCapacidad(@Min(value = 0, message = "La capacidad no puede ser menor a 0") Integer capacidad) {
         this.capacidad = capacidad;
     }
 }
