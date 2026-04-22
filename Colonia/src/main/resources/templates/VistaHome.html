@@ -1,10 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Control Colonia</title>
+    <link rel="stylesheet" th:href="@{/home.css}">
 </head>
 <body>
-$END$
+
+<div class="menubar">
+    <div class="container menubar_row">
+
+        <div class="brand">
+            <img th:src="@{/Images/logo.png}" alt="Logo Residencial" class="brand_logo">
+            <span class="brand_name">Residencial</span>
+        </div>
+
+        <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link is-active" href="#inicio">Inicio</a>
+            <a class="menu_link" href="#admin">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
+            <a class="menu_link" href="#contacto">Contacto</a>
+        </nav>
+    </div>
+</div>
+
+<main>
+    <section class="front" aria-label="Portada">
+        <img class="front_img" th:src="@{/Images/EntradaColonia.png}" alt="Entrada">
+
+        <div class="front_overlay">
+            <div class="container front_content">
+                <h1>INICIO</h1>
+                <p>
+                    Pagina principal(Home) en donde se manejara el accesos a las entidades.
+                </p>
+
+                <div class="front_cta">
+                    <a class="btn btn--primary" href="#admin">Ir a Administración</a>
+                    <a class="btn btn--ghost" href="#ayuda"> Ver guía</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion" id="admin">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>ADMINISTRACIÓN</span>
+            </div>
+
+            <div class="tiles" aria-label="Panel de administración">
+
+                <a class="tile" th:href="@{/Amenidades}" aria-label="Acceso a Amenidades">
+                            <span class="tile_icono" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M3 11.5 12 4l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 10.5V20h12v-9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10 20v-6h4v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                    <span class="tile_label">Amenidades</span>
+                </a>
+
+                <a class="tile" th:href="@{/Vehiculos}" aria-label="Acceso a Vehiculos">
+                            <span class="tile_icono" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                    <span class="tile_label">Vehiculos</span>
+                </a>
+
+            </div>
+
+            <p class="hint"> Aqui podras acceder a toda la informacion acerca de nuestra administración en nuestra colonia</p>
+        </div>
+    </section>
+
+    <section class="seccion seccion--soft" id="ayuda">
+        <div class="container">
+            <h2>Ayuda</h2>
+            <p class="muted">
+                Esta pagina esta hecha para que puedas llevar un control adecuado sobre la gestión y administración dentro de una colonia/condominio.
+                Podrás acceder a toda la información almacenada mediante las funciones ya vistas en el apartado de Administració, en donde podras
+                acceder a ellas y corroborar la información ya almacenada
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="contacto">
+        <div class="container">
+            <h2> Contacto</h2>
+            <p class="muted">echun-2025155@kinal.edu.gt</p>
+        </div>
+    </section>
+
+</main>
+
 </body>
 </html>
