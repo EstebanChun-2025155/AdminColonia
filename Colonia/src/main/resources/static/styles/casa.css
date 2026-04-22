@@ -271,6 +271,58 @@ tr:nth-child(even){
     border-top:1px solid var(--line);
 }
 
+.acciones{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn {
+    padding:6px 10px;
+    font-size:13px;
+    border-radius:6px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.btn-primary {
+    background: #60a5fa;
+    color: #111827;
+}
+
+.btn-primary:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-edit{
+    background:#93c5fd;
+    color:#020617;
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    min-width:70px;
+}
+
+.btn-edit:hover{
+    background:#60a5fa;
+}
+
+.btn-danger {
+     background:#ef4444;
+     color:white;
+     min-width:70px;
+}
+
+.btn-danger:hover {
+    background:#dc2626;
+}
+
 .muted{
     color:var(--muted);
 }
