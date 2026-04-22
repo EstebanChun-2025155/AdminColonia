@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesos</title>
     <meta name="description" content="Accesos">
-    <link rel="stylesheet" href="../Styles/Accesos.css">
+    <link rel="stylesheet" th:href="@{/Styles/Accesos.css}">
 </head>
 <body>
 
     <div class="menuAccesos">
         <div class="container menuAccesos_row">
             <nav class="menu" aria-label="Menu Principal">
-                <a class="menuAccesos_link is-active" href="VistaHome.html">Inicio</a>
+                <a class="menuAccesos_link is-active" th:href="@{/home}">Inicio</a>
                 <a class="menuAccesos_link" href="#adminAccesos">Administracion</a>
                 <a class="menuAccesos_link" href="#ayuda">Ayuda</a>
             </nav>
@@ -21,7 +21,7 @@
 
     <main>
         <section class="frontAccesos" aria-label="PortadaAccesos">
-            <img class="frontAccesos_img" src="../Images/VisitaAccesos.png" alt="Accesos">
+            <img class="frontAccesos_img" th:src="@{/Images/VisitaAccesos.png}" alt="Accesos">
             <div class="frontAccesos_overlay">
                 <div class="container frontAccesos_content">
                     <h1>ACCESOS</h1>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="seccionAccesos" id="adminAccesos">
-            <img src="../Images/VisitaAccesos.png" alt="Icono de Accesos">
+            <img th:src="@{/Images/VisitaAccesos.png}" alt="Icono de Accesos">
             <h2>CONSULTA DE ACCESOS</h2>
         </div>
 
@@ -70,81 +70,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>A001</td>
-                                <td>Visita</td>
-                                <td>1</td>
-                                <td>2025-06-01 06:05</td>
-                                <td>2025-06-01 08:30</td>
-                            </tr>
-                            <tr>
-                                <td>A002</td>
-                                <td>Residente</td>
-                                <td>2</td>
-                                <td>2025-06-01 22:10</td>
-                                <td>2025-06-01 23:45</td>
-                            </tr>
-                            <tr>
-                                <td>A003</td>
-                                <td>Personal</td>
-                                <td>3</td>
-                                <td>2025-06-02 07:00</td>
-                                <td>2025-06-02 15:00</td>
-                            </tr>
-                            <tr>
-                                <td>A004</td>
-                                <td>Visita</td>
-                                <td>4</td>
-                                <td>2025-06-02 21:30</td>
-                                <td>2025-06-02 22:00</td>
-                            </tr>
-                            <tr>
-                                <td>A005</td>
-                                <td>Residente</td>
-                                <td>5</td>
-                                <td>2025-06-03 20:15</td>
-                                <td>2025-06-03 21:00</td>
-                            </tr>
-                            <tr>
-                                <td>A006</td>
-                                <td>Personal</td>
-                                <td>6</td>
-                                <td>2025-06-03 06:50</td>
-                                <td>2025-06-03 14:50</td>
-                            </tr>
-                            <tr>
-                                <td>A007</td>
-                                <td>Visita</td>
-                                <td>7</td>
-                                <td>2025-06-04 23:00</td>
-                                <td>— Sin salida —</td>
-                            </tr>
-                            <tr>
-                                <td>A008</td>
-                                <td>Residente</td>
-                                <td>8</td>
-                                <td>2025-06-04 07:45</td>
-                                <td>2025-06-04 09:00</td>
-                            </tr>
-                            <tr>
-                                <td>A009</td>
-                                <td>Personal</td>
-                                <td>9</td>
-                                <td>2025-06-05 22:00</td>
-                                <td>2025-06-05 23:30</td>
-                            </tr>
-                            <tr>
-                                <td>A010</td>
-                                <td>Visita</td>
-                                <td>10</td>
-                                <td>2025-06-05 08:00</td>
-                                <td>— Sin salida —</td>
+                            <tr th:each="acceso : ${accesos}">
+                                <td th:text="${acceso.id_Acceso}"></td>
+                                <td th:text="${acceso.tipo_Persona}"></td>
+                                <td th:text="${acceso.id_Seguridad}"></td>
+
+                                <td th:text="${#dates.format(acceso.hora_Entrada, 'yyyy-MM-dd HH:mm')}"></td>
+
+                                <!-- Si tiene salida -->
+                                <td th:if="${acceso.hora_Salida != null}"
+                                    th:text="${#dates.format(acceso.hora_Salida, 'yyyy-MM-dd HH:mm')}">
+                                </td>
+
+                                <!-- Si NO tiene salida -->
+                                <td th:if="${acceso.hora_Salida == null}">
+                                    — Sin salida —
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Tab 2 -->
             <div class="panel content2">
                 <h3 class="panel_titulo">Registrar Acceso</h3>
                 <div class="panel_list">
@@ -155,6 +103,7 @@
                 </div>
             </div>
 
+            <!-- Tab 3 -->
             <div class="panel content3">
                 <h3 class="panel_titulo">Editar Acceso</h3>
                 <div class="panel_list">
