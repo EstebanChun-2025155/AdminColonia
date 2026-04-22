@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -49,7 +49,7 @@
 
         <input type="radio" name="tabs_casa" id="r1" checked hidden>
         <input type="radio" name="tabs_casa" id="r2" hidden>
-        <input type="radio" name="tabs_casa" id="r3" hidden>
+        <input type="radio" name="tabs_casa" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
@@ -71,6 +71,7 @@
                         <th>Estado</th>
                         <th>Propietario</th>
                         <th>Precio</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -81,34 +82,54 @@
                         <td th:text="${casas.estado}"></td>
                         <td th:text="${casas.propietario}"></td>
                         <td th:text="${casas.precioCasa}"></td>
+                        <td>
+                            <div class="acciones">
+
+                                <a th:href="@{/editar/casa/{id}(id=${casas.idCasa})}"
+                                   class="btn btn-edit">
+                                    Editar
+                                </a>
+
+                                <form th:action="@{/eliminar/casa/{id}(id=${casas.idCasa})}"
+                                      method="post">
+                                    <button class="btn btn-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
 
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Casa</h3>
-
-            <div class="panel_list">
-                <span><b>Dirección:</b> ubicación del inmueble</span>
-                <span><b>Estado:</b> disponible / ocupada / mantenimiento</span>
-                <span><b>Propietario:</b> asignar residente</span>
-                <span><b>Precio:</b> valor registrado</span>
-            </div>
+            <form th:action="@{/guardar/casa}" th:object="${casaForm}" method="post">
+                <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa" required>
+                <input type="text" th:field="*{direccion}" placeholder="Dirección" required>
+                <input type="text" th:field="*{estado}" placeholder="Estado" required>
+                <input type="text" th:field="*{propietario}" placeholder="Propietario" required>
+                <input type="number" th:field="*{precioCasa}" placeholder="Precio" required>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
 
         </div>
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Casa</h3>
 
-            <div class="panel_list">
-                <span><b>Buscar casa:</b> ingresar número de casa</span>
-                <span><b>Modificar datos:</b> actualizar información</span>
-                <span><b>Guardar cambios:</b> confirmar actualización</span>
-            </div>
-
+            <form th:action="@{/actualizar/casa/{id}(id=${casaForm.idCasa})}"
+                  th:object="${casaForm}" method="post">
+                <input type="hidden" th:field="*{idCasa}">
+                <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa" required>
+                <input type="text" th:field="*{direccion}" placeholder="Dirección" required>
+                <input type="text" th:field="*{estado}" placeholder="Estado" required>
+                <input type="text" th:field="*{propietario}" placeholder="Propietario" required>
+                <input type="number" th:field="*{precioCasa}" placeholder="Precio" required>
+                <button type="submit" class="btn btn-edit">Actualizar</button>
+            </form>
         </div>
     </section>
 
