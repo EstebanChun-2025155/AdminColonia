@@ -14,27 +14,27 @@ public class Accesos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_acceso")
+    @Column(name = "id_Acceso")
     private Integer id;
 
     @NotBlank(message = "El campo de texto no debe de estar vacio")
     @Pattern( regexp  = "^(visita|residente|personal)$",
             message =  "El tipo de persona debe ser: visita, residente o personal")
-    @Column(name = "tipo_persona")
+    @Column(name = "tipo_Persona")
     private String tipoPersona;
 
     @NotNull(message = "El campo no puede estar vacio")
-    @Column(name = "id_seguridad")
+    @Column(name = "id_Seguridad")
     private Integer idSeguridad;
 
     @NotNull(message = "La hora de entrada no puede estar vacía")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "hora_entrada")
+    @Column(name = "hora_Entrada")
     private LocalDateTime horaEntrada;
 
     @NotNull(message = "La hora de entrada no puede estar vacía")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "hora_salida")
+    @Column(name = "hora_Salida")
     private LocalDateTime horaSalida;
 
     public Integer getId() {
