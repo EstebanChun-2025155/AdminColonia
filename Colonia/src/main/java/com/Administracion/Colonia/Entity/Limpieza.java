@@ -39,8 +39,8 @@ public class Limpieza {
         return idLimpieza;
     }
 
-    public void setIdLimpieza(Integer idLimplieza) {
-        this.idLimpieza = idLimplieza;
+    public void setIdLimpieza(Integer idLimpieza) {
+        this.idLimpieza = idLimpieza;
     }
 
     public String getNombre() {
