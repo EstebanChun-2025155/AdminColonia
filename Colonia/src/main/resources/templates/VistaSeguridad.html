@@ -44,83 +44,22 @@
     <table>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Nombre</th>
-            <th>Cargo</th>
-            <th>Turno</th>
+            <th>Puesto</th>
+            <th>Jornada</th>
             <th>Salario</th>
             <th>Teléfono</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Juan Pérez</td>
-            <td>Guardia de Garita</td>
-            <td>día</td>
-            <td>3500.00</td>
-            <td>5544-3322</td>
-        </tr>
-        <tr>
-            <td>Roberto Gómez</td>
-            <td>Vigilante Nocturno</td>
-            <td>noche</td>
-            <td>3800.00</td>
-            <td>4433-2211</td>
-        </tr>
-        <tr>
-            <td>Carlos Méndez</td>
-            <td>Supervisor</td>
-            <td>día</td>
-            <td>4500.00</td>
-            <td>3322-1100</td>
-        </tr>
-        <tr>
-            <td>Luis Hernández</td>
-            <td>Operador CCTV</td>
-            <td>noche</td>
-            <td>3600.00</td>
-            <td>2211-0099</td>
-        </tr>
-        <tr>
-            <td>Mario Estrada</td>
-            <td>Patrullero</td>
-            <td>noche</td>
-            <td>3700.00</td>
-            <td>1100-9988</td>
-        </tr>
-        <tr>
-            <td>Fernando Ruiz</td>
-            <td>Guardia de Garita</td>
-            <td>día</td>
-            <td>3500.00</td>
-            <td>9988-7766</td>
-        </tr>
-        <tr>
-            <td>Jorge Blanco</td>
-            <td>Vigilante Nocturno</td>
-            <td>noche</td>
-            <td>3800.00</td>
-            <td>8877-6655</td>
-        </tr>
-        <tr>
-            <td>Samuel Sosa</td>
-            <td>Rondín</td>
-            <td>día</td>
-            <td>3400.00</td>
-            <td>7766-5544</td>
-        </tr>
-        <tr>
-            <td>Ricardo Paz</td>
-            <td>Seguridad Perimetral</td>
-            <td>noche</td>
-            <td>3750.00</td>
-            <td>6655-4433</td>
-        </tr>
-        <tr>
-            <td>Héctor Lima</td>
-            <td>Jefe de Seguridad</td>
-            <td>día</td>
-            <td>5000.00</td>
-            <td>5544-4433</td>
+        <tr th:each="seguridad : ${listaSeguridad}">
+            <td th:text="${seguridad.idSeguridad}"></td>
+            <td th:text="${seguridad.nombre}"></td>
+            <td th:text="${seguridad.puesto}"></td>
+            <td th:text="${seguridad.jornada}"></td>
+            <td th:text="${seguridad.salario}"></td>
+            <td th:text="${seguridad.telefono}"></td>
         </tr>
         </tbody>
     </table>
