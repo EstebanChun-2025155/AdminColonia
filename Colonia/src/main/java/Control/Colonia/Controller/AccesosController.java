@@ -2,74 +2,57 @@ package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Accesos;
 import Control.Colonia.Service.AccesosService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/accesos")
+@Controller
+@RequestMapping("/accesos")
 public class AccesosController {
-    private final AccesosService accesosService;
 
-    public AccesosController(AccesosService accesosService) {
-        this.accesosService = accesosService;
-    }
+    @Autowired
+    private AccesosService accesosService;
 
     @GetMapping
-    public List<Accesos> getAccesos(){
-        return accesosService.getAllAccesos();
+    public String verAccesos(Model model) {
+
+        model.addAttribute("accesos", accesosService.getAllAccesos());
+        model.addAttribute("acceso", new Accesos());
+
+        return "Accesos";
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createAcceso(@Valid @RequestBody Accesos accesos, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute("acceso") Accesos acceso,
+                          RedirectAttributes redirect) {
+
         try {
-            Accesos createAcceso = accesosService.saveAcceso(accesos);
-            return new ResponseEntity<>(createAcceso, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            accesosService.saveAcceso(acceso);
+        } catch (RuntimeException e) {
+            redirect.addFlashAttribute("error", e.getMessage());
         }
+
+        return "redirect:/accesos";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAcceso(@Valid @RequestBody Accesos accesos, @PathVariable Integer id, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
-        try {
-            Accesos updateAcceso = accesosService.updateAcceso(id, accesos);
-            return new ResponseEntity<>(updateAcceso, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        model.addAttribute("acceso", accesosService.getAccesosById(id));
+        model.addAttribute("accesos", accesosService.getAllAccesos());
+        return "Accesos";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getAccesosById(@PathVariable Integer id){
-        try {
-            Accesos searchedAccesos = accesosService.getAccesosById(id);
-            return new ResponseEntity<>(searchedAccesos,HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al eliminar el acceso");
-        }
+    @PostMapping("/actualizar")
+    public String actualizarAcceso(@ModelAttribute Accesos acceso) {
+        accesosService.saveAcceso(acceso);
+        return "redirect:/accesos";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAccesosById(@PathVariable Integer id){
-        try {
-            if(accesosService.getAccesosById(id) == null) {
-                return ResponseEntity.status(404).body("No exsite esta Acceso");
-            }
-            accesosService.deleteAccesos(id);
-            return  ResponseEntity.status(202).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al eliminar Acceso");
-        }
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id) {
+        accesosService.deleteAcceso(id);
+        return "redirect:/accesos";
     }
 }
