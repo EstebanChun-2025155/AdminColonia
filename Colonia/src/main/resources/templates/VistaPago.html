@@ -47,6 +47,7 @@
         <table>
           <thead>
           <tr>
+            <th>ID</th>
             <th>Residente (ID)</th>
             <th>Clasificación</th>
             <th>Monto</th>
@@ -56,85 +57,14 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>1</td>
-            <td><span class="badge badge--multa">multa</span></td>
-            <td>150.00</td>
-            <td>2026-01-11</td>
-            <td><span class="badge badge--efectivo">efectivo</span></td>
-            <td>REF001</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><span class="badge badge--mantenimiento">mantenimiento</span></td>
-            <td>500.00</td>
-            <td>2026-01-12</td>
-            <td><span class="badge badge--transferencia">transferencia</span></td>
-            <td>REF002</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><span class="badge badge--amenidad">amenidad</span></td>
-            <td>75.00</td>
-            <td>2026-01-15</td>
-            <td><span class="badge badge--tarjeta">tarjeta</span></td>
-            <td>REF003</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td><span class="badge badge--multa">multa</span></td>
-            <td>300.00</td>
-            <td>2026-01-16</td>
-            <td><span class="badge badge--efectivo">efectivo</span></td>
-            <td>REF004</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><span class="badge badge--mantenimiento">mantenimiento</span></td>
-            <td>500.00</td>
-            <td>2026-01-20</td>
-            <td><span class="badge badge--transferencia">transferencia</span></td>
-            <td>REF005</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td><span class="badge badge--amenidad">amenidad</span></td>
-            <td>100.00</td>
-            <td>2026-01-25</td>
-            <td><span class="badge badge--tarjeta">tarjeta</span></td>
-            <td>REF006</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><span class="badge badge--multa">multa</span></td>
-            <td>200.00</td>
-            <td>2026-02-01</td>
-            <td><span class="badge badge--efectivo">efectivo</span></td>
-            <td>REF007</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><span class="badge badge--mantenimiento">mantenimiento</span></td>
-            <td>500.00</td>
-            <td>2026-02-05</td>
-            <td><span class="badge badge--transferencia">transferencia</span></td>
-            <td>REF008</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><span class="badge badge--amenidad">amenidad</span></td>
-            <td>80.00</td>
-            <td>2026-02-08</td>
-            <td><span class="badge badge--tarjeta">tarjeta</span></td>
-            <td>REF009</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td><span class="badge badge--multa">multa</span></td>
-            <td>220.00</td>
-            <td>2026-02-12</td>
-            <td><span class="badge badge--efectivo">efectivo</span></td>
-            <td>REF010</td>
+          <tr th:each="pago : ${pagos}">
+            <td th:text="${pago.idPago}"></td>
+            <td th:text="${pago.idResidente}"></td>
+            <td th:text="${pago.clasificacionPago}"></td>
+            <td th:text="${pago.monto}"></td>
+            <td th:text="${pago.fechaPago}"></td>
+            <td th:text="${pago.metodo}"></td>
+            <td th:text="${pago.referencia}"></td>
           </tr>
           </tbody>
           <section class="pago">
