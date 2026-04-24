@@ -57,19 +57,17 @@ a{
     display: flex;
     align-items: center;
     gap: 10px;
+    overflow: visible;
 }
 
 .brand_logo{
     height: 40px;
     width: auto;
     display: block;
+    transform: scale(2);
+    transform-origin: left center;
 }
 
-.brand_name{
-    font-weight: 900;
-    color: var(--ink);
-    letter-spacing: 1px;
-}
 
 .menu{
     display: flex;
