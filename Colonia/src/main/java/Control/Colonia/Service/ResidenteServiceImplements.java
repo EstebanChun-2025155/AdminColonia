@@ -18,16 +18,37 @@ public class ResidenteServiceImplements implements ResidenteService {
     public List<Residente> getAllResidente() { return residenteRepository.findAll();}
 
     @Override
-    public Residente getResidenteById(Integer id) { return residenteRepository.getReferenceById(id); }
+    public Residente getResidenteById(Integer id) {
+        return residenteRepository.findById(id).orElseThrow(() -> new RuntimeException("Este residente no existe")); }
 
     @Override
     public Residente saveResidente(Residente residente) throws RuntimeException {
+        try {
+            if(residenteRepository.existsByNombreResidenteAndDpiResidenteAndTelefonoResidenteAndPosicionAndIdCasa(
+                    residente.getNombreResidente(),
+                    residente.getDpiResidente(),
+                    residente.getTelefonoResidente(),
+                    residente.getPosicion(),
+                    residente.getIdResidente())){
+
+                throw new RuntimeException("Ya existe una residente con estos datos");
+            }
             return residenteRepository.save(residente);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Residente updateResidente(Integer id, Residente residente) {
-        Residente existingResidente = residenteRepository.findById(id).orElseThrow(()-> new RuntimeException("Esta Casa no existe"));
+        Residente existingResidente = residenteRepository.findById(id).orElseThrow(()-> new RuntimeException("Este Residente no existe"));
+
+        existingResidente.setNombreResidente(residente.getNombreResidente());
+        existingResidente.setDpiResidente(residente.getDpiResidente());
+        existingResidente.setTelefonoResidente(residente.getTelefonoResidente());
+        existingResidente.setPosicion(residente.getPosicion());
+        existingResidente.setIdCasa(residente.getIdCasa());
+
         return residenteRepository.save(existingResidente);
     }
 

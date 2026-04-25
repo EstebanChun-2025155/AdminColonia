@@ -6,5 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResidenteRepository extends JpaRepository<Residente, Integer> {
-
+    Boolean existsByNombreResidenteAndDpiResidenteAndTelefonoResidenteAndPosicionAndIdCasa(
+            String nombreResidente,
+            String dpiResidente,
+            String telefonoResidente,
+            String posicion,
+            Integer idCasa
+    );
 }

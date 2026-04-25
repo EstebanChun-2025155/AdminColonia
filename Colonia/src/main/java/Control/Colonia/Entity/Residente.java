@@ -17,13 +17,13 @@ public class Residente {
     private String nombreResidente;
 
     @NotBlank(message = "Los campos no pueden estar vacios")
-    @Size(max = 13, message = "El dpi solo puede tener 13 caracteres")
+    @Size(min = 13, max = 13, message = "El DPI debe tener exactamente 13 caracteres")
     @Column(name = "dpi_Residente")
     private String dpiResidente;
 
     @NotBlank(message = "Los campos no pueden estar vacios")
-    @Size(max = 8, message = "El telefono no puede tener mas de 8 caracteres")
-    @Size(min = 8, message = "El telegono no puede tener menos de 8 caracteres")
+    @Size(min = 8, max = 8, message = "El telefono debe tener exactamente 8 caracteres")
+    @Pattern(regexp = "^[0-9]{8}$", message = "El telefono debe contener exactamente 8 numeros")
     @Column(name = "telefono_Residente")
     private String telefonoResidente;
 
