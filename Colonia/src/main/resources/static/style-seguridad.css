@@ -18,6 +18,7 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background-color: var(--fondo);
     color: var(--texto);
+    /* Evita el scroll horizontal por las líneas que llegan al tope */
     overflow-x: hidden;
 }
 
@@ -55,7 +56,7 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
-    margin-bottom: 0px; 
+    margin-bottom: 0px; /* Pegado al divisor */
 }
 .banner h1 {
     font-size: 48px;
@@ -64,6 +65,7 @@ body {
     text-transform: uppercase;
 }
 
+/* DIVISOR: Líneas de 4px que llegan hasta el borde de la pantalla */
 .divider-line {
     display: flex;
     align-items: center;
@@ -127,6 +129,7 @@ body {
     display: inline-block;
 }
 
+/* El botón Registrar (r2) siempre resalta en naranja por defecto */
 .tab-label[for="r2"] {
     background-color: var(--terracota);
     color: white;
@@ -141,6 +144,7 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* PANELES DE CONTENIDO */
 .panel {
     display: none;
     background-color: var(--superficie);
@@ -160,6 +164,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* TABLAS */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -181,6 +186,7 @@ td {
     font-weight: 600;
 }
 
+/* ACCIONES EN TABLA */
 .acciones-inline {
     display: flex;
     gap: 8px;
