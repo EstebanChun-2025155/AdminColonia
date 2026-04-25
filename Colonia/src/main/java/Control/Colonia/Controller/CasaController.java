@@ -56,4 +56,14 @@ public class CasaController {
         return "redirect:/casa";
 
     }
+
+    @GetMapping("/buscar/casa")
+    public String buscarCasa(@RequestParam Integer id, Model model){
+        Casa casa = casaService.getCasaById(id);
+
+        model.addAttribute("casa", List.of(casa));
+        model.addAttribute("casaForm", new Casa());
+
+        return "casa";
+    }
 }
