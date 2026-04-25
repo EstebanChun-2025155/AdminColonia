@@ -60,6 +60,16 @@
 
             <h3 class="panel_titulo">Consulta de Casas</h3>
 
+            <form th:action="@{/buscar/casa}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar casa por ID" required>
+
+                <button type="submit" class="btn btn-primary">
+                    Buscar
+                </button>
+
+                <a th:href="@{/casa}" class="btn btn-edit"> Mostrar Todo </a>
+            </form>
+
             <div class="panel_list">
                 <table>
                     <thead>
