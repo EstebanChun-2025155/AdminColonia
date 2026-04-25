@@ -16,42 +16,39 @@ public class LimpiezaController {
     private LimpiezaService limpiezaService;
 
     @GetMapping("/limpieza")
-    public String mostrarLimpieza(Model model){
-        List<Limpieza> lista = limpiezaService.getAllLimpieza();
-        model.addAttribute("listaLimpieza", lista);
-
+    public String mostrarLimpieza(Model model) {
+        model.addAttribute("listaLimpieza", limpiezaService.getAllLimpieza());
+        model.addAttribute("limpiezaForm", new Limpieza());
         return "VistaLimpieza";
     }
 
-    @PostMapping("/eliminar/limpieza/{id}")
-    public String eliminar(@PathVariable Integer id){
+    // Ruta corregida para eliminar
+    @PostMapping("/limpieza/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id) {
         limpiezaService.deleteLimpieza(id);
-        return "redirect/limpieza";
+        return "redirect:/limpieza";
     }
 
-    @GetMapping("/nueva/limpieza")
-    public String nuevaLimpieza(Model model){
-        model.addAttribute("limpieza", new Limpieza());
-        return "limpieza";
-    }
-
-    @PostMapping("/guardar/limpieza")
-    public String guardar(@ModelAttribute Limpieza limpieza){
+    // Ruta corregida para guardar
+    @PostMapping("/limpieza/guardar")
+    public String guardar(@ModelAttribute Limpieza limpieza) {
         limpiezaService.saveLimpieza(limpieza);
-        return "redirect/limpieza";
+        return "redirect:/limpieza";
     }
 
-    @GetMapping("/editar/limpieza/{id}")
-    public String editar(@PathVariable Integer id, Model model){
+    @GetMapping("/limpieza/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
         Limpieza limpieza = limpiezaService.getLimpiezaById(id);
-        model.addAttribute("limpieza", limpieza);
-        return "limpieza";
+        model.addAttribute("listaLimpieza", limpiezaService.getAllLimpieza());
+        model.addAttribute("limpiezaForm", limpieza);
+        model.addAttribute("tab", "editar");
+        return "VistaLimpieza";
     }
 
-    @PostMapping("/actualizar/limpieza/{id}")
-    public String actualizar(@PathVariable Integer id, @ModelAttribute Limpieza limpieza){
-        limpiezaService.updateLimpieza(id, limpieza);
-        return "redirect/limpieza";
-
+    // Ruta corregida para actualizar (quitamos el {id} de la URL porque ya viene dentro del objeto limpiezaForm)
+    @PostMapping("/limpieza/actualizar")
+    public String actualizar(@ModelAttribute Limpieza limpieza) {
+        limpiezaService.saveLimpieza(limpieza); // saveLimpieza suele servir para actualizar si el ID ya existe
+        return "redirect:/limpieza";
     }
 }
