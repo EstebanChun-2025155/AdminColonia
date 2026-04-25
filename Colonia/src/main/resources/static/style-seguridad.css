@@ -55,7 +55,7 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
-    margin-bottom: 0px; /* Pegado al divisor */
+    margin-bottom: 0px; 
 }
 .banner h1 {
     font-size: 48px;
@@ -141,7 +141,6 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* PANELES DE CONTENIDO */
 .panel {
     display: none;
     background-color: var(--superficie);
@@ -161,7 +160,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* TABLAS */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -183,7 +181,6 @@ td {
     font-weight: 600;
 }
 
-/* ACCIONES EN TABLA */
 .acciones-inline {
     display: flex;
     gap: 8px;
