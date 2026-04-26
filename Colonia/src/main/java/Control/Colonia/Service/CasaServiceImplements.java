@@ -9,20 +9,20 @@ import java.util.List;
 @Service
 public class CasaServiceImplements implements CasaService {
     @Autowired
-    private CasaRepository repo;
+    private CasaRepository casaRepository;
 
     @Override
-    public List<Casa> getAllCasa() { return repo.findAll(); }
+    public List<Casa> getAllCasa() { return casaRepository.findAll(); }
 
     @Override
     public Casa getCasaById(Integer id) {
-        return repo.findById(id).orElseThrow(() -> new RuntimeException("Casa no encontrada"));
+        return casaRepository.findById(id).orElseThrow(() -> new RuntimeException("Casa no encontrada"));
     }
 
     @Override
     public Casa saveCasa(Casa casa) throws RuntimeException {
         try {
-            if (repo.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
+            if (casaRepository.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
                     casa.getNoDeCasa(),
                     casa.getDireccion(),
                     casa.getEstado(),
@@ -31,7 +31,7 @@ public class CasaServiceImplements implements CasaService {
                 throw new RuntimeException("Ya existe una casa con estos datos");
             }
 
-            return repo.save(casa);
+            return casaRepository.save(casa);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -39,9 +39,9 @@ public class CasaServiceImplements implements CasaService {
 
     @Override
     public Casa updateCasa(Integer id, Casa casa) {
-        Casa existingCasa = repo.findById(id).orElseThrow(() -> new RuntimeException("La casa no existe"));
+        Casa existingCasa = casaRepository.findById(id).orElseThrow(() -> new RuntimeException("La casa no existe"));
 
-        if (repo.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
+        if (casaRepository.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
                 casa.getNoDeCasa(),
                 casa.getDireccion(),
                 casa.getEstado(),
@@ -56,14 +56,14 @@ public class CasaServiceImplements implements CasaService {
         existingCasa.setPropietario(casa.getPropietario());
         existingCasa.setPrecioCasa(casa.getPrecioCasa());
 
-        return repo.save(existingCasa);
+        return casaRepository.save(existingCasa);
     }
 
     @Override
     public void deleteCasa(Integer id) {
-        if(!repo.existsById(id)){
+        if(!casaRepository.existsById(id)){
             throw new RuntimeException("Este id no existe");
         }
-        repo.deleteById(id);
+        casaRepository.deleteById(id);
     }
 }
