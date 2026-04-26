@@ -12,4 +12,5 @@ public interface ResidenteService {
     Residente saveResidente(Residente residente) throws RuntimeException;
     Residente updateResidente(Integer id, Residente residente);
     void deleteResidente(Integer id);
+    Residente login(String nombreResidente, String dpiResidente);
 }

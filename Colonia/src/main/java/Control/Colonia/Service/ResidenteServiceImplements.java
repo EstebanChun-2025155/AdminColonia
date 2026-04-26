@@ -2,17 +2,15 @@ package Control.Colonia.Service;
 
 import Control.Colonia.Entity.Residente;
 import Control.Colonia.Repository.ResidenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ResidenteServiceImplements implements ResidenteService {
-    private final ResidenteRepository residenteRepository;
-
-    public ResidenteServiceImplements(ResidenteRepository residenteRepository) {
-        this.residenteRepository = residenteRepository;
-    }
+    @Autowired
+    private ResidenteRepository residenteRepository;
 
     @Override
     public List<Residente> getAllResidente() { return residenteRepository.findAll();}
@@ -29,7 +27,7 @@ public class ResidenteServiceImplements implements ResidenteService {
                     residente.getDpiResidente(),
                     residente.getTelefonoResidente(),
                     residente.getPosicion(),
-                    residente.getIdResidente())){
+                    residente.getIdCasa())){
 
                 throw new RuntimeException("Ya existe una residente con estos datos");
             }
@@ -58,5 +56,10 @@ public class ResidenteServiceImplements implements ResidenteService {
             throw new RuntimeException("Este id no existe");
         }
         residenteRepository.deleteById(id);
+    }
+
+    @Override
+    public Residente login(String nombreResidente, String dpiResidente) {
+        return residenteRepository.findByNombreResidenteAndDpiResidente(nombreResidente, dpiResidente);
     }
 }

@@ -13,4 +13,6 @@ public interface ResidenteRepository extends JpaRepository<Residente, Integer> {
             String posicion,
             Integer idCasa
     );
+
+    Residente findByNombreResidenteAndDpiResidente(String nombreResidente, String dpiResidente);
 }
