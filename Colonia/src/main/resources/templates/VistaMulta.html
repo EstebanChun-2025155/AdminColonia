@@ -6,6 +6,7 @@
   <title>Multa</title>
   <link rel="stylesheet" th:href="@{/styles/Home.css}">
   <link rel="stylesheet" th:href="@{/styles/Multa.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
@@ -21,88 +22,163 @@
 </div>
 
 <main>
-  <div class="banner">
-    <img th:src="@{/images/Multa.png}" alt="Fondo multa" class="banner_img">
-    <div class="banner_overlay">
-      <h1>MULTAS</h1>
-    </div>
-  </div>
-
-  <section class="tabla-seccion">
-    <div class="container">
-
-      <div class="divider-line">
-        <span>REMISIONES</span>
-      </div>
-
-      <div class="title-section">
-        <img th:src="@{/images/IconoMulta.png}" alt="Icono">
-        <h2>REGISTRO DE CONTROL DE MULTAS</h2>
-      </div>
-
-      <p class="panel_texto">Aquí se muestra el listado histórico de multas registrados.</p>
-
-        <div class="tabla-wrapper">
-
-            <section class="multa">
-                <div class="tabs">
-                    <a th:href="@{/multa/nueva}" class="tab">Agregar</a>
-                    <a th:href="@{'/multa/editar/' + ${idSeleccionado}}" class="tab">Actualizar</a>
-                    <a class="tab" href="#">Eliminar</a>
-                    <a href="#" class="tab">Consultar</a>
-                </div>
-            </section>
-
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Monto</th>
-                    <th>Descripción</th>
-                    <th>Fecha Emisión</th>
-                    <th>Estado</th>
-                    <th>Tipo Persona</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="multa : ${multas}"
-                    th:onclick="'seleccionarFila(' + ${multa.idMulta} + ')'"
-                    style="cursor:pointer;">
-
-                    <td th:text="${multa.idMulta}"></td>
-                    <td th:text="${multa.monto}"></td>
-                    <td th:text="${multa.descripcion}"></td>
-                    <td th:text="${multa.fechaEmision}"></td>
-                    <td th:text="${multa.estado}"></td>
-                    <td th:text="${multa.tipoPersona}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="banner">
+        <img th:src="@{/images/Multa.png}" alt="Fondo multa" class="banner_img">
+        <div class="banner_overlay">
+            <h1>MULTAS</h1>
         </div>
     </div>
-  </section>
-</main>
-<script>
-    let idSeleccionado = null;
 
-    function seleccionarFila(id) {
-        idSeleccionado = id;
-        document.getElementById("panelAcciones").style.display = "block";
+    <section class="tabla-seccion">
+        <div class="container">
+
+            <div class="divider-line">
+                <span>
+                    <img th:src="@{/images/IconoMulta.png}" alt="Icono">
+                    MULTAS
+                </span>
+            </div>
+
+            <div class="title-section">
+                <h2>REGISTRO DE CONTROL DE MULTAS</h2>
+            </div>
+
+            <div class="tabla-wrapper">
+
+                <div class="tabs">
+                    <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
+                    <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
+                    <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
+                </div>
+
+                <div id="panel-consultar" class="panel">
+                    <h3>Consulta de Multas</h3>
+
+                    <input type="number" id="buscarId" placeholder="Buscar por ID" />
+                    <button onclick="buscarPorId()">Buscar</button>
+                    <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
+
+                    <table id="tabla-multas">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Monto</th>
+                            <th>Descripción</th>
+                            <th>Fecha Emisión</th>
+                            <th>Estado</th>
+                            <th>Tipo Persona</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody id="cuerpo-tabla">
+                        <tr th:each="multa : ${multas}" th:id="'fila-' + ${multa.idMulta}">
+                            <td th:text="${multa.idMulta}"></td>
+                            <td th:text="${multa.monto}"></td>
+                            <td th:text="${multa.descripcion}"></td>
+                            <td th:text="${multa.fechaEmision}"></td>
+                            <td th:text="${multa.estado}"></td>
+                            <td th:text="${multa.tipoPersona}"></td>
+                            <td>
+                                <a th:href="@{'/multa/editar/' + ${multa.idMulta}}" class="btn-editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a th:href="@{'/multa/eliminar/' + ${multa.idMulta}}"
+                                   class="btn-eliminar"
+                                   onclick="return confirm('¿Seguro que deseas eliminar esta multa?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="panel-registrar" class="panel" style="display:none;">
+                    <h3>Registrar Multa</h3>
+                    <form th:action="@{/multa/nueva}" th:object="${multaNueva}" method="post">
+                        <input type="number" th:field="*{monto}"        placeholder="Monto" /><br>
+                        <input type="text"   th:field="*{descripcion}"  placeholder="Descripción" /><br>
+                        <input type="date"   th:field="*{fechaEmision}"                           /><br>
+                        <input type="text"   th:field="*{estado}"       placeholder="Estado" /><br>
+                        <input type="text"   th:field="*{tipoPersona}"  placeholder="Tipo Persona" /><br>
+                        <button type="submit">Guardar</button>
+                    </form>
+                </div>
+
+                <div id="panel-editar" class="panel" style="display:none;">
+                    <h3>Editar Multa</h3>
+                    <div th:if="${multaEditar != null}">
+                        <form th:action="@{'/multa/editar/' + ${multaEditar.idMulta}}" method="post">
+
+                            <input type="number" name="monto"
+                                   th:value="${multaEditar.monto}"
+                                   placeholder="Monto" /><br>
+
+                            <input type="text" name="descripcion"
+                                   th:value="${multaEditar.descripcion}"
+                                   placeholder="Descripción" /><br>
+
+                            <input type="date" name="fechaEmision"
+                                   th:value="${multaEditar.fechaEmision}" /><br>
+
+                            <input type="text" name="estado"
+                                   th:value="${multaEditar.estado}"
+                                   placeholder="Estado" /><br>
+
+                            <input type="text" name="tipoPersona"
+                                   th:value="${multaEditar.tipoPersona}"
+                                   placeholder="Tipo Persona" /><br>
+
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </div>
+                    <div th:if="${multaEditar == null}">
+                        <p>Selecciona una multa desde la tabla para editar.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
+
+<script>
+    window.onload = function () {
+        const panel = document.getElementById('panelActivo').value;
+        mostrarPanel(panel);
+    };
+
+    function mostrarPanel(nombre) {
+        document.getElementById('panel-consultar').style.display = 'none';
+        document.getElementById('panel-registrar').style.display = 'none';
+        document.getElementById('panel-editar').style.display    = 'none';
+
+        document.getElementById('tab-consultar').classList.remove('active');
+        document.getElementById('tab-registrar').classList.remove('active');
+        document.getElementById('tab-editar').classList.remove('active');
+
+        document.getElementById('panel-' + nombre).style.display = 'block';
+        document.getElementById('tab-'   + nombre).classList.add('active');
     }
 
-    function eliminar() {
-        if (idSeleccionado == null) {
-            alert("Selecciona una multa primero");
-            return;
-        }
+    function buscarPorId() {
+        const id = document.getElementById('buscarId').value.trim();
+        const filas = document.querySelectorAll('#cuerpo-tabla tr');
 
-        const confirmacion = confirm("¿Seguro que deseas eliminar esta multa?");
+        filas.forEach(fila => {
+            const idFila = fila.querySelector('td')?.textContent.trim();
+            fila.style.display = (!id || idFila === id) ? '' : 'none';
+        });
+    }
 
-        if (confirmacion) {
-            window.location.href = "/multa/eliminar/" + idSeleccionado;
-        }
+    function mostrarTodas() {
+        document.querySelectorAll('#cuerpo-tabla tr').forEach(f => f.style.display = '');
+        document.getElementById('buscarId').value = '';
     }
 </script>
+
+
 </body>
 </html>
