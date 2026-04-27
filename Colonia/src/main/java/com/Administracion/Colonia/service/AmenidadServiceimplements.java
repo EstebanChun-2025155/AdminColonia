@@ -1,15 +1,14 @@
 package com.Administracion.Colonia.service;
 
-
 import com.Administracion.Colonia.entity.Amenidad;
 import com.Administracion.Colonia.repository.AmenidadRepository;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AmenidadServiceimplements  implements AmenidadService {
+public class AmenidadServiceimplements implements AmenidadService {
+
     private final AmenidadRepository amenidadRepository;
 
     public AmenidadServiceimplements(AmenidadRepository amenidadRepository) {
@@ -22,10 +21,10 @@ public class AmenidadServiceimplements  implements AmenidadService {
     }
 
     @Override
-    public Amenidad getAmenidadByid(Integer id) {
-        return amenidadRepository.getReferenceById(id);
+    public Amenidad getAmenidadById(Integer id) {
+        return amenidadRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Amenidad no encontrada"));
     }
-
 
     @Override
     public Amenidad saveAmenidad(Amenidad amenidad) throws RuntimeException {
@@ -36,18 +35,20 @@ public class AmenidadServiceimplements  implements AmenidadService {
                     amenidad.getCostoUso(),
                     amenidad.getEstado(),
                     amenidad.getCapacidad())) {
+
                 throw new RuntimeException("Ya existe una amenidad con estos datos");
             }
 
             return amenidadRepository.save(amenidad);
+
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-
     @Override
     public Amenidad updateAmenidad(Integer id, Amenidad amenidad) {
+
         Amenidad existingAmenidad = amenidadRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("La amenidad no existe"));
 
@@ -56,8 +57,8 @@ public class AmenidadServiceimplements  implements AmenidadService {
                 amenidad.getHorarioUso(),
                 amenidad.getCostoUso(),
                 amenidad.getEstado(),
-                amenidad.getCapacidad()
-        )) {
+                amenidad.getCapacidad())) {
+
             throw new RuntimeException("Ya existe una amenidad con estos datos");
         }
 
@@ -74,13 +75,8 @@ public class AmenidadServiceimplements  implements AmenidadService {
     public void deleteAmenidad(Integer id) {
         if (!amenidadRepository.existsById(id)) {
             throw new RuntimeException("Este id no existe");
-
         }
-        amenidadRepository.deleteById(id);
-    }
 
-    @Override
-    public @Nullable Object getAmenidadById(Integer id) {
-        return null;
+        amenidadRepository.deleteById(id);
     }
 }
