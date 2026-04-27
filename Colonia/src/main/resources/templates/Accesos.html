@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesos</title>
-
     <link rel="stylesheet" th:href="@{/styles/Accesos.css}">
 </head>
 
@@ -24,7 +23,6 @@
 
     <section class="frontAccesos">
         <img class="frontAccesos_img" th:src="@{/images/VistaAccesos.png}" alt="Accesos">
-
         <div class="frontAccesos_overlay">
             <div class="container frontAccesos_content">
                 <h1>ACCESOS</h1>
@@ -41,16 +39,16 @@
     </div>
 
     <div class="seccionAccesos" id="adminAccesos">
-        <img th:src="@{/images/VistaAccesos.png}" alt="Icono de Accesos">
         <h2>CONSULTA DE ACCESOS</h2>
     </div>
 
     <section class="vista">
         <h2 class="vista_titulo">REGISTRO DE ACCESOS</h2>
 
-        <input type="radio" name="tabs_acc" id="a1" checked style="display:none;">
-        <input type="radio" name="tabs_acc" id="a2" style="display:none;">
-        <input type="radio" name="tabs_acc" id="a3" style="display:none;">
+        <!-- TABS -->
+        <input type="radio" name="tabs_acc" id="a1" hidden th:checked="${modoEditar == null}">
+        <input type="radio" name="tabs_acc" id="a2" hidden>
+        <input type="radio" name="tabs_acc" id="a3" hidden th:checked="${modoEditar}">
 
         <div class="tabs">
             <label for="a1" class="tab label1">Consultar</label>
@@ -58,53 +56,55 @@
             <label for="a3" class="tab label3">Editar</label>
         </div>
 
+        <!-- CONSULTAR -->
         <div class="panel content1">
             <h3 class="panel_titulo">Consulta de Accesos</h3>
 
-            <div class="panel_list">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tipo Persona</th>
-                        <th>No. Seguridad</th>
-                        <th>Hora Entrada</th>
-                        <th>Hora Salida</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    <tr th:if="${#lists.isEmpty(accesos)}">
-                        <td colspan="6">No hay accesos registrados</td>
-                    </tr>
-
-                    <tr th:each="a : ${accesos}">
-                        <td th:text="${a.id}"></td>
-                        <td th:text="${a.tipoPersona}"></td>
-                        <td th:text="${a.idSeguridad}"></td>
-
-                        <td th:text="${a.horaEntrada != null ? #temporals.format(a.horaEntrada, 'yyyy-MM-dd HH:mm') : ''}"></td>
-
-                        <td th:text="${a.horaSalida != null ? #temporals.format(a.horaSalida, 'yyyy-MM-dd HH:mm') : 'Sin salida'}"></td>
-
-                        <td class="">
-                            <a th:href="@{/accesos/editar/{id}(id=${a.id})}" class="btn editar">Editar</a>
-                            <a th:href="@{/accesos/eliminar/{id}(id=${a.id})}" class="btn eliminar">Eliminar</a>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
+            <div class="buscador">
+                <form th:action="@{/accesos/buscar}" method="get">
+                    <input type="number" name="id" placeholder="Buscar acceso por ID" required>
+                    <button type="submit" class="btn-buscar">Buscar</button>
+                    <a th:href="@{/accesos}" class="btn-reset">Mostrar Todo</a>
+                </form>
             </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo Persona</th>
+                    <th>No. Seguridad</th>
+                    <th>Hora Entrada</th>
+                    <th>Hora Salida</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:if="${#lists.isEmpty(accesos)}">
+                    <td colspan="6">No hay accesos registrados</td>
+                </tr>
+
+                <tr th:each="a : ${accesos}">
+                    <td th:text="${a.id}"></td>
+                    <td th:text="${a.tipoPersona}"></td>
+                    <td th:text="${a.idSeguridad}"></td>
+                    <td th:text="${a.horaEntrada != null ? #temporals.format(a.horaEntrada, 'yyyy-MM-dd HH:mm') : ''}"></td>
+                    <td th:text="${a.horaSalida != null ? #temporals.format(a.horaSalida, 'yyyy-MM-dd HH:mm') : 'Sin salida'}"></td>
+                    <td>
+                        <a th:href="@{/accesos/editar/{id}(id=${a.id})}" class="btn editar">editar</a>
+                        <a th:href="@{/accesos/eliminar/{id}(id=${a.id})}" class="btn eliminar">eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- REGISTRAR -->
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Acceso</h3>
 
             <form th:action="@{/accesos/guardar}" th:object="${acceso}" method="post">
-
                 <select th:field="*{tipoPersona}" required>
                     <option value="">Seleccione tipo</option>
                     <option value="visita">Visita</option>
@@ -112,40 +112,44 @@
                     <option value="personal">Personal</option>
                 </select>
 
-                <input type="number" placeholder="ID Seguridad"
-                       th:field="*{idSeguridad}" required>
-
-                <input type="datetime-local"
-                       th:field="*{horaEntrada}" required>
-
-                <input type="datetime-local"
-                       th:field="*{horaSalida}">
-
+                <input type="number" placeholder="ID Seguridad" th:field="*{idSeguridad}" required>
+                <input type="datetime-local" th:field="*{horaEntrada}" required>
+                <input type="datetime-local" th:field="*{horaSalida}">
                 <button type="submit">Guardar</button>
             </form>
         </div>
 
+        <!-- EDITAR -->
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Acceso</h3>
 
-            <div class="panel_list">
-                <span><b>Buscar acceso:</b> Use el botón editar en la tabla</span>
-                <span><b>Modificar datos:</b> Cambie la información</span>
-                <span><b>Guardar cambios:</b> Confirme la actualización</span>
+            <div th:if="${modoEditar == null}">
+                <p>Usa el botón editar en la tabla</p>
+            </div>
+
+            <div th:if="${modoEditar}">
+                <form th:action="@{/accesos/actualizar}" th:object="${acceso}" method="post">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <select th:field="*{tipoPersona}" required>
+                        <option value="visita">Visita</option>
+                        <option value="residente">Residente</option>
+                        <option value="personal">Personal</option>
+                    </select>
+
+                    <input type="number" th:field="*{idSeguridad}" required>
+
+                    <input type="datetime-local" th:field="*{horaEntrada}" required>
+
+                    <input type="datetime-local" th:field="*{horaSalida}">
+
+                    <button type="submit" class="btn editar">Actualizar</button>
+
+                </form>
             </div>
         </div>
 
-    </section>
-
-    <section class="seccion seccion--soft" id="ayuda">
-        <div class="container">
-            <h2>Ayuda</h2>
-            <p class="muted">
-                En este módulo podrás consultar todos los accesos registrados dentro de la colonia.
-                Cada registro incluye el tipo de persona, el guardia de seguridad que autorizó,
-                la hora de entrada y la hora de salida del recinto.
-            </p>
-        </div>
     </section>
 
 </main>
