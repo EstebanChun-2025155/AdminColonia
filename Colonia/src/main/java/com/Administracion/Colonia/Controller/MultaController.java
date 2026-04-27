@@ -17,21 +17,39 @@ public class MultaController {
 
     @GetMapping("/multa")
     public String mostrarMulta (Model model) {
-        List<Multa> multas = multaService.getAllMulta();
-        model.addAttribute("multas", multas);
+        model.addAttribute("multas", multaService.getAllMulta());
+        model.addAttribute("multaNueva", new Multa());
+        model.addAttribute("panelActivo", "consultar");
         return "VistaMulta";
     }
 
     @GetMapping("/multa/nueva")
     public String nuevaMulta(Model model) {
-        model.addAttribute("multa", new Multa());
-        return "FormularioMulta";
+        model.addAttribute("multas", multaService.getAllMulta());
+        model.addAttribute("multaNueva", new Multa());
+        model.addAttribute("panelActivo", "registrar");
+        return "VistaMulta";
+    }
+
+    @PostMapping("/multa/nueva")
+    public String guardarMulta(@ModelAttribute Multa multa) {
+        multaService.saveMulta(multa);
+        return "redirect:/multa";
     }
 
     @GetMapping("/multa/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
-        model.addAttribute("multa", multaService.updateMulta(id);
-        return "FormularioMulta";
+        model.addAttribute("multas", multaService.getAllMulta());
+        model.addAttribute("multaNueva", new Multa());
+        model.addAttribute("multaEditar", multaService.getMultaById(id));
+        model.addAttribute("panelActivo", "editar");  // ← ¿tienes esta línea?
+        return "VistaMulta";
+    }
+
+    @PostMapping("/multa/editar/{id}")
+    public String actualizarMulta(@PathVariable Integer id, @ModelAttribute Multa multa) {
+        multaService.updateMulta(id, multa);
+        return "redirect:/multa";
     }
 
     @GetMapping("/multa/eliminar/{id}")
