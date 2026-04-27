@@ -2,121 +2,146 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Limpieza - Residencial</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Limpieza</title>
     <link rel="stylesheet" th:href="@{/style-limpieza.css}">
 </head>
 
 <body>
 
-<div class="menubar">
-    <div class="container menubar_row">
+<div class="menuCasa">
+    <div class="container menuCasa_row">
         <nav class="menu">
-            <a th:href="@{/home}" class="menu_link">Inicio</a>
-            <a href="#" class="menu_link is-active">Administración</a>
-            <a href="#ayuda" class="menu_link">Ayuda</a>
+            <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menuCasa_link" href="#adminLimpieza"> Administración </a>
+            <a class="menuCasa_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
-<div class="banner">
-    <h1>LIMPIEZA</h1>
-</div>
+<main>
+    <section class="frontCasa">
+        <img class="frontCasa_img" th:src="@{/Images/Imagen-limpieza.png}" alt="Limpieza">
 
-<div class="container">
-    <div class="divider-line">
+        <div class="frontCasa_overlay">
+            <div class="container frontCasa_content">
+                <h1>LIMPIEZA</h1>
+                <p>
+                    Aquí podrás consultar, registrar y editar la información
+                    relacionada con el personal de limpieza de la colonia.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="panelCasa">
         <span>CONSULTAS</span>
     </div>
 
-    <h2 class="titulo-central">CONSULTA DE LIMPIEZA</h2>
+    <div class="seccionCasa" id="adminLimpieza">
+        <h2>CONSULTA DE LIMPIEZA</h2>
+    </div>
 
-    <div class="seccion-gestion" style="margin-top: 50px;">
-        <p class="subtitulo-naranja">REGISTRO DE LIMPIEZA</p>
+    <section class="vista">
+        <h2 class="vista_titulo">REGISTRO DE PERSONAL</h2>
 
-        <input type="radio" name="nav" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
-        <input type="radio" name="nav" id="r2" th:checked="${tab == 'registrar'}" hidden>
-        <input type="radio" name="nav" id="r3" th:checked="${tab == 'editar'}" hidden>
+        <input type="radio" name="tabs_limpieza" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_limpieza" id="r2" th:checked="${tab == 'registrar'}" hidden>
+        <input type="radio" name="tabs_limpieza" id="r3" th:checked="${tab == 'editar'}" hidden>
 
-        <div class="tabs-container">
-            <label for="r1" class="tab-label">Consultar</label>
-            <label for="r2" class="tab-label">Registrar</label>
+        <div class="tabs">
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
         </div>
 
         <div class="panel content1">
-            <h3 class="panel-titulo-interno">Consulta de Personal</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Puesto</th>
-                    <th>Jornada</th>
-                    <th>Salario</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="limpieza : ${listaLimpieza}">
-                    <td th:text="${limpieza.idLimpieza}"></td>
-                    <td th:text="${limpieza.nombre}"></td>
-                    <td th:text="${limpieza.puesto}"></td>
-                    <td th:text="${limpieza.jornada}"></td>
-                    <td th:text="${limpieza.salario}"></td>
-                    <td class="acciones-cell">
-                        <div class="acciones-inline">
-                            <a th:href="@{/limpieza/editar/{id}(id=${limpieza.idLimpieza})}" class="action-btn btn-edit-icon">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form th:action="@{'/limpieza/eliminar/' + ${limpieza.idLimpieza}}" method="post" class="inline-form" onsubmit="return confirm('¿Seguro que desea eliminar este registro?');">
-                                <button type="submit" class="action-btn btn-danger-icon">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <h3 class="panel_titulo">Consulta de Empleados</h3>
+
+            <form th:action="@{/buscar/limpieza}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar empleado por ID" required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/limpieza}" class="btn btn-edit"> Mostrar Todo </a>
+            </form>
+
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Jornada</th>
+                        <th>Salario</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="limpieza : ${limpieza}">
+                        <td th:text="${limpieza.idLimpieza}"></td>
+                        <td th:text="${limpieza.nombre}"></td>
+                        <td th:text="${limpieza.puesto}"></td>
+                        <td th:text="${limpieza.jornada}"></td>
+                        <td th:text="${limpieza.salario}"></td>
+                        <td>
+                            <div class="acciones">
+                                <a th:href="@{/editar/limpieza/{id}(id=${limpieza.idLimpieza})}"
+                                   class="btn btn-edit" title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </a>
+                                <form th:action="@{/eliminar/limpieza/{id}(id=${limpieza.idLimpieza})}" method="post" style="display:inline;">
+                                    <button class="btn btn-danger" title="Eliminar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="panel content2">
-            <h3 class="panel-titulo-interno">Registrar Nuevo Personal</h3>
-            <form th:action="@{/limpieza/guardar}" th:object="${limpiezaForm}" method="post" class="form-estilo">
+            <h3 class="panel_titulo">Registrar Personal</h3>
+            <form th:action="@{/guardar/limpieza}" th:object="${limpiezaForm}" method="post">
                 <input type="text" th:field="*{nombre}" placeholder="Nombre Completo" required>
-                <input type="text" th:field="*{puesto}" placeholder="Puesto" required>
-                <input type="text" th:field="*{jornada}" placeholder="Jornada" required>
-                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario (ej: 3000)" required>
+                <input type="text" th:field="*{puesto}" placeholder="Puesto (ej. Conserje)" required>
+                <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Matutina)" required>
+                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario" required>
                 <input type="text" th:field="*{telefono}" placeholder="Teléfono" required>
-                <button type="submit" class="btn-naranja-submit">Guardar Registro</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
         </div>
 
         <div class="panel content3">
-            <h3 class="panel-titulo-interno">Editar Información</h3>
-            <form th:if="${limpiezaForm.idLimpieza != null}" th:action="@{/limpieza/actualizar}" th:object="${limpiezaForm}" method="post" class="form-estilo">
+            <h3 class="panel_titulo">Editar Empleado</h3>
+            <form th:if="${limpiezaForm != null}" th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
+                  th:object="${limpiezaForm}" method="post">
                 <input type="hidden" th:field="*{idLimpieza}">
-
-                <label>Nombre</label>
-                <input type="text" th:field="*{nombre}">
-
-                <label>Puesto</label>
-                <input type="text" th:field="*{puesto}">
-
-                <label>Jornada</label>
-                <input type="text" th:field="*{jornada}">
-
-                <label>Salario</label>
-                <input type="number" step="0.01" th:field="*{salario}">
-
-                <label>Teléfono</label>
-                <input type="text" th:field="*{telefono}">
-
-                <button type="submit" class="btn-naranja-submit">Actualizar Cambios</button>
-                <a th:href="@{/limpieza}" style="display:block; text-align:center; margin-top:10px; color:var(--texto); text-decoration:none;">Cancelar</a>
+                <input type="text" th:field="*{nombre}" placeholder="Nombre" required>
+                <input type="text" th:field="*{puesto}" placeholder="Puesto" required>
+                <input type="text" th:field="*{jornada}" placeholder="Jornada" required>
+                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario" required>
+                <input type="text" th:field="*{telefono}" placeholder="Teléfono" required>
+                <button type="submit" class="btn btn-edit">Actualizar</button>
             </form>
         </div>
-    </div>
-</div>
+    </section>
 
+    <section class="seccion seccion--soft" id="ayuda">
+        <div class="container">
+            <h2>Ayuda</h2>
+            <p class="muted">
+                En este módulo podrás gestionar al personal encargado de la limpieza.
+                El ID es autogenerado por el sistema.
+            </p>
+        </div>
+    </section>
+</main>
 </body>
 </html>
