@@ -6,6 +6,7 @@
   <title>Pago</title>
   <link rel="stylesheet" th:href="@{/styles/Home.css}">
   <link rel="stylesheet" th:href="@{/styles/Pago.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
@@ -32,55 +33,145 @@
     <div class="container">
 
       <div class="divider-line">
-        <span>REMISIONES</span>
+        <span>
+          <img th:src="@{/images/IconoPago.png}" alt="Icono">
+          PAGOS
+        </span>
       </div>
 
       <div class="title-section">
-        <img th:src="@{/images/IconoPago.png}" alt="Icono">
         <h2>REGISTRO DE CONTROL DE PAGOS</h2>
       </div>
 
-      <p class="panel_texto">Aquí se muestra el listado histórico de pagos registrados.</p>
-
-
       <div class="tabla-wrapper">
-        <table>
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Residente (ID)</th>
-            <th>Clasificación</th>
-            <th>Monto</th>
-            <th>Fecha de Pago</th>
-            <th>Método</th>
-            <th>Referencia</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="pago : ${pagos}">
-            <td th:text="${pago.idPago}"></td>
-            <td th:text="${pago.idResidente}"></td>
-            <td th:text="${pago.clasificacionPago}"></td>
-            <td th:text="${pago.monto}"></td>
-            <td th:text="${pago.fechaPago}"></td>
-            <td th:text="${pago.metodo}"></td>
-            <td th:text="${pago.referencia}"></td>
-          </tr>
-          </tbody>
-          <section class="pago">
 
-            <div class="tabs">
-              <a class="tab tab_activa" href="#">Agregar</a>
-              <a class="tab" href="#">Actualizar</a>
-              <a class="tab" href="#">Eliminar</a>
-              <a class="tab" href="#">Consultar</a>
-            </div>
-          </section>
-        </table>
+        <div class="tabs">
+          <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
+          <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
+          <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
+        </div>
+
+        <div id="panel-consultar" class="panel">
+          <h3>Consulta de Pagos</h3>
+
+          <input type="number" id="buscarId" placeholder="Buscar por ID" />
+          <button onclick="buscarPorId()">Buscar</button>
+          <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
+
+          <table id="tabla-pagos">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Residente (ID)</th>
+              <th>Clasificación</th>
+              <th>Monto</th>
+              <th>Fecha de Pago</th>
+              <th>Método</th>
+              <th>Referencia</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+            <tr th:each="pago : ${pagos}" th:id="'fila-' + ${pago.idPago}">
+              <td th:text="${pago.idPago}"></td>
+              <td th:text="${pago.idResidente}"></td>
+              <td th:text="${pago.clasificacionPago}"></td>
+              <td th:text="${pago.monto}"></td>
+              <td th:text="${pago.fechaPago}"></td>
+              <td th:text="${pago.metodo}"></td>
+              <td th:text="${pago.referencia}"></td>
+              <td>
+                <a th:href="@{'/pago/editar/' + ${pago.idPago}}" class="btn-editar">
+                  <i class="bi bi-pencil-square"></i>
+                </a>
+                <a th:href="@{'/pago/eliminar/' + ${pago.idPago}}"
+                   class="btn-eliminar"
+                   onclick="return confirm('¿Seguro que deseas eliminar este pago?')">
+                  <i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="panel-registrar" class="panel" style="display:none;">
+          <h3>Registrar Pago</h3>
+          <form th:action="@{/pago/nueva}" th:object="${pagoNuevo}" method="post">
+            <input type="number" th:field="*{idResidente}"      placeholder="Residente (ID)" /><br>
+            <input type="text"   th:field="*{clasificacionPago}" placeholder="Clasificación" /><br>
+            <input type="number" th:field="*{monto}"            placeholder="Monto" /><br>
+            <input type="date"   th:field="*{fechaPago}"                              /><br>
+            <input type="text"   th:field="*{metodo}"           placeholder="Método" /><br>
+            <input type="text"   th:field="*{referencia}"       placeholder="Referencia" /><br>
+            <button type="submit">Guardar</button>
+          </form>
+        </div>
+
+        <div id="panel-editar" class="panel" style="display:none;">
+          <h3>Editar Pago</h3>
+          <div th:if="${pagoEditar != null}">
+            <form th:action="@{'/pago/editar/' + ${pagoEditar.idPago}}" method="post">
+              <input type="number" name="idResidente"
+                     th:value="${pagoEditar.idResidente}"       placeholder="Residente (ID)" /><br>
+              <input type="text"   name="clasificacionPago"
+                     th:value="${pagoEditar.clasificacionPago}" placeholder="Clasificación" /><br>
+              <input type="number" name="monto"
+                     th:value="${pagoEditar.monto}"             placeholder="Monto" /><br>
+              <input type="date"   name="fechaPago"
+                     th:value="${pagoEditar.fechaPago}"                               /><br>
+              <input type="text"   name="metodo"
+                     th:value="${pagoEditar.metodo}"            placeholder="Método" /><br>
+              <input type="text"   name="referencia"
+                     th:value="${pagoEditar.referencia}"        placeholder="Referencia" /><br>
+              <button type="submit">Actualizar</button>
+            </form>
+          </div>
+          <div th:if="${pagoEditar == null}">
+            <p>Selecciona un pago desde la tabla para editar.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 </main>
+
+<input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
+
+<script>
+  window.onload = function () {
+    const panel = document.getElementById('panelActivo').value;
+    mostrarPanel(panel);
+  };
+
+  function mostrarPanel(nombre) {
+    document.getElementById('panel-consultar').style.display = 'none';
+    document.getElementById('panel-registrar').style.display = 'none';
+    document.getElementById('panel-editar').style.display    = 'none';
+
+    document.getElementById('tab-consultar').classList.remove('active');
+    document.getElementById('tab-registrar').classList.remove('active');
+    document.getElementById('tab-editar').classList.remove('active');
+
+    document.getElementById('panel-' + nombre).style.display = 'block';
+    document.getElementById('tab-'   + nombre).classList.add('active');
+  }
+
+  function buscarPorId() {
+    const id = document.getElementById('buscarId').value.trim();
+    const filas = document.querySelectorAll('#cuerpo-tabla tr');
+    filas.forEach(fila => {
+      const idFila = fila.querySelector('td')?.textContent.trim();
+      fila.style.display = (!id || idFila === id) ? '' : 'none';
+    });
+  }
+
+  function mostrarTodas() {
+    document.querySelectorAll('#cuerpo-tabla tr').forEach(f => f.style.display = '');
+    document.getElementById('buscarId').value = '';
+  }
+</script>
 
 </body>
 </html>
