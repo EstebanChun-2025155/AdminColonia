@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Amenidades - ControlColonia</title>
+    <title>Gestión de Amenidades</title>
+
     <link rel="stylesheet" th:href="@{/Home.css}">
     <link rel="stylesheet" th:href="@{/Amenidades.css}">
 </head>
@@ -19,126 +20,162 @@
 </div>
 
 <main>
+
     <div class="banner">
         <img class="banner_img" th:src="@{/Images/ImagenAmenidades.png}" alt="Amenidades">
-        <div class="banner_overlay"><h1>Amenidades</h1></div>
+        <div class="banner_overlay">
+            <h1>AMENIDADES</h1>
+        </div>
     </div>
 
     <section class="tabla-seccion">
         <div class="container">
-            <div th:if="${success}" class="alert alert--success" th:text="${success}"></div>
-            <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
 
-            <div class="seccion_panel"><span>ADMINISTRACIÓN DE AMENIDADES</span></div>
+            <div class="seccion_panel">
+                <span>ADMINISTRACIÓN DE AMENIDADES</span>
+            </div>
 
             <section class="vista">
+
+                <!-- TABS -->
                 <div class="tabs">
-                    <a class="tab tab_activa" href="#" data-target="consultar">Listado General</a>
-                    <a class="tab" href="#" data-target="gestionar"
-                       th:text="${amenidad?.idAmenidad != null ? 'Editar Registro' : 'Nuevo Registro'}"></a>
-                    <a class="tab" href="#" data-target="detalles">Costos y Capacidad</a>
+                    <a href="#" class="tab tab_activa" data-target="consultar">Consultar</a>
+                    <a href="#" class="tab" data-target="registrar">Registrar</a>
+                    <a href="#" class="tab" data-target="editar">Editar</a>
                 </div>
 
+                <!-- CONSULTAR -->
                 <div class="panel panel--tab" id="consultar">
-                    <h3 class="panel_titulo">Listado de Áreas Comunes</h3>
+                    <h3 class="panel_titulo">Consulta de Amenidades</h3>
+
+                    <form th:action="@{/amenidades/buscar}" method="get">
+                        <input type="number" name="id" placeholder="Buscar por ID" required>
+                        <button type="submit">Buscar</button>
+                        <a th:href="@{/amenidades}">Mostrar Todo</a>
+                    </form>
+
                     <div class="tabla-wrapper">
                         <table>
                             <thead>
                             <tr>
-                                <th>Amenidad</th>
+                                <th>ID</th>
+                                <th>Nombre</th>
                                 <th>Horario</th>
+                                <th>Costo</th>
                                 <th>Estado</th>
+                                <th>Capacidad</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             <tr th:each="a : ${amenidades}">
+                                <td th:text="${a.idAmenidad}"></td>
                                 <td th:text="${a.nombreAmenidad}"></td>
                                 <td th:text="${a.horarioUso}"></td>
-                                <td><span th:classappend="'badge--' + ${a.estado}" class="badge" th:text="${a.estado}"></span></td>
+                                <td th:text="${a.costoUso}"></td>
+                                <td th:text="${a.estado}"></td>
+                                <td th:text="${a.capacidad}"></td>
+
                                 <td>
-                                    <div class="acciones-cell">
-                                        <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}" class="btn-ver-encargado btn--editar">Editar</a>
-                                        <a th:href="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}" class="btn-ver-encargado btn--eliminar" onclick="return confirm('¿Eliminar?')">Eliminar</a>
-                                    </div>
+                                    <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}">
+                                        Editar
+                                    </a>
+
+                                    <form th:action="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <button type="submit"
+                                                onclick="return confirm('¿Eliminar registro?')">
+                                            Eliminar
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
 
-                <div class="panel panel--tab" id="gestionar" style="display:none;">
-                    <h3 class="panel_titulo" th:text="${amenidad?.idAmenidad != null ? 'Modificar Amenidad' : 'Registrar Nueva Amenidad'}"></h3>
-                    <form th:action="@{/amenidades/guardar}" th:object="${amenidad}" method="post" class="form-grid-container">
-                        <input type="hidden" th:field="*{idAmenidad}">
-                        <div class="form-grid">
-                            <div class="campo-grupo">
-                                <label>Nombre:</label>
-                                <input type="text" th:field="*{nombreAmenidad}" required class="input-estilo">
-                            </div>
-                            <div class="campo-grupo">
-                                <label>Horario:</label>
-                                <input type="text" th:field="*{horarioUso}" class="input-estilo">
-                            </div>
-                            <div class="campo-grupo">
-                                <label>Costo (Q):</label>
-                                <input type="number" step="0.01" th:field="*{costoUso}" class="input-estilo">
-                            </div>
-                            <div class="campo-grupo">
-                                <label>Capacidad:</label>
-                                <input type="number" th:field="*{capacidad}" class="input-estilo">
-                            </div>
-                            <div class="campo-grupo">
-                                <label>Estado:</label>
-                                <select th:field="*{estado}" class="input-estilo">
-                                    <option value="disponible">Disponible</option>
-                                    <option value="ocupada">Ocupada</option>
-                                    <option value="mantenimiento">Mantenimiento</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-acciones">
-                            <button type="submit" class="btn-ver-encargado btn--guardar">Guardar</button>
-                            <a th:href="@{/amenidades}" class="btn-ver-encargado btn--cancelar">Cancelar</a>
-                        </div>
+                <!-- REGISTRAR -->
+                <div class="panel panel--tab" id="registrar" style="display:none;">
+                    <h3 class="panel_titulo">Registrar Amenidad</h3>
+
+                    <form th:action="@{/amenidades/guardar}"
+                          th:object="${amenidadForm}"
+                          method="post">
+
+                        <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre" required>
+                        <input type="text" th:field="*{horarioUso}" placeholder="Horario">
+                        <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
+                        <input type="text" th:field="*{estado}" placeholder="Estado">
+                        <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
+
+                        <button type="submit">Guardar</button>
                     </form>
                 </div>
 
-                <div class="panel panel--tab" id="detalles" style="display:none;">
-                    <h3 class="panel_titulo">Resumen de Costos</h3>
-                    <div class="tabla-wrapper">
-                        <table>
-                            <thead><tr><th>Amenidad</th><th>Costo</th><th>Capacidad</th></tr></thead>
-                            <tbody>
-                            <tr th:each="a : ${amenidades}">
-                                <td th:text="${a.nombreAmenidad}"></td>
-                                <td th:text="'Q' + ${a.costoUso}"></td>
-                                <td th:text="${a.capacidad} + ' personas'"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <!-- EDITAR -->
+                <div class="panel panel--tab" id="editar" style="display:none;">
+                    <h3 class="panel_titulo">Editar Amenidad</h3>
+
+                    <form th:action="@{/amenidades/actualizar/{id}(id=${amenidadForm.idAmenidad})}"
+                          th:object="${amenidadForm}"
+                          method="post">
+
+                        <input type="hidden" th:field="*{idAmenidad}">
+
+                        <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre" required>
+                        <input type="text" th:field="*{horarioUso}" placeholder="Horario">
+                        <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
+                        <input type="text" th:field="*{estado}" placeholder="Estado">
+                        <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
+
+                        <button type="submit">Actualizar</button>
+                    </form>
                 </div>
+
             </section>
         </div>
     </section>
+
 </main>
 
 <script th:inline="javascript">
     (function(){
+
         const tabs = document.querySelectorAll('.tab');
         const panels = document.querySelectorAll('.panel--tab');
-        function showPanel(id){
-            panels.forEach(p => p.style.display = p.id === id ? 'block' : 'none');
-            tabs.forEach(t => t.classList.toggle('tab_activa', t.dataset.target === id));
-        }
-        tabs.forEach(tab => tab.addEventListener('click', e => { e.preventDefault(); showPanel(tab.dataset.target); }));
 
-        // Si hay un ID presente, saltamos directo a la pestaña de edición
-        const id = [[${amenidad?.idAmenidad}]];
-        if(id) showPanel('gestionar');
+        function showPanel(id){
+            panels.forEach(p => {
+                p.style.display = (p.id === id) ? 'block' : 'none';
+            });
+
+            tabs.forEach(t => {
+                t.classList.toggle('tab_activa', t.dataset.target === id);
+            });
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function(e){
+                e.preventDefault();
+                showPanel(this.dataset.target);
+            });
+        });
+
+        const id = [[${amenidadForm.idAmenidad}]];
+
+        if(id){
+            showPanel("editar");
+        }else{
+            showPanel("consultar");
+        }
+
     })();
 </script>
+
 </body>
 </html>
