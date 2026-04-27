@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehículos - ControlColonia</title>
+    <title>Vehículos</title>
+
     <link rel="stylesheet" th:href="@{/Home.css}">
     <link rel="stylesheet" th:href="@{/Vehiculos.css}">
 </head>
@@ -11,144 +12,174 @@
 
 <div class="menubar">
     <div class="container menubar_row">
-        <nav class="menu" aria-label="Menú principal">
+        <nav class="menu">
             <a class="menu_link" th:href="@{/home}">Inicio</a>
             <a class="menu_link" th:href="@{/#admin}">Administración</a>
-            <a class="menu_link" th:href="@{/#ayuda}">Ayuda</a>
-            <a class="menu_link" th:href="@{/#contacto}">Contacto</a>
         </nav>
     </div>
 </div>
 
 <main>
+
     <div class="banner">
-        <img class="banner_img" th:src="@{/Images/ImagenVehiculos.png}" alt="Entrada Colonia">
+        <img class="banner_img" th:src="@{/Images/ImagenVehiculos.png}" alt="Vehículos">
         <div class="banner_overlay">
-            <h1>Vehículos</h1>
+            <h1>VEHÍCULOS</h1>
         </div>
     </div>
 
     <section class="tabla-seccion">
         <div class="container">
+
             <div class="seccion_panel">
                 <span>ADMINISTRACIÓN DE VEHÍCULOS</span>
             </div>
 
-            <p class="muted" style="text-align: center; margin-bottom: 20px;">
-                Gestión centralizada de los vehículos registrados en la colonia. Consulte el registro completo de placas, marcas, modelos y propietarios.
-            </p>
-
-            <div th:if="${success}" class="alert alert-success" th:text="${success}" style="color: green; text-align: center;"></div>
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}" style="color: red; text-align: center;"></div>
-
             <section class="vista">
-                <h2 class="vista_titulo">VEHÍCULOS</h2>
 
+                <!-- TABS -->
                 <div class="tabs">
-                    <a class="tab tab_activa" href="#" data-target="consultar">Consultar</a>
-                    <a class="tab" href="#" data-target="descripcion">Descripción</a>
-                    <a class="tab" href="#" data-target="encargado">Encargado</a>
+                    <a href="#" class="tab tab_activa" data-target="consultar">Consultar</a>
+                    <a href="#" class="tab" data-target="registrar">Registrar</a>
+                    <a href="#" class="tab" data-target="editar">Editar</a>
                 </div>
 
+                <!-- CONSULTAR -->
                 <div class="panel panel--tab" id="consultar">
-                    <h3 class="panel_titulo">Consultar</h3>
+                    <h3 class="panel_titulo">Consulta de Vehículos</h3>
+
+                    <form th:action="@{/vehiculos/buscar}" method="get">
+                        <input type="number" name="id" placeholder="Buscar por ID" required>
+                        <button type="submit">Buscar</button>
+                        <a th:href="@{/vehiculos}">Mostrar Todo</a>
+                    </form>
+
                     <div class="tabla-wrapper">
-                        <div class="panel_list" id="list-vehiculos"></div>
-                        <table id="tabla-principal">
+                        <table>
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Placa</th>
-                                <th>Marca/Modelo</th>
+                                <th>Marca / Modelo</th>
                                 <th>Color</th>
                                 <th>Propietario</th>
-                                <th>Casa No.</th>
+                                <th>Casa</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             <tr th:each="v : ${vehiculos}">
-                                <td th:text="${v.idVehiculo}">1</td>
-                                <td th:text="${v.placa}">P-000AAA</td>
-                                <td th:text="${v.marcaModelo}">Marca Modelo</td>
-                                <td th:text="${v.color}">Color</td>
-                                <td th:text="${v.propietario}">Dueño</td>
-                                <td th:text="${v.idCasa}">0</td>
+                                <td th:text="${v.idVehiculo}"></td>
+                                <td th:text="${v.placa}"></td>
+                                <td th:text="${v.marcaModelo}"></td>
+                                <td th:text="${v.color}"></td>
+                                <td th:text="${v.propietario}"></td>
+                                <td th:text="${v.idCasa}"></td>
+
                                 <td>
-                                    <a th:href="@{/vehiculos/eliminar/{id}(id=${v.idVehiculo})}"
-                                       style="color: #e74c3c; font-weight: bold; text-decoration: none;"
-                                       onclick="return confirm('¿Eliminar este registro?')">Eliminar</a>
+                                    <a th:href="@{/vehiculos/editar/{id}(id=${v.idVehiculo})}">
+                                        Editar
+                                    </a>
+
+                                    <form th:action="@{/vehiculos/eliminar/{id}(id=${v.idVehiculo})}"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <button type="submit"
+                                                onclick="return confirm('¿Eliminar vehículo?')">
+                                            Eliminar
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
+
                             <tr th:if="${#lists.isEmpty(vehiculos)}">
-                                <td colspan="7" style="text-align: center;">No hay vehículos registrados.</td>
+                                <td colspan="7">No hay vehículos registrados.</td>
                             </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
 
-                <div class="panel panel--tab" id="descripcion" style="display:none;">
-                    <h3 class="panel_titulo">Descripción</h3>
-                    <p class="panel_texto">Vista detallada de las características físicas del vehículo.</p>
-                    <div class="panel_list" id="list-descripcion"></div>
+                <!-- REGISTRAR -->
+                <div class="panel panel--tab" id="registrar" style="display:none;">
+                    <h3 class="panel_titulo">Registrar Vehículo</h3>
+
+                    <form th:action="@{/vehiculos/guardar}"
+                          th:object="${vehiculoForm}"
+                          method="post">
+
+                        <input type="text" th:field="*{placa}" placeholder="Placa" required>
+                        <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo" required>
+                        <input type="text" th:field="*{color}" placeholder="Color">
+                        <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                        <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+
+                        <button type="submit">Guardar</button>
+                    </form>
                 </div>
 
-                <div class="panel panel--tab" id="encargado" style="display:none;">
-                    <h3 class="panel_titulo">Encargado</h3>
-                    <p class="panel_texto">Información del propietario responsable.</p>
-                    <div class="panel_list" id="list-encargado"></div>
+                <!-- EDITAR -->
+                <div class="panel panel--tab" id="editar" style="display:none;">
+                    <h3 class="panel_titulo">Editar Vehículo</h3>
+
+                    <form th:action="@{/vehiculos/actualizar/{id}(id=${vehiculoForm.idVehiculo})}"
+                          th:object="${vehiculoForm}"
+                          method="post">
+
+                        <input type="hidden" th:field="*{idVehiculo}">
+
+                        <input type="text" th:field="*{placa}" placeholder="Placa" required>
+                        <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo" required>
+                        <input type="text" th:field="*{color}" placeholder="Color">
+                        <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                        <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+
+                        <button type="submit">Actualizar</button>
+                    </form>
                 </div>
+
             </section>
-
-            <p class="hint">Administración total de flota vehicular residente.</p>
         </div>
     </section>
+
 </main>
 
 <script th:inline="javascript">
-    /* El script se mantiene igual, pero ahora leerá los datos generados por Thymeleaf */
     (function(){
+
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.panel--tab');
+
         function showPanel(id){
-            document.querySelectorAll('.panel.panel--tab').forEach(p=>{ p.style.display = p.id===id? 'block':'none'; });
-            document.querySelectorAll('.tabs .tab').forEach(t=> t.classList.toggle('tab_activa', t.dataset.target===id));
+            panels.forEach(p => {
+                p.style.display = (p.id === id) ? 'block' : 'none';
+            });
+
+            tabs.forEach(t => {
+                t.classList.toggle('tab_activa', t.dataset.target === id);
+            });
         }
 
-        document.querySelectorAll('.tabs .tab').forEach(tab=>{
+        tabs.forEach(tab => {
             tab.addEventListener('click', function(e){
                 e.preventDefault();
                 showPanel(this.dataset.target);
             });
         });
 
-        // Lógica para poblar las listas automáticas desde la tabla generada
-        function populateLists(){
-            const rows = document.querySelectorAll('#tabla-principal tbody tr');
-            const listVehiculos = document.getElementById('list-vehiculos');
-            const listDesc = document.getElementById('list-descripcion');
-            const listEnc = document.getElementById('list-encargado');
+        const id = [[${vehiculoForm.idVehiculo}]];
 
-            if(rows.length === 0 || rows[0].cells.length < 2) return;
-
-            listVehiculos.innerHTML = '';
-            listDesc.innerHTML = '';
-            listEnc.innerHTML = '';
-
-            rows.forEach(tr => {
-                const c = Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim());
-                if(c.length < 6) return;
-
-                // Lista Consultar
-                listVehiculos.innerHTML += `<div class="list-item"><strong>${c[1]}</strong> — ${c[2]} (${c[3]})</div>`;
-                // Lista Descripción
-                listDesc.innerHTML += `<div class="list-item"><strong>${c[2]}</strong> — Color: ${c[3]}</div>`;
-                // Lista Encargado
-                listEnc.innerHTML += `<div class="list-item"><strong>${c[4]}</strong> — Casa #${c[5]} (Placa: ${c[1]})</div>`;
-            });
+        if(id){
+            showPanel("editar");
+        }else{
+            showPanel("consultar");
         }
 
-        document.addEventListener('DOMContentLoaded', populateLists);
     })();
 </script>
+
 </body>
 </html>
