@@ -3,66 +3,98 @@ package com.Administracion.Colonia.controller;
 import com.Administracion.Colonia.entity.Vehiculo;
 import com.Administracion.Colonia.service.VehiculoService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller; // Cambiado de @RestController
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-@Controller // Cambiado para poder retornar vistas HTML
-@RequestMapping("/vehiculos") // Ruta para la vista
+@Controller
+@RequestMapping("/vehiculos")
 public class VehiculoController {
 
     private final VehiculoService vehiculoService;
 
-    public VehiculoController(VehiculoService vehiculoService){
+    public VehiculoController(VehiculoService vehiculoService) {
         this.vehiculoService = vehiculoService;
     }
 
-    /**
-     * Este método carga la página HTML en el navegador.
-     * Acceso: GET /vehiculos
-     */
+    // MOSTRAR LISTA
     @GetMapping
-    public String listarVehiculosVista(Model model) {
-        List<Vehiculo> vehiculos = vehiculoService.getAllVehiculo();
-        model.addAttribute("listaVehiculos", vehiculos);
-        model.addAttribute("nuevoVehiculo", new Vehiculo()); // Para el formulario de creación
-        return "Vehiculos"; // Retorna Vehiculos.html de la carpeta templates
+    public String mostrarVehiculos(Model model) {
+        List<Vehiculo> lista = vehiculoService.getAllVehiculo();
+        model.addAttribute("vehiculos", lista);
+        model.addAttribute("vehiculoForm", new Vehiculo());
+        return "Vehiculos";
     }
 
-    /**
-     * Mantenemos tus métodos de API, pero usamos @ResponseBody
-     * para que sigan devolviendo JSON en lugar de buscar un HTML.
-     */
-    @GetMapping("/api/listar")
-    @ResponseBody
-    public List<Vehiculo> listarTodosApi(){
-        return vehiculoService.getAllVehiculo();
+    // NUEVO
+    @GetMapping("/nuevo")
+    public String nuevoVehiculo(Model model) {
+        model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+        model.addAttribute("vehiculoForm", new Vehiculo());
+        return "Vehiculos";
     }
 
+    // GUARDAR
     @PostMapping("/guardar")
-    public String saveVehiculoThymeleaf(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculo,
-                                        BindingResult br, Model model) {
+    public String guardar(@Valid @ModelAttribute("vehiculoForm") Vehiculo vehiculo,
+                          BindingResult br,
+                          Model model) {
+
         if (br.hasErrors()) {
-            model.addAttribute("listaVehiculos", vehiculoService.getAllVehiculo());
-            return "Vehiculos"; // Regresa a la vista con errores
+            model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            return "Vehiculos";
         }
+
         vehiculoService.saveVehiculo(vehiculo);
-        return "redirect:/vehiculos"; // Recarga la página para ver el cambio
+        return "redirect:/vehiculos";
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    @ResponseBody
-    public ResponseEntity<Object> deleteVehiculo(@PathVariable Integer id){
-        try {
-            vehiculoService.deleteVehiculo(id);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al eliminar");
+    // EDITAR
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        Vehiculo vehiculo = vehiculoService.getVehiculoById(id);
+
+        model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+        model.addAttribute("vehiculoForm", vehiculo);
+        model.addAttribute("tab", "editar");
+
+        return "Vehiculos";
+    }
+
+    // ACTUALIZAR
+    @PostMapping("/actualizar/{id}")
+    public String actualizar(@PathVariable Integer id,
+                             @Valid @ModelAttribute("vehiculoForm") Vehiculo vehiculo,
+                             BindingResult br,
+                             Model model) {
+
+        if (br.hasErrors()) {
+            model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            return "Vehiculos";
         }
+
+        vehiculoService.updateVehiculo(id, vehiculo);
+        return "redirect:/vehiculos";
+    }
+
+    // ELIMINAR
+    @PostMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id) {
+        vehiculoService.deleteVehiculo(id);
+        return "redirect:/vehiculos";
+    }
+
+    // BUSCAR
+    @GetMapping("/buscar")
+    public String buscar(@RequestParam Integer id, Model model) {
+        Vehiculo vehiculo = vehiculoService.getVehiculoById(id);
+
+        model.addAttribute("vehiculos", List.of(vehiculo));
+        model.addAttribute("vehiculoForm", new Vehiculo());
+
+        return "Vehiculos";
     }
 }
