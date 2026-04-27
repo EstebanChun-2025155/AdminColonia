@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/accesos")
 public class AccesosController {
@@ -21,6 +23,20 @@ public class AccesosController {
         model.addAttribute("accesos", accesosService.getAllAccesos());
         model.addAttribute("acceso", new Accesos());
 
+        return "Accesos";
+    }
+
+    @GetMapping("/buscar")
+    public String buscarAcceso(@RequestParam("id") Integer id, Model model) {
+        try {
+            Accesos acceso = accesosService.getAccesosById(id);
+            model.addAttribute("accesos", List.of(acceso));
+        } catch (RuntimeException e) {
+            model.addAttribute("accesos", List.of());
+            model.addAttribute("error", "No se encontró el acceso");
+        }
+
+        model.addAttribute("acceso", new Accesos());
         return "Accesos";
     }
 
@@ -41,6 +57,7 @@ public class AccesosController {
     public String editar(@PathVariable Integer id, Model model) {
         model.addAttribute("acceso", accesosService.getAccesosById(id));
         model.addAttribute("accesos", accesosService.getAllAccesos());
+        model.addAttribute("modoEditar", true);
         return "Accesos";
     }
 
