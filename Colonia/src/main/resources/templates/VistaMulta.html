@@ -143,6 +143,18 @@
 
 <input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
 
+<section class="seccion seccion--soft" id="ayuda">
+    <div class="container">
+        <h2>Ayuda</h2>
+
+        <p class="muted">
+            En este módulo podrás consultar, registrar y editar
+            la información relacionada con las multas registradas.
+        </p>
+
+    </div>
+</section>
+
 <script>
     window.onload = function () {
         const panel = document.getElementById('panelActivo').value;
@@ -177,7 +189,6 @@
         document.getElementById('buscarId').value = '';
     }
 </script>
-
 
 </body>
 </html>

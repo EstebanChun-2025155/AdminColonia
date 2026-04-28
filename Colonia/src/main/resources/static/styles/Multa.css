@@ -12,6 +12,8 @@
     --inactivo:   #D57A66;
     --borde:      #D8CBB8;
     --radius:     12px;
+    --soft:       #EFE6D8;
+    --line:       #D8CBB8;
 }
 
 /* ===== RESET ===== */
@@ -386,4 +388,44 @@ a[onclick*="mostrarTodas"]:hover {
 .menu_link.is-active {
     color: var(--primario);
     border-bottom: 2px solid var(--primario);
+}
+
+.seccion{
+    padding:50px 0;
+}
+
+.seccion--soft{
+    background:var(--soft);
+    border-top:1px solid var(--line);
+}
+
+.search_box{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:10px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.search_box input{
+    width:220px;
+    min-width:220px;
+    flex:none;
+}
+
+.search_box .btn{
+    width:auto;
+    min-width:110px;
+    height:42px;
+    padding:0 18px;
+}
+
+.panel_list,
+table{
+    margin-top:20px;
+}
+
+.muted{
+    color:var(--muted);
 }
