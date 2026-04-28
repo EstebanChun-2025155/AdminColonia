@@ -2,6 +2,9 @@ package com.Administracion.Colonia.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table (name = "Residente")
@@ -12,12 +15,18 @@ public class Residente {
     @Column (name = "id_Residente")
     private Integer idResidente;
 
+    @NotBlank(message = "Los campos no pueden estar vacios")
     @Column (name = "nombre_Residente")
     private String nombreResidente;
 
+    @NotBlank(message = "Los campos no pueden estar vacios")
+    @Size(min = 13, max = 13, message = "El DPI debe tener exactamente 13 caracteres")
     @Column (name = "dpi_Residente")
     private String dpiResidente;
 
+    @NotBlank(message = "Los campos no pueden estar vacios")
+    @Pattern(regexp = "^(activo|inactivo)$",
+            message = "La posicion solo es valida bajo los dominios: activo, inactivo")
     @Column (name = "posicion")
     private String posicion;
 
