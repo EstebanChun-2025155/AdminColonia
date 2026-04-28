@@ -4,119 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitas</title>
-    <meta name="description" content="Visitas">
     <link rel="stylesheet" th:href="@{/Styles/Visitas.css}">
 </head>
 <body>
 
-    <div class="menuVisitas">
-        <div class="container menuVisitas_row">
-            <nav class="menu" aria-label="Menu Principal">
-                <a class="menuVisitas_link is-active" th:href="@{/home}">Inicio</a>
-                <a class="menuVisitas_link" href="#adminVisitas">Administracion</a>
-                <a class="menuVisitas_link" href="#ayuda">Ayuda</a>
-            </nav>
+<div class="menuVisitas">
+    <div class="container menuVisitas_row">
+        <nav class="menu">
+            <a class="menuVisitas_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menuVisitas_link" href="#adminVisitas">Administracion</a>
+            <a class="menuVisitas_link" href="#ayuda">Ayuda</a>
+        </nav>
+    </div>
+</div>
+
+<main>
+
+    <section class="frontVisitas">
+        <img class="frontVisitas_img" th:src="@{/Images/VistaVisitas.png}">
+        <div class="frontVisitas_overlay">
+            <div class="container frontVisitas_content">
+                <h1>VISITAS</h1>
+                <p>Administra la información de visitas de la colonia</p>
+            </div>
         </div>
+    </section>
+
+    <div class="panelVisitas">
+        <span>CONSULTAS</span>
     </div>
 
-    <main>
-        <section class="frontVisitas" aria-label="PortadaVisitas">
-            <img class="frontVisitas_img" th:src="@{/Images/VistaVisitas.png}" alt="Entrada">
-            <div class="frontVisitas_overlay">
-                <div class="container frontVisitas_content">
-                    <h1>VISITAS</h1>
-                    <p>
-                        Aqui podras manejar todas las consultas relacionadas con la informacion
-                        almacenada sobre el registro de Visitas dentro de la Colonia
-                    </p>
-                </div>
-            </div>
-        </section>
+    <div class="seccionVisitas" id="adminVisitas">
+        <img th:src="@{/Images/VistaVisitas.png}">
+        <h2>CONSULTA DE VISITAS</h2>
+    </div>
 
-        <div class="panelVisitas">
-            <span>CONSULTAS</span>
+    <section class="vista">
+
+        <h2 class="vista_titulo">REGISTRO DE VISITAS</h2>
+
+        <!-- TABS -->
+        <input type="radio" name="tabs_vis" id="a1" checked hidden>
+        <input type="radio" name="tabs_vis" id="a2" hidden>
+        <input type="radio" name="tabs_vis" id="a3" hidden
+               th:checked="${tabActiva == 'editar'}">
+
+        <div class="tabs">
+            <label for="a1" class="tab label1">Consultar</label>
+            <label for="a2" class="tab label2">Registrar</label>
+            <label for="a3" class="tab label3">Editar</label>
         </div>
 
-        <div class="seccionVisitas" id="adminVisitas">
-            <img th:src="@{/Images/VistaVisitas.png}" alt="Icono de Visitas">
-            <h2>CONSULTA DE VISITAS</h2>
+        <!-- CONSULTAR -->
+        <div class="panel content1">
+            <h3 class="panel_titulo">Consulta de Visitas</h3>
+
+            <div class="buscador">
+                <form th:action="@{/visitas/buscar}" method="get">
+                    <input type="text" name="id" placeholder="Buscar visita por ID">
+                    <button type="submit" class="btn-buscar">Buscar</button>
+                    <a th:href="@{/visitas}" class="btn-reset">Mostrar Todo</a>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Placa</th>
+                    <th>Motivo</th>
+                    <th>Casa</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="visita : ${visitas}">
+                    <td th:text="${visita.id}"></td>
+                    <td th:text="${visita.nombreVisita}"></td>
+                    <td th:text="${visita.documento}"></td>
+                    <td th:text="${visita.placa}"></td>
+                    <td th:text="${visita.motivo}"></td>
+                    <td th:text="${visita.idCasa}"></td>
+                    <td>
+                    <td class="acciones">
+                        <a th:href="@{/visitas/editar/{id}(id=${visita.id})}" class="btn editar">editar</a>
+                        <a th:href="@{/visitas/eliminar/{id}(id=${visita.id})}" class="btn eliminar">eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <section class="vista">
-            <h2 class="vista_titulo">REGISTRO DE VISITAS</h2>
+        <!-- REGISTRAR -->
+        <div class="panel content2">
+            <h3 class="panel_titulo">Registrar Visita</h3>
+            <form th:action="@{/visitas/guardar}" method="post" class="formVisitas">
+                <input type="text" name="nombreVisita" placeholder="Nombre" required>
+                <input type="text" name="documento" placeholder="Documento" required>
+                <input type="text" name="placa" placeholder="Placa">
+                <input type="text" name="motivo" placeholder="Motivo">
+                <input type="number" name="idCasa" placeholder="Casa" required>
+                <button type="submit" class="btn guardar">Guardar</button>
+            </form>
+        </div>
 
-            <input type="radio" name="tabs_vis" id="v1" checked style="display:none;">
-            <input type="radio" name="tabs_vis" id="v2" style="display:none;">
-            <input type="radio" name="tabs_vis" id="v3" style="display:none;">
+        <!-- EDITAR -->
+        <div class="panel content3">
+            <h3 class="panel_titulo">Editar Visita</h3>
+            <form th:action="@{/visitas/actualizar}"
+                  method="post"
+                  class="formVisitas">
+                <input type="hidden" name="id" th:value="${visita.id}">
+                <input type="text" name="nombreVisita" placeholder="Nombre"
+                       th:value="${visita.nombreVisita}" required>
+                <input type="text" name="documento" placeholder="Documento"
+                       th:value="${visita.documento}" required>
+                <input type="text" name="placa" placeholder="Placa"
+                       th:value="${visita.placa}">
+                <input type="text" name="motivo" placeholder="Motivo"
+                       th:value="${visita.motivo}">
+                <input type="number" name="idCasa" placeholder="Casa"
+                       th:value="${visita.idCasa}" required>
+                <button type="submit" class="btn guardar">Actualizar</button>
+            </form>
+        </div>
 
-            <div class="tabs">
-                <label for="v1" class="tab label1">Consultar</label>
-                <label for="v2" class="tab label2">Registrar</label>
-                <label for="v3" class="tab label3">Editar</label>
-            </div>
+    </section>
 
-            <!-- TAB CONSULTAR -->
-            <div class="panel content1">
-                <h3 class="panel_titulo">Consulta de Visitas</h3>
-                <div class="panel_list">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No. De Visita</th>
-                                <th>Nombre Visita</th>
-                                <th>Documento</th>
-                                <th>Placa</th>
-                                <th>Motivo</th>
-                                <th>No. Casa</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="visita : ${visitas}">
-                                <td th:text="${visita.id_visita}"></td>
-                                <td th:text="${visita.nombre_visita}"></td>
-                                <td th:text="${visita.documento}"></td>
-                                <td th:text="${visita.placa}"></td>
-                                <td th:text="${visita.motivo}"></td>
-                                <td th:text="${visita.id_Casa}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <section class="seccion seccion--soft" id="ayuda">
+        <div class="container">
+            <h2>Ayuda</h2>
+            <p class="muted">
+                Aquí puedes consultar todas las visitas registradas.
+            </p>
+        </div>
+    </section>
 
-            <div class="panel content2">
-                <h3 class="panel_titulo">Registrar Visita</h3>
-                <div class="panel_list">
-                    <span><b>Nombre:</b> Ingrese el nombre del visitante</span>
-                    <span><b>Documento:</b> Número de identificación</span>
-                    <span><b>Placa:</b> Placa del vehículo (si aplica)</span>
-                    <span><b>Motivo:</b> Motivo de la visita</span>
-                    <span><b>No. Casa:</b> Casa de destino</span>
-                </div>
-            </div>
+</main>
 
-            <div class="panel content3">
-                <h3 class="panel_titulo">Editar Visita</h3>
-                <div class="panel_list">
-                    <span><b>Buscar visita:</b> Ingrese el número de visita a editar</span>
-                    <span><b>Modificar datos:</b> Actualice la información requerida</span>
-                    <span><b>Guardar cambios:</b> Confirme la actualización del registro</span>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="seccion seccion--soft" id="ayuda">
-            <div class="container">
-                <h2>Ayuda</h2>
-                <p class="muted">
-                    En este módulo podrás consultar todas las visitas registradas dentro de la colonia.
-                    Cada registro incluye el nombre del visitante, su documento de identificación,
-                    la placa del vehículo, el motivo de la visita y la casa de destino.
-                </p>
-            </div>
-        </section>
-
-    </main>
 </body>
 </html>
