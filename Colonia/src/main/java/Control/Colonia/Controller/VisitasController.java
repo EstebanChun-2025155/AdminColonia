@@ -23,6 +23,7 @@ public class VisitasController {
     @GetMapping
     public String verVisitas(Model model) {
         model.addAttribute("visitas", visitasService.getAllVisitas());
+        model.addAttribute("visitaForm", new Visitas());
         return "visitas";
     }
 
@@ -53,14 +54,13 @@ public class VisitasController {
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id,
-                         @RequestParam(value = "tab", required = false) String tab,
                          Model model) {
+        Visitas visita = visitasService.getVisitasById(id);
 
-        model.addAttribute("visita", visitasService.getVisitasById(id));
-        model.addAttribute("visitas", visitasService.getAllVisitas());
-        model.addAttribute("modoEditar", true);
+        model.addAttribute("visitas", visitasService.getAllVisitas()); // tabla
+        model.addAttribute("visitaForm", visita); // 🔥 MISMO NOMBRE QUE FORM
+        model.addAttribute("tabActiva", "editar");
 
-        model.addAttribute("tabActiva", tab);
         return "visitas";
     }
 
