@@ -1,13 +1,23 @@
 /* Variables */
 :root {
-    --bg: #ffffff;
-    --ink: #0b1b33;
-    --muted: #5a6c82;
-    --blue: #0b3b8c;
-    --blue2: #102a5c;
-    --line: rgba(11,27,51,.12);
-    --soft: #f4f7fb;
-    --green: #78b62f;
+    --bg: #D6C2A8;
+    --ink: #3E3A37;
+    --muted: #7A746E;
+
+    --primary: #C46A3C;
+    --primary-light: #D98A5F;
+
+    --surface: #E4D6C3;
+    --soft: #EFE6D8;
+
+    --danger: #D57A66;
+    --border: #D8CBB8;
+
+    --blue: #3E3A37;
+    --blue2: #3E3A37;
+    --green: #C46A3C;
+
+    --line: #D8CBB8;
 
     --radius: 14px;
     --shadow: 0 10px 28px rgba(0,0,0,.10);
@@ -31,13 +41,13 @@ a {
     margin: 0 auto;
 }
 
-/* Menu Accesos */
-.menuAccesos {
+/* Menu Visitas */
+.menuVisitas {
     background: var(--soft);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
-.menuAccesos_row {
+.menuVisitas_row {
     padding: 10px;
 }
 .menu {
@@ -46,14 +56,14 @@ a {
     gap: 22px;
     flex-wrap: wrap;
 }
-.menuAccesos_link {
+.menuVisitas_link {
     font-weight: 900;
     letter-spacing: .8px;
     color: var(--blue);
     padding: 10px 12px;
     border-radius: 10px;
 }
-.menuAccesos_link:hover {
+.menuVisitas_link:hover {
     background: rgba(11, 59, 140, .06);
 }
 .is-active {
@@ -61,13 +71,13 @@ a {
     border-radius: 10px 10px 6px 6px;
 }
 
-/* Portada Accesos */
-.frontAccesos {
+/* Portada Visitas */
+.frontVisitas {
     position: relative;
     min-height: 340px;
     overflow: hidden;
 }
-.frontAccesos_img {
+.frontVisitas_img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -76,7 +86,7 @@ a {
     object-position: center;
     z-index: 0;
 }
-.frontAccesos_overlay {
+.frontVisitas_overlay {
     position: absolute;
     inset: 0;
     display: flex;
@@ -87,22 +97,22 @@ a {
         radial-gradient(100px 500px at 20% 10%, rgba(11,59,140,.55), transparent 60%),
         radial-gradient(900px 500px at 80% 0%, rgba(120,182,47,.35), transparent 60%);
 }
-.frontAccesos_content {
+.frontVisitas_content {
     color: #fff;
     padding: 26px 0;
 }
 
 /* Seccion Accesos */
-.panelAccesos {
+.panelVisitas {
     text-align: center;
     border-top: 4px solid var(--green);
     margin: 40px 20px;
     position: relative;
 }
-.panelAccesos span {
+.panelVisitas span {
     background: #fff;
     padding: 0 20px;
-    color: var(--blue2);
+    color: var(--primary);
     font-weight: bold;
     font-size: 28px;
     position: absolute;
@@ -110,19 +120,19 @@ a {
     left: 50%;
     transform: translateX(-50%);
 }
-.seccionAccesos {
+.seccionVisitas {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     margin-bottom: 40px;
 }
-.seccionAccesos img {
+.seccionVisitas img {
     height: 55px;
     width: auto;
 }
-.seccionAccesos h2 {
-    color: var(--blue);
+.seccionVisitas h2 {
+    color: var(--primary);
     font-size: 24px;
     margin: 0;
     text-transform: uppercase;
@@ -133,24 +143,27 @@ table {
     width: 98%;
     margin: 0 auto 50px;
     border-collapse: collapse;
-    border: 1px solid var(--line);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 th {
     background-color: var(--ink);
     color: #fff;
     padding: 15px;
     text-align: left;
-    border: 1px solid var(--ink);
+    text-align: center;
 }
 td {
     padding: 15px;
-    border: 1px solid var(--ink);
     color: var(--blue2);
     font-weight: bold;
     font-size: 16px;
+    text-align: center;
 }
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: var(--soft);
 }
 
 /* ── Vista ── */
@@ -162,7 +175,7 @@ tr:nth-child(even) {
 
 .vista_titulo {
     margin: 0 0 10px;
-    color: var(--blue2);
+    color: var(--primary);
     font-weight: 900;
 }
 
@@ -225,8 +238,8 @@ tr:nth-child(even) {
 
 .panel_texto {
     margin: 0 0 10px;
-    color: var(--muted);
-}
+    color: var(--primary);
+x}
 
 .panel_list {
     display: flex;
@@ -252,4 +265,214 @@ tr:nth-child(even) {
 }
 .muted {
     color: var(--muted);
+}
+
+/* BOTONES TABLA */
+.acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn.editar {
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+}
+
+.btn.editar:hover {
+    background-color: var(--soft);
+}
+
+.btn.eliminar {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn.eliminar:hover {
+    opacity: 0.85;
+}
+
+.formVisitas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.formVisitas input,
+.formVisitas select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.btn.guardar {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.guardar:hover {
+    background-color: var(--primary-light);
+}
+
+.buscador {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.buscador form {
+    display: flex;
+    gap: 10px;
+}
+
+.buscador input {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #d1c2ad;
+    min-width: 220px;
+}
+
+.btn-buscar {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-reset {
+    background: var(--surface);
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--border);
+}
+
+
+/* HEADER TABLA */
+th {
+    background-color: var(--primary) !important;
+    color: #fff;
+    text-align: center;
+}
+
+table {
+    background: var(--surface) !important;
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+tr:nth-child(even) {
+    background-color: var(--soft) !important;
+}
+
+.tab,
+button,
+.btn.guardar {
+    background: var(--primary);
+    color: #fff;
+}
+
+.tab:hover,
+button:hover,
+.btn.guardar:hover {
+    background: var(--primary-light);
+}
+
+/* BOTONES EDITAR */
+.btn.editar {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--ink);
+}
+
+/* BOTON ELIMINAR */
+.btn.eliminar {
+    background-color: var(--danger);
+    color: #fff;
+}
+
+.panel {
+    background: #F4EFE6 !important;
+    border-radius: 20px;
+}
+
+
+/* Quitar fondo contenedor */
+.tabs {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Botones base */
+.tab {
+    background: var(--surface) !important;
+    color: var(--ink) !important;
+    border: none !important;
+    border-radius: 12px;
+    padding: 12px 22px;
+}
+
+/* Hover */
+.tab:hover {
+    background: var(--primary-light) !important;
+    color: #fff !important;
+}
+
+#a1:checked ~ .tabs .label1,
+#a2:checked ~ .tabs .label2,
+#a3:checked ~ .tabs .label3 {
+    background: var(--primary) !important;
+    color: #fff !important;
+}
+
+
+.formVisitas {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+}
+
+/* Inputs grandes tipo Accesos */
+.formVisitas input,
+.formVisitas select {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: none;
+    background: #cbbba3; /* mismo tono que accesos */
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Placeholder */
+.formVisitas input::placeholder {
+    color: #5f5a55;
+}
+
+/* Botón grande */
+.btn.guardar {
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
 }
