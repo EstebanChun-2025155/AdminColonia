@@ -184,6 +184,12 @@ tr:nth-child(even){
     background-color:var(--surface);
 }
 
+/* --- Efecto para la tabla --- */
+tbody tr:hover td {
+    background-color: #D1D5DB !important;
+    transition: background-color 0.15s ease;
+}
+
 /* Vista */
 .vista{
     padding:20px 0 40px;
