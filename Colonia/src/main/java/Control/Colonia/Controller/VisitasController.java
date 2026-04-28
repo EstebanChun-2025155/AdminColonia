@@ -1,75 +1,78 @@
 package Control.Colonia.Controller;
 
-import Control.Colonia.Service.VisitasService;
 import Control.Colonia.Entity.Visitas;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import Control.Colonia.Service.VisitasService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/visitas")
+@Controller
+@RequestMapping("/visitas")
 public class VisitasController {
-    private  final VisitasService visitasService;
+
+    private final VisitasService visitasService;
 
     public VisitasController(VisitasService visitasService) {
         this.visitasService = visitasService;
     }
 
     @GetMapping
-    public List<Visitas> getAllVisitas(){
-        return  visitasService.getAllVisitas();
+    public String verVisitas(Model model) {
+        model.addAttribute("visitas", visitasService.getAllVisitas());
+        return "visitas";
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createVisita(@Valid @RequestBody Visitas visitas, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
+    @GetMapping("/buscar")
+    public String buscarVisitas(@RequestParam("id") Integer id, Model model) {
         try {
-            Visitas createVisita = visitasService.saveVisitas(visitas);
-            return new ResponseEntity<>(createVisita, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Visitas visitas = visitasService.getVisitasById(id);
+            model.addAttribute("visitas", List.of(visitas));
+        } catch (RuntimeException e) {
+            model.addAttribute("visitas", List.of());
+            model.addAttribute("error", "No se encontró la visita");
         }
+        return "visitas";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateVisitas(@Valid @RequestBody Visitas visitas, @PathVariable Integer id, BindingResult br){
-        if (br.hasErrors()){
-            return ResponseEntity.badRequest().body(br.getAllErrors().get(0).getDefaultMessage());
-        }
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute("visitas") Visitas visitas,
+                          RedirectAttributes redirect) {
+
         try {
-            Visitas updateVisitas = visitasService.updateVisitas(id, visitas);
-            return new ResponseEntity<>(updateVisitas, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            visitasService.saveVisitas(visitas);
+        } catch (RuntimeException e) {
+            redirect.addFlashAttribute("error", e.getMessage());
         }
+
+        return "redirect:/visitas";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getVisitasById(@PathVariable Integer id){
-        try {
-            Visitas searchedVisitas = visitasService.getVisitasById(id);
-            return new ResponseEntity<>(searchedVisitas,HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id,
+                         @RequestParam(value = "tab", required = false) String tab,
+                         Model model) {
+
+        model.addAttribute("visita", visitasService.getVisitasById(id));
+        model.addAttribute("visitas", visitasService.getAllVisitas());
+        model.addAttribute("modoEditar", true);
+
+        model.addAttribute("tabActiva", tab);
+        return "visitas";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteVisitasById(@PathVariable Integer id){
-        try {
-            if(visitasService.getVisitasById(id) == null) {
-                return ResponseEntity.status(404).body("No exsite esta Visita");
-            }
-            visitasService.deleteVisitas(id);
-            return  ResponseEntity.status(202).build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Error al eliminar Visita");
-        }
+    @PostMapping("/actualizar")
+    public String actualizarVisitas(@ModelAttribute Visitas visitas) {
+        visitasService.saveVisitas(visitas);
+        return "redirect:/visitas";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id) {
+        visitasService.deleteVisitas(id);
+        return "redirect:/visitas";
     }
 }
