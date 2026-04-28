@@ -1,10 +1,7 @@
 package Control.Colonia.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "Casa")
@@ -21,11 +18,12 @@ public class Casa {
     private String noDeCasa;
 
     @NotBlank(message = "El campo de texto no debe de estar vacios")
+    @Size(max = 25, min = 15, message = "La dirección debe tener entre 10 y 25 caracteres")
     @Column(name = "Direccion")
     private String direccion;
 
     @NotBlank(message = "El campo de texto no debe de estar vacios")
-    @Pattern( regexp  = "^(ocupada|disponible|mantenimiento)$",
+    @Pattern( regexp  = "^(?i)(ocupada|disponible|mantenimiento)$",
             message =  "El estado es valido unicamente bajo los dominios: ocupada, disponible, mantenimiento")
     @Column (name = "estado", nullable = false)
     private String estado;
@@ -34,7 +32,8 @@ public class Casa {
     @Column (name = "propietario")
     private String propietario;
 
-    @DecimalMin(value = "250000.01", message = "El precio debe ser mayor a 250000")
+    @NotNull(message = "El precio es obligatorio")
+    @DecimalMin(value = "250000.00", message = "El precio debe ser mayor a 250,000.00")
     @Column (name = "precio_casa")
     private double precioCasa;
 
