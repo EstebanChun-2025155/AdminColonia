@@ -364,9 +364,10 @@ tr:nth-child(even) {
 }
 
 /* ===================== BOTONES TABLA ===================== */
-.acciones {
-    display: flex;
-    gap: 10px;
+.acciones{
+    display:flex;
+    gap:15px;
+    align-items:center;
 }
 
 .btn {
@@ -377,23 +378,28 @@ tr:nth-child(even) {
     text-decoration: none;
 }
 
-.btn.editar {
-    background-color: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--border);
+.btn-edit{
+    background:var(--surface);
+    color:var(--ink);
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    min-width:70px;
 }
 
-.btn.editar:hover {
-    background-color: var(--soft);
+.btn-edit:hover{
+    background:var(--primary-light);
+    color:white;
 }
 
-.btn.eliminar {
-    background-color: var(--danger);
-    color: white;
+.btn-danger{
+    background:var(--danger);
+    color:white;
+    min-width:70px;
 }
 
-.btn.eliminar:hover {
-    opacity: 0.85;
+.btn-danger:hover{
+    background:#b85f4d;
 }
 
 .formAcceso {
