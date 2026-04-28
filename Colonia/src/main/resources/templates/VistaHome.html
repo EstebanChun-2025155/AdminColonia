@@ -11,8 +11,7 @@
     <div class="container menubar_row">
 
         <div class="brand">
-            <img th:src="@{/Images/logo.png}" alt="Logo Residencial" class="brand_logo">
-            <span class="brand_name">Residencial</span>
+            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
 
         <nav class="menu" aria-label="Menú principal">
@@ -20,25 +19,101 @@
             <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
             <a class="menu_link" href="#contacto">Contacto</a>
+            <a class="menu_link logout-link" th:href="@{/logout}">Cerrar sesión</a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="front" aria-label="Portada">
-        <img class="front_img" th:src="@{/Images/EntradaColonia.png}" alt="Entrada">
+    <section class="front">
+        <video class="front_media" th:src="@{/images/entradaColonia.mp4}" autoplay loop muted playsinline></video>
 
         <div class="front_overlay">
             <div class="container front_content">
-                <h1>INICIO</h1>
-                <p>
-                    Pagina principal(Home) en donde se manejara el accesos a las entidades.
+
+                <h1 class="hero-title">Bienvenido a Residenciales S.A</h1>
+                <p class="hero-text">
+                    Gestiona residentes y casas de manera eficiente.
                 </p>
 
                 <div class="front_cta">
                     <a class="btn btn--primary" href="#admin">Ir a Administración</a>
-                    <a class="btn btn--ghost" href="#ayuda"> Ver guía</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion" id="funcionalidad">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>RESIDENCIALES S.A</span>
+            </div>
+            <div class="tiles">
+
+                <div class="tile tile-btn" data-contenido="quienes">
+                    <span class="tile_label">¿Quiénes somos?</span>
+                </div>
+
+                <div class="tile tile-btn" data-contenido="proposito">
+                    <span class="tile_label">Propósito</span>
+                </div>
+
+                <div class="tile tile-btn" data-contenido="vision">
+                    <span class="tile_label">Visión</span>
+                </div>
+
+                <div class="tile tile-btn" data-contenido="funcionalidad">
+                    <span class="tile_label">Funcionalidad</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion" id="avisos">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>AVISOS Y COMUNIDAD</span>
+            </div>
+
+            <div class="avisos-grid">
+
+                <article class="aviso-card">
+                    <div class="aviso-fecha">
+                        <span class="dia">15</span>
+                        <span class="mes">ABRIL</span>
+                    </div>
+                    <div class="aviso-contenido">
+                        <span class="aviso-tag tag-alerta">Mantenimiento</span>
+                        <h3 class="aviso-titulo">Corte de agua programado</h3>
+                        <p class="aviso-texto">Se realizará limpieza de cisternas. El servicio estará suspendido de 8:00 AM a 2:00 PM en sector 1.</p>
+                    </div>
+                </article>
+
+                <article class="aviso-card">
+                    <div class="aviso-fecha">
+                        <span class="dia">05</span>
+                        <span class="mes">JUNIO</span>
+                    </div>
+                    <div class="aviso-contenido">
+                        <span class="aviso-tag tag-info">Asamblea</span>
+                        <h3 class="aviso-titulo">Reunión General de propietarios y co-propietarios</h3>
+                        <p class="aviso-texto">Invitamos a todos los propietarios y co-propietarios a la asamblea anual en el salón social para discutir el presupuesto de fin de año.</p>
+                    </div>
+                </article>
+
+                <article class="aviso-card">
+                    <div class="aviso-fecha">
+                        <span class="dia">22</span>
+                        <span class="mes">NOV</span>
+                    </div>
+                    <div class="aviso-contenido">
+                        <span class="aviso-tag tag-seguridad">Seguridad</span>
+                        <h3 class="aviso-titulo">Actualización de Tarjetas</h3>
+                        <p class="aviso-texto">Por favor pasar a administración a renovar los marbetes de acceso vehicular. Fecha límite: 30 de Noviembre.</p>
+                    </div>
+                </article>
+
             </div>
         </div>
     </section>
@@ -98,6 +173,17 @@
     </section>
 
 </main>
+
+<div id="panelInfo" class="panel oculto">
+    <div class="panel_contenido">
+        <span class="cerrar" id="cerrarPanel">&times;</span>
+        <h2 id="panelTitulo"></h2>
+        <p id="panelTexto"></p>
+    </div>
+</div>
+
+
+<script th:src="@{/js/home.js}"></script>
 
 </body>
 </html>
