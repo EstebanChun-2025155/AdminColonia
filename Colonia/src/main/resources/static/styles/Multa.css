@@ -22,6 +22,14 @@ body {
     background-color: var(--fondo);
 }
 
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.container {
+    width: min(1120px, 92vw);
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
 /* ===== BANNER ===== */
 .banner {
     height: 380px;
