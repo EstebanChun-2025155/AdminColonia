@@ -1,204 +1,153 @@
-:root{
-    --bg-dark: #2A2522;
-    --bg-dark-2: #3E3A37;
-
+:root {
     --primary: #C46A3C;
     --primary-light: #D98A5F;
-
     --ink: #FFFFFF;
-    --muted: #B8B0A8;
-
-    --surface: rgba(62,58,55,.92);
-    --line: rgba(255,255,255,.15);
-
-    --danger: #D57A66;
-
-    --radius: 14px;
-    --shadow: 0 12px 30px rgba(0,0,0,.30);
+    --muted: rgba(255, 255, 255, 0.7);
+    --line: rgba(255, 255, 255, 0.3);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-body{
-    height:100vh;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-
-    background: linear-gradient(-45deg,
-    var(--bg-dark),
-    var(--bg-dark-2),
-    #4B2E22,
-    var(--primary));
-    background-size:400% 400%;
-    animation:fondoAnimado 10s ease infinite;
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
 }
 
-/* Fondo dinámico */
-.background{
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:
-            radial-gradient(circle at 20% 20%, rgba(196,106,60,.22), transparent 25%),
-            radial-gradient(circle at 80% 30%, rgba(217,138,95,.15), transparent 30%),
-            radial-gradient(circle at 50% 80%, rgba(255,255,255,.05), transparent 25%);
-    animation:mover 16s linear infinite;
-    z-index:1;
-}
-
-@keyframes fondoAnimado{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
-}
-
-@keyframes mover{
-    from{
-        transform:translate(0,0) rotate(0deg);
-    }
-    to{
-        transform:translate(-70px,-70px) rotate(360deg);
-    }
-}
-
-.login-container{
-    position:relative;
-    z-index:2;
-}
-
-/* Panel más compacto */
-.login-card{
-    width:360px;
-    padding:25px 25px;
-    border-radius:22px;
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    box-shadow: var(--shadow);
-    border:1px solid rgba(255,255,255,.05);
-    text-align:center;
-    animation:aparecer 1s ease;
-}
-
-@keyframes aparecer{
-    from{
-        opacity:0;
-        transform:translateY(-25px) scale(.95);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-}
-
-/* Logo */
-.logo-container{
+/* ── Video Background ── */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin-bottom: 2px;
-    animation: aparecerLogo 1.2s ease;
+    height: 100%;
+    z-index: -1;
 }
 
-.logo-container img{
+#bg-video {
     width: 100%;
-    max-width: 340px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.login-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* ── Ajuste de Posicionamiento del Efecto ── */
+.card-wrap {
+    position: relative;
+    width: 380px;
+    padding: 2px;
+}
+
+.login-card {
+    width: 100%;
+    padding: 45px 35px;
+    background: transparent;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    border-radius: 22px;
+}
+
+/* ── Forzar el SVG a cubrir el card exactamente ── */
+.neon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: visible;
+}
+
+/* ── Elementos del Formulario ── */
+.logo-container img {
+    max-width: 220px;
     height: auto;
-    display: block;
-    margin: 0 auto;
-    object-fit: contain;
+    margin-bottom: 10px;
 }
 
-@keyframes aparecerLogo{
-    from{
-        opacity:0;
-        transform: translateY(-15px) scale(.9);
-    }
-    to{
-        opacity:1;
-        transform: translateY(0) scale(1);
-    }
+.login-card p {
+    color: var(--ink);
+    margin-bottom: 35px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
 }
 
-.login-card h1{
-    color:var(--ink);
-    font-size:34px;
-    margin-bottom:5px;
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
 }
 
-.login-card p{
-    color:var(--muted);
-    margin-bottom:20px;
-    font-size:15px;
+.input-group input {
+    width: 100%;
+    padding: 12px 5px;
+    background: transparent !important;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    color: var(--ink);
+    font-size: 16px;
+    outline: none;
 }
 
-.input-group{
-    position:relative;
-    margin-bottom:22px;
+/* Quitar recuadro blanco de autocompletado */
+input:-webkit-autofill {
+    -webkit-text-fill-color: var(--ink) !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(0,0,0,0) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
-.input-group input{
-    width:100%;
-    padding:15px 10px;
-    border:none;
-    border-bottom:2px solid var(--line);
-    background:transparent;
-    outline:none;
-    color:var(--ink);
-    font-size:16px;
-}
-
-.input-group label{
-    position:absolute;
-    left:10px;
-    top:15px;
-    color:var(--muted);
-    pointer-events:none;
-    transition:.3s;
-}
-
-.input-group input:focus,
-.input-group input:valid{
-    border-bottom:2px solid var(--primary);
+.input-group label {
+    position: absolute;
+    left: 5px;
+    top: 12px;
+    color: var(--muted);
+    transition: 0.3s;
+    pointer-events: none;
 }
 
 .input-group input:focus + label,
-.input-group input:valid + label{
-    top:-10px;
-    font-size:12px;
-    color:var(--primary-light);
+.input-group input:valid + label {
+    top: -18px;
+    font-size: 12px;
+    color: var(--primary-light);
 }
 
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(135deg, var(--primary), var(--primary-light));
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-    box-shadow:0 5px 15px rgba(196,106,60,.35);
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-button:hover{
-    transform:scale(1.04);
-    box-shadow:0 0 18px rgba(196,106,60,.45);
-}
-
-.error{
-    margin-top:15px;
-    color:var(--danger);
-    font-size:14px;
-    font-weight:500;
+.error {
+    color: #ff8a8a;
+    margin-top: 15px;
+    font-size: 14px;
 }
