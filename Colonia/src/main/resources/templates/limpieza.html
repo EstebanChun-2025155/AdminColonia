@@ -10,11 +10,9 @@
 
 <div class="menuCasa">
     <div class="container menuCasa_row">
-
         <div class="brand">
             <img th:src="@{/images/Logo-colonia.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-
         <nav class="menu">
             <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
             <a class="menuCasa_link" href="#adminLimpieza"> Administración </a>
@@ -26,7 +24,6 @@
 <main>
     <section class="frontCasa">
         <img class="frontCasa_img" th:src="@{/images/Imagen-limpieza.png}" alt="Limpieza">
-
         <div class="frontCasa_overlay">
             <div class="container frontCasa_content">
                 <h1>LIMPIEZA</h1>
@@ -61,6 +58,10 @@
 
         <div class="panel content1">
             <h3 class="panel_titulo">Consulta de Empleados</h3>
+
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
             <form th:action="@{/buscar/limpieza}" method="get" class="search_box">
                 <input type="number" name="id" placeholder="Buscar empleado por ID" required>
@@ -114,11 +115,31 @@
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Personal</h3>
             <form th:action="@{/guardar/limpieza}" th:object="${limpiezaForm}" method="post">
-                <input type="text" th:field="*{nombre}" placeholder="Nombre Completo" required>
-                <input type="text" th:field="*{puesto}" placeholder="Puesto (ej. Conserje)" required>
-                <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Matutina)" required>
-                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario" required>
-                <input type="text" th:field="*{telefono}" placeholder="Teléfono" required>
+
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{nombre}" placeholder="Nombre Completo">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{puesto}" placeholder="Puesto (ej. Conserje)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Matutina)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
         </div>
@@ -127,12 +148,33 @@
             <h3 class="panel_titulo">Editar Empleado</h3>
             <form th:if="${limpiezaForm != null}" th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
                   th:object="${limpiezaForm}" method="post">
+
                 <input type="hidden" th:field="*{idLimpieza}">
-                <input type="text" th:field="*{nombre}" placeholder="Nombre" required>
-                <input type="text" th:field="*{puesto}" placeholder="Puesto" required>
-                <input type="text" th:field="*{jornada}" placeholder="Jornada" required>
-                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario" required>
-                <input type="text" th:field="*{telefono}" placeholder="Teléfono" required>
+
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{nombre}" placeholder="Nombre">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{puesto}" placeholder="Puesto">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                </div>
                 <button type="submit" class="btn btn-edit">Actualizar</button>
             </form>
         </div>
@@ -140,53 +182,32 @@
 
     <section class="seccion" id="ayuda">
         <div class="container">
-            <div class="seccion_panel">
-                <span>AYUDA RÁPIDA</span>
-            </div>
+            <div class="seccion_panel"><span>AYUDA RÁPIDA</span></div>
             <div class="ayuda-grid">
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">01</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">01</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
                         <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo que se
-                            encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente</p>
+                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">02</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">02</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
-                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <span class="ayuda-tag tag-busqueda">Búsqueda</span>
                         <h3 class="ayuda-titulo">Consulta registros</h3>
-                        <p class="ayuda-texto">Para poder consultar un empleado especifico o mostrar la tabla
-                            general con todos los registros, debes de ingresar un ID en el buscador que aparece
-                            en la parte superior de la tabla, si lo que buscas es mostrar todos los datos,
-                            unicamente debes de presionar el boton Mostrar Todo</p>
+                        <p class="ayuda-texto">Ingresa un ID en el buscador superior para filtrar un empleado específico.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">03</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">03</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-editar">Editar</span>
                         <h3 class="ayuda-titulo">Registros Editables</h3>
-                        <p class="ayuda-texto">Para poder editar un empleado unicamente necesitas presionar
-                            el botón con icono de lapiz, al presionarlo este te enviara a un formulario para
-                            rellenar los datos que deseas editar.</p>
+                        <p class="ayuda-texto">Presiona el icono de lápiz para modificar los datos del empleado.</p>
                     </div>
                 </article>
-
             </div>
         </div>
     </section>
