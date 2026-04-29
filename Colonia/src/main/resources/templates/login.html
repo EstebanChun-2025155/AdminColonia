@@ -7,34 +7,39 @@
 </head>
 <body>
 
-<div class="background"></div>
+    <video class="video-fondo" autoplay muted loop playsinline>
+        <source th:src="@{/images/entradaLogin.mp4}" type="video/mp4">
+    </video>
 
-<div class="login-container">
-    <div class="login-card">
+    <div class="capa-video"></div>
 
-        <div class="logo-container">
-            <img th:src="@{/images/logo.png}" alt="Logo Residencial">
+    <div class="background"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+
+            <div class="logo-container">
+                <img th:src="@{/images/logo.png}" alt="Logo Residencial">
+            </div>
+
+            <p>Acceso para residentes</p>
+
+            <form th:action="@{/login}" method="post">
+                <div class="input-group">
+                    <input type="text" name="nombreResidente" required>
+                    <label>Nombre del Residente</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="dpiResidente" required maxlength="13">
+                    <label>DPI</label>
+                </div>
+
+                <button type="submit">Ingresar</button>
+
+                <p class="error" th:if="${error}" th:text="${error}"></p>
+            </form>
         </div>
-
-        <p>Acceso para residentes</p>
-
-        <form th:action="@{/login}" method="post">
-            <div class="input-group">
-                <input type="text" name="nombreResidente" required>
-                <label>Nombre del Residente</label>
-            </div>
-
-            <div class="input-group">
-                <input type="text" name="dpiResidente" required maxlength="13">
-                <label>DPI</label>
-            </div>
-
-            <button type="submit">Ingresar</button>
-
-            <p class="error" th:if="${error}" th:text="${error}"></p>
-        </form>
     </div>
-</div>
-
 </body>
 </html>
