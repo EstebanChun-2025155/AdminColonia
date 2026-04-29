@@ -2,8 +2,10 @@ package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Residente;
 import Control.Colonia.Service.ResidenteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -19,6 +21,7 @@ public class ResidenteController {
         List<Residente> lista = residenteService.getAllResidente();
         model.addAttribute("residente", lista);
         model.addAttribute("residenteForm", new Residente());
+
         return "residente";
     }
 
@@ -30,28 +33,61 @@ public class ResidenteController {
 
     @GetMapping("/nuevo/residente")
     public String nuevoResidente(Model model){
+        model.addAttribute("residente", residenteService.getAllResidente());
         model.addAttribute("residenteForm", new Residente());
+        model.addAttribute("tab", "registrar");
+
         return "residente";
     }
 
     @PostMapping("/guardar/residente")
-    public String guardarResidente(@ModelAttribute Residente residente){
-        residenteService.saveResidente(residente);
+    public String guardarResidente(@Valid @ModelAttribute("residenteForm") Residente residente, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("tab", "registrar");
+            return "residente";
+        }
+
+        try {
+            residenteService.saveResidente(residente);
+        } catch (RuntimeException e) {
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("tab", "registrar");
+            return "residente";
+        }
         return "redirect:/residente";
     }
 
     @GetMapping("/editar/residente/{id}")
     public String editarResidente(@PathVariable Integer id, Model model){
         Residente residente = residenteService.getResidenteById(id);
+
         model.addAttribute("residente", residenteService.getAllResidente());
         model.addAttribute("residenteForm", residente);
         model.addAttribute("tab", "editar");
+
         return "residente";
     }
 
     @PostMapping("/actualizar/residente/{id}")
-    public String actualizarResidente(@PathVariable Integer id, @ModelAttribute Residente residente){
-        residenteService.updateResidente(id, residente);
+    public String actualizarResidente(@PathVariable Integer id, @Valid @ModelAttribute("residenteForm") Residente residente, BindingResult result, Model model){
+        if (result.hasErrors()){
+            residente.setIdResidente(id);
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("tab", "editar");
+            return "residente";
+        }
+
+        try {
+            residenteService.updateResidente(id, residente);
+        } catch (RuntimeException e) {
+            residente.setIdResidente(id);
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("tab", "editar");
+            return "residente";
+        }
         return "redirect:/residente";
 
     }
@@ -62,6 +98,7 @@ public class ResidenteController {
 
         model.addAttribute("residente", List.of(residente));
         model.addAttribute("residenteForm", new Residente());
+        model.addAttribute("tab", "consultar");
 
         return "residente";
     }

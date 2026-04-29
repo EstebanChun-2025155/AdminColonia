@@ -12,28 +12,28 @@ public class Residente {
     @Column(name = "id_Residente")
     private Integer idResidente;
 
-    @NotBlank(message = "Los campos no pueden estar vacios")
+    @NotBlank(message = "El nombre del residente es obligatorio")
     @Column(name = "nombre_Residente")
     private String nombreResidente;
 
-    @NotBlank(message = "Los campos no pueden estar vacios")
-    @Size(min = 13, max = 13, message = "El DPI debe tener exactamente 13 caracteres")
+    @NotBlank(message = "El DPI es obligatorio")
+    @Pattern(regexp = "^[0-9]{13}$", message = "El DPI debe contener exactamente 13 números")
     @Column(name = "dpi_Residente")
     private String dpiResidente;
 
-    @NotBlank(message = "Los campos no pueden estar vacios")
-    @Size(min = 8, max = 8, message = "El telefono debe tener exactamente 8 caracteres")
+    @NotBlank(message = "El teléfono es obligatorio")
     @Pattern(regexp = "^[0-9]{8}$", message = "El telefono debe contener exactamente 8 numeros")
     @Column(name = "telefono_Residente")
     private String telefonoResidente;
 
-    @NotBlank(message = "Los campos no pueden estar vacios")
+    @NotBlank(message = "La posición es obligatoria")
     @Pattern(regexp = "^(activo|inactivo)$",
             message = "La posicion solo es valida bajo los dominios: activo, inactivo")
     @Column(name = "posicion")
     private String posicion;
 
     @NotNull(message = "Los campos no pueden estar vacios")
+    @Positive(message = "El ID de casa debe ser un número positivo")
     @Column(name = "id_Casa")
     private Integer idCasa;
 
