@@ -11,11 +11,9 @@
 
 <div class="menubar">
   <div class="container menubar_row">
-
     <div class="brand">
       <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
     </div>
-
     <nav class="menu" aria-label="Menú principal">
       <a class="menu_link" th:href="@{/home}">Inicio</a>
       <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
@@ -49,16 +47,25 @@
 
       <div class="tabla-wrapper">
 
+        <!-- TABS -->
+        <input type="radio" name="tabs_pago" id="r1"
+               th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
+        <input type="radio" name="tabs_pago" id="r2"
+               th:checked="${panelActivo == 'registrar'}" hidden>
+        <input type="radio" name="tabs_pago" id="r3"
+               th:checked="${panelActivo == 'editar'}" hidden>
+
         <div class="tabs">
           <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
           <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
           <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
         </div>
 
+        <!-- PANEL CONSULTAR -->
         <div id="panel-consultar" class="panel">
           <h3>Consulta de Pagos</h3>
 
-          <input type="number" id="buscarId" placeholder="Buscar por ID" />
+          <input type="number" id="buscarId" placeholder="Buscar por ID"/>
           <button onclick="buscarPorId()">Buscar</button>
           <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
 
@@ -99,38 +106,120 @@
           </table>
         </div>
 
+        <!-- PANEL REGISTRAR -->
         <div id="panel-registrar" class="panel" style="display:none;">
           <h3>Registrar Pago</h3>
+
           <form th:action="@{/pago/nueva}" th:object="${pagoNuevo}" method="post">
-            <input type="number" th:field="*{idResidente}"      placeholder="Residente (ID)" /><br>
-            <input type="text"   th:field="*{clasificacionPago}" placeholder="Clasificación" /><br>
-            <input type="number" th:field="*{monto}"            placeholder="Monto" /><br>
-            <input type="date"   th:field="*{fechaPago}"                              /><br>
-            <input type="text"   th:field="*{metodo}"           placeholder="Método" /><br>
-            <input type="text"   th:field="*{referencia}"       placeholder="Referencia" /><br>
+
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+              <p th:text="${errorGeneral}"></p>
+            </div>
+
+            <div class="campo-form">
+              <input type="number" th:field="*{idResidente}" placeholder="Residente (ID)">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('idResidente')}"
+                    th:errors="*{idResidente}"></span>
+            </div>
+
+            <div class="campo-form">
+              <input type="text" th:field="*{clasificacionPago}" placeholder="Clasificación">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('clasificacionPago')}"
+                    th:errors="*{clasificacionPago}"></span>
+            </div>
+
+            <div class="campo-form">
+              <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('monto')}"
+                    th:errors="*{monto}"></span>
+            </div>
+
+            <div class="campo-form">
+              <input type="date" th:field="*{fechaPago}">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('fechaPago')}"
+                    th:errors="*{fechaPago}"></span>
+            </div>
+
+            <div class="campo-form">
+              <input type="text" th:field="*{metodo}" placeholder="Método">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('metodo')}"
+                    th:errors="*{metodo}"></span>
+            </div>
+
+            <div class="campo-form">
+              <input type="text" th:field="*{referencia}" placeholder="Referencia">
+              <span class="mensaje-error"
+                    th:if="${#fields.hasErrors('referencia')}"
+                    th:errors="*{referencia}"></span>
+            </div>
+
             <button type="submit">Guardar</button>
           </form>
         </div>
 
+        <!-- PANEL EDITAR -->
         <div id="panel-editar" class="panel" style="display:none;">
           <h3>Editar Pago</h3>
+
           <div th:if="${pagoEditar != null}">
-            <form th:action="@{'/pago/editar/' + ${pagoEditar.idPago}}" method="post">
-              <input type="number" name="idResidente"
-                     th:value="${pagoEditar.idResidente}"       placeholder="Residente (ID)" /><br>
-              <input type="text"   name="clasificacionPago"
-                     th:value="${pagoEditar.clasificacionPago}" placeholder="Clasificación" /><br>
-              <input type="number" name="monto"
-                     th:value="${pagoEditar.monto}"             placeholder="Monto" /><br>
-              <input type="date"   name="fechaPago"
-                     th:value="${pagoEditar.fechaPago}"                               /><br>
-              <input type="text"   name="metodo"
-                     th:value="${pagoEditar.metodo}"            placeholder="Método" /><br>
-              <input type="text"   name="referencia"
-                     th:value="${pagoEditar.referencia}"        placeholder="Referencia" /><br>
+            <form th:action="@{'/pago/editar/' + ${pagoEditar.idPago}}"
+                  th:object="${pagoEditar}" method="post">
+
+              <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+              </div>
+
+              <div class="campo-form">
+                <input type="number" th:field="*{idResidente}" placeholder="Residente (ID)">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('idResidente')}"
+                      th:errors="*{idResidente}"></span>
+              </div>
+
+              <div class="campo-form">
+                <input type="text" th:field="*{clasificacionPago}" placeholder="Clasificación">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('clasificacionPago')}"
+                      th:errors="*{clasificacionPago}"></span>
+              </div>
+
+              <div class="campo-form">
+                <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('monto')}"
+                      th:errors="*{monto}"></span>
+              </div>
+
+              <div class="campo-form">
+                <input type="date" th:field="*{fechaPago}">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('fechaPago')}"
+                      th:errors="*{fechaPago}"></span>
+              </div>
+
+              <div class="campo-form">
+                <input type="text" th:field="*{metodo}" placeholder="Método">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('metodo')}"
+                      th:errors="*{metodo}"></span>
+              </div>
+
+              <div class="campo-form">
+                <input type="text" th:field="*{referencia}" placeholder="Referencia">
+                <span class="mensaje-error"
+                      th:if="${#fields.hasErrors('referencia')}"
+                      th:errors="*{referencia}"></span>
+              </div>
+
               <button type="submit">Actualizar</button>
             </form>
           </div>
+
           <div th:if="${pagoEditar == null}">
             <p>Selecciona un pago desde la tabla para editar.</p>
           </div>
@@ -171,10 +260,7 @@
         <div class="ayuda-contenido">
           <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
           <h3 class="ayuda-titulo">Consulta registros</h3>
-          <p class="ayuda-texto">
-            Para poder consultar un pago especifico o mostrar la tabla general con todos los registros,
-            debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar
-            todos los datos, unicamente debes de presionar el boton Mostrar Todo.</p>
+          <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar un pago específico, o presiona Mostrar Todo para ver todos los registros.</p>
         </div>
       </article>
 
@@ -186,7 +272,7 @@
         <div class="ayuda-contenido">
           <span class="ayuda-tag tag-editar">Editar</span>
           <h3 class="ayuda-titulo">Registros Editables</h3>
-          <p class="ayuda-texto">Para poder editar un pago unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
+          <p class="ayuda-texto">Para editar un pago presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
         </div>
       </article>
 

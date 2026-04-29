@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multa</title>
-  <link rel="stylesheet" th:href="@{/styles/Multa.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multa</title>
+    <link rel="stylesheet" th:href="@{/styles/Multa.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <div class="menubar">
-  <div class="container menubar_row">
-
-      <div class="brand">
-          <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
-      </div>
-
-    <nav class="menu" aria-label="Menú principal">
-      <a class="menu_link" th:href="@{/home}">Inicio</a>
-      <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
-      <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
-      <a class="menu_link" th:href="@{/home#contacto}">Contacto</a>
-    </nav>
-  </div>
+    <div class="container menubar_row">
+        <div class="brand">
+            <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
+        </div>
+        <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
+            <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
+            <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
+            <a class="menu_link" th:href="@{/home#contacto}">Contacto</a>
+        </nav>
+    </div>
 </div>
 
 <main>
@@ -37,10 +35,10 @@
         <div class="container">
 
             <div class="divider-line">
-                <span>
-                    <img th:src="@{/images/IconoMulta.png}" alt="Icono">
-                    MULTAS
-                </span>
+        <span>
+          <img th:src="@{/images/IconoMulta.png}" alt="Icono">
+          MULTAS
+        </span>
             </div>
 
             <div class="title-section">
@@ -49,16 +47,25 @@
 
             <div class="tabla-wrapper">
 
+                <!-- TABS -->
+                <input type="radio" name="tabs_multa" id="r1"
+                       th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
+                <input type="radio" name="tabs_multa" id="r2"
+                       th:checked="${panelActivo == 'registrar'}" hidden>
+                <input type="radio" name="tabs_multa" id="r3"
+                       th:checked="${panelActivo == 'editar'}" hidden>
+
                 <div class="tabs">
                     <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
                     <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
                     <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
                 </div>
 
+                <!-- PANEL CONSULTAR -->
                 <div id="panel-consultar" class="panel">
                     <h3>Consulta de Multas</h3>
 
-                    <input type="number" id="buscarId" placeholder="Buscar por ID" />
+                    <input type="number" id="buscarId" placeholder="Buscar por ID"/>
                     <button onclick="buscarPorId()">Buscar</button>
                     <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
 
@@ -97,45 +104,106 @@
                     </table>
                 </div>
 
+                <!-- PANEL REGISTRAR -->
                 <div id="panel-registrar" class="panel" style="display:none;">
                     <h3>Registrar Multa</h3>
+
                     <form th:action="@{/multa/nueva}" th:object="${multaNueva}" method="post">
-                        <input type="number" th:field="*{monto}"        placeholder="Monto" /><br>
-                        <input type="text"   th:field="*{descripcion}"  placeholder="Descripción" /><br>
-                        <input type="date"   th:field="*{fechaEmision}"                           /><br>
-                        <input type="text"   th:field="*{estado}"       placeholder="Estado" /><br>
-                        <input type="text"   th:field="*{tipoPersona}"  placeholder="Tipo Persona" /><br>
+
+                        <div th:if="${errorGeneral}" class="mensaje-error-general">
+                            <p th:text="${errorGeneral}"></p>
+                        </div>
+
+                        <div class="campo-form">
+                            <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
+                            <span class="mensaje-error"
+                                  th:if="${#fields.hasErrors('monto')}"
+                                  th:errors="*{monto}"></span>
+                        </div>
+
+                        <div class="campo-form">
+                            <input type="text" th:field="*{descripcion}" placeholder="Descripción">
+                            <span class="mensaje-error"
+                                  th:if="${#fields.hasErrors('descripcion')}"
+                                  th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="campo-form">
+                            <input type="date" th:field="*{fechaEmision}">
+                            <span class="mensaje-error"
+                                  th:if="${#fields.hasErrors('fechaEmision')}"
+                                  th:errors="*{fechaEmision}"></span>
+                        </div>
+
+                        <div class="campo-form">
+                            <input type="text" th:field="*{estado}" placeholder="Estado">
+                            <span class="mensaje-error"
+                                  th:if="${#fields.hasErrors('estado')}"
+                                  th:errors="*{estado}"></span>
+                        </div>
+
+                        <div class="campo-form">
+                            <input type="text" th:field="*{tipoPersona}" placeholder="Tipo Persona">
+                            <span class="mensaje-error"
+                                  th:if="${#fields.hasErrors('tipoPersona')}"
+                                  th:errors="*{tipoPersona}"></span>
+                        </div>
+
                         <button type="submit">Guardar</button>
                     </form>
                 </div>
 
+                <!-- PANEL EDITAR -->
                 <div id="panel-editar" class="panel" style="display:none;">
                     <h3>Editar Multa</h3>
+
                     <div th:if="${multaEditar != null}">
-                        <form th:action="@{'/multa/editar/' + ${multaEditar.idMulta}}" method="post">
+                        <form th:action="@{'/multa/editar/' + ${multaEditar.idMulta}}"
+                              th:object="${multaEditar}" method="post">
 
-                            <input type="number" name="monto"
-                                   th:value="${multaEditar.monto}"
-                                   placeholder="Monto" /><br>
+                            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                                <p th:text="${errorGeneral}"></p>
+                            </div>
 
-                            <input type="text" name="descripcion"
-                                   th:value="${multaEditar.descripcion}"
-                                   placeholder="Descripción" /><br>
+                            <div class="campo-form">
+                                <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
+                                <span class="mensaje-error"
+                                      th:if="${#fields.hasErrors('monto')}"
+                                      th:errors="*{monto}"></span>
+                            </div>
 
-                            <input type="date" name="fechaEmision"
-                                   th:value="${multaEditar.fechaEmision}" /><br>
+                            <div class="campo-form">
+                                <input type="text" th:field="*{descripcion}" placeholder="Descripción">
+                                <span class="mensaje-error"
+                                      th:if="${#fields.hasErrors('descripcion')}"
+                                      th:errors="*{descripcion}"></span>
+                            </div>
 
-                            <input type="text" name="estado"
-                                   th:value="${multaEditar.estado}"
-                                   placeholder="Estado" /><br>
+                            <div class="campo-form">
+                                <input type="date" th:field="*{fechaEmision}">
+                                <span class="mensaje-error"
+                                      th:if="${#fields.hasErrors('fechaEmision')}"
+                                      th:errors="*{fechaEmision}"></span>
+                            </div>
 
-                            <input type="text" name="tipoPersona"
-                                   th:value="${multaEditar.tipoPersona}"
-                                   placeholder="Tipo Persona" /><br>
+                            <div class="campo-form">
+                                <input type="text" th:field="*{estado}" placeholder="Estado">
+                                <span class="mensaje-error"
+                                      th:if="${#fields.hasErrors('estado')}"
+                                      th:errors="*{estado}"></span>
+                            </div>
+
+                            <div class="campo-form">
+                                <input type="text" th:field="*{tipoPersona}" placeholder="Tipo Persona">
+                                <span class="mensaje-error"
+                                      th:if="${#fields.hasErrors('tipoPersona')}"
+                                      th:errors="*{tipoPersona}"></span>
+                            </div>
 
                             <button type="submit">Actualizar</button>
                         </form>
                     </div>
+
                     <div th:if="${multaEditar == null}">
                         <p>Selecciona una multa desde la tabla para editar.</p>
                     </div>
@@ -164,7 +232,7 @@
                 <div class="ayuda-contenido">
                     <span class="ayuda-tag tag-eliminar">Eliminar</span>
                     <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                    <p class="ayuda-texto">Para eliminar una multa haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente.</p>
+                    <p class="ayuda-texto">Para eliminar una multa haz clic en el botón rojo que se encuentra en el apartado de Acciones.</p>
                 </div>
             </article>
 
@@ -176,11 +244,7 @@
                 <div class="ayuda-contenido">
                     <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
                     <h3 class="ayuda-titulo">Consulta registros</h3>
-                    <p class="ayuda-texto">
-                        Para poder consultar una multa especifica o mostrar la tabla general con todos los registros,
-                        debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar
-                        todos los datos, unicamente debes de presionar el boton Mostrar Todo.
-                    </p>
+                    <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar una multa específica, o presiona Mostrar Todo para ver todos los registros.</p>
                 </div>
             </article>
 
@@ -192,7 +256,7 @@
                 <div class="ayuda-contenido">
                     <span class="ayuda-tag tag-editar">Editar</span>
                     <h3 class="ayuda-titulo">Registros Editables</h3>
-                    <p class="ayuda-texto">Para poder editar una multa unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
+                    <p class="ayuda-texto">Para editar una multa presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
                 </div>
             </article>
 
@@ -222,7 +286,6 @@
     function buscarPorId() {
         const id = document.getElementById('buscarId').value.trim();
         const filas = document.querySelectorAll('#cuerpo-tabla tr');
-
         filas.forEach(fila => {
             const idFila = fila.querySelector('td')?.textContent.trim();
             fila.style.display = (!id || idFila === id) ? '' : 'none';
