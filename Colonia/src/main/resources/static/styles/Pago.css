@@ -144,7 +144,7 @@ body {
     padding: 0;
 }
 
-.brand{
+.brand {
     display: flex;
     align-items: center;
     position: relative;
@@ -152,7 +152,7 @@ body {
     height: 100%;
 }
 
-.brand_logo{
+.brand_logo {
     width: 250px;
     height: auto;
     position: absolute;
@@ -182,11 +182,7 @@ body {
     transition: all 0.2s;
 }
 
-.menu_link:hover {
-    color: var(--primario);
-    border-bottom: 2px solid var(--primario);
-}
-
+.menu_link:hover,
 .menu_link.is-active {
     color: var(--primario);
     border-bottom: 2px solid var(--primario);
@@ -270,9 +266,7 @@ body {
     transition: all 0.2s;
 }
 
-.tab:hover {
-    background: var(--superficie2);
-}
+.tab:hover { background: var(--superficie2); }
 
 .tab.active {
     background: var(--primario);
@@ -312,9 +306,7 @@ table {
     margin-top: 20px;
 }
 
-thead tr {
-    background: var(--primario);
-}
+thead tr { background: var(--primario); }
 
 th {
     color: var(--blanco);
@@ -363,9 +355,7 @@ tbody tr:hover td {
     transition: background 0.2s;
 }
 
-.btn-editar:hover {
-    background: var(--borde);
-}
+.btn-editar:hover { background: var(--borde); }
 
 .btn-eliminar {
     display: inline-flex;
@@ -382,9 +372,7 @@ tbody tr:hover td {
     transition: background 0.2s;
 }
 
-.btn-eliminar:hover {
-    background: #b5614f;
-}
+.btn-eliminar:hover { background: #b5614f; }
 
 /* ===== BÚSQUEDA ===== */
 #buscarId {
@@ -430,7 +418,7 @@ tbody tr:hover td {
     background: var(--superficie2);
     color: var(--texto);
     font-size: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     box-sizing: border-box;
     transition: border-color 0.2s;
 }
@@ -455,9 +443,7 @@ tbody tr:hover td {
     margin-top: 4px;
 }
 
-.panel button[type="submit"]:hover {
-    background: var(--secundario);
-}
+.panel button[type="submit"]:hover { background: var(--secundario); }
 
 /* ===== BOTÓN BUSCAR ===== */
 button[onclick="buscarPorId()"] {
@@ -473,9 +459,7 @@ button[onclick="buscarPorId()"] {
     margin-right: 8px;
 }
 
-button[onclick="buscarPorId()"]:hover {
-    background: var(--secundario);
-}
+button[onclick="buscarPorId()"]:hover { background: var(--secundario); }
 
 /* ===== MOSTRAR TODO ===== */
 a[onclick*="mostrarTodas"] {
@@ -485,8 +469,40 @@ a[onclick*="mostrarTodas"] {
     text-decoration: none;
 }
 
-a[onclick*="mostrarTodas"]:hover {
-    text-decoration: underline;
+a[onclick*="mostrarTodas"]:hover { text-decoration: underline; }
+
+/* ===== CAMPO DE FORMULARIO ===== */
+.campo-form {
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+/* ===== MENSAJES DE VALIDACIÓN ===== */
+.mensaje-error {
+    display: block;
+    margin-top: 5px;
+    color: #b91c1c;
+    background-color: #fee2e2;
+    border-left: 4px solid #dc2626;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mensaje-error-general {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-left: 5px solid #dc2626;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.mensaje-error-general p {
+    margin: 0;
 }
 
 /* ===== UTILIDADES ===== */
@@ -553,9 +569,7 @@ a[onclick*="mostrarTodas"]:hover {
     margin-top: 2px;
 }
 
-.ayuda-contenido {
-    flex: 1;
-}
+.ayuda-contenido { flex: 1; }
 
 .ayuda-titulo {
     margin: 8px 0 6px;
