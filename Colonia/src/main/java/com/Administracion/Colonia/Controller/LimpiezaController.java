@@ -94,11 +94,15 @@ public class LimpiezaController {
 
     @GetMapping("/buscar/limpieza")
     public String buscarLimpieza(@RequestParam Integer id, Model model) {
-        Limpieza limpieza = limpiezaService.getLimpiezaById(id);
-        model.addAttribute("limpieza", List.of(limpieza));
+        try {
+            Limpieza limpieza = limpiezaService.getLimpiezaById(id);
+            model.addAttribute("limpieza", List.of(limpieza));
+        } catch (Exception e) {
+            model.addAttribute("limpieza", List.of());
+            model.addAttribute("errorGeneral", "No existe empleado con ID: " + id);
+        }
         model.addAttribute("limpiezaForm", new Limpieza());
         model.addAttribute("tab", "consultar");
-        
         return "limpieza";
     }
 }
