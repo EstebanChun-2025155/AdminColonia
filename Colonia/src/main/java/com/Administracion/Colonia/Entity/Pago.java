@@ -15,34 +15,33 @@ public class Pago {
     @Column (name = "id_Pago")
     private Integer idPago;
 
-    @NotNull(message = "El campo no debe de estar vacio")
+    @NotNull(message = "El id del residente es obligatorio")
     @Column (name = "id_Residente")
     private Integer idResidente;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "La clasificación del pago es obligatorio")
     @Pattern( regexp = "^(multa|mantenimiento|amenidad)$",
-            message = "La clasificación del pago es valido unicamente bajo los dominios: multa, mantenimiento, amenidad")
+            message = "La clasificación del pago solo puede ser: multa, mantenimiento o amenidad")
     @Column (name = "clasificacion_Pago")
     private String clasificacionPago;
 
-    @NotNull(message = "El campo no debe de estar vacio")
+    @NotNull(message = "El monto es obligatorio")
     @DecimalMin(value = "75.01", message = "El monto debe ser mayor a 75.00")
     @Column (name = "monto")
     private Double monto;
 
-    @NotNull(message = "El campo no debe de estar vacio")
+    @NotNull(message = "La fecha de pago es obligatorio")
     @Column (name = "fecha_Pago")
     private LocalDate fechaPago;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "El método es obligatorio")
     @Pattern( regexp = "^(efectivo|transferencia|tarjeta)$",
-            message = "El método de pago es valido unicamente bajo los dominios: efectivo, transferencia, tarjeta")
+            message = "El método del pago solo puede ser : efectivo, transferencia o tarjeta")
     @Column (name = "metodo")
     private String metodo;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
-    @Size(max = 6, message = "La referencia no puede exceder 6 caracteres")
-    @Size(min = 6, message = "La referencia no puede exceder menos de 6 caracteres")
+    @NotBlank(message = "La referencia es obligatorio")
+    @Size(min = 1, max = 6, message = "La referencia debe tener entre 1 y 6 caracteres")
     @Column (name = "referencia")
     private String referencia;
 

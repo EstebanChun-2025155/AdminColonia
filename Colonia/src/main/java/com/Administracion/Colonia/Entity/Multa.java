@@ -17,28 +17,28 @@ public class Multa {
     @Column (name = "id_multa")
     private Integer idMulta;
 
-    @NotNull(message = "El campo no debe de estar vacio")
+    @NotNull(message = "El monto es obligatorio")
     @DecimalMin(value = "120.01", message = "El precio debe ser mayor a 120.00")
     @Column (name = "monto")
     private Double monto;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "La descripción es obligatoria")
     @Column (name = "descripcion")
     private String descripcion;
 
-    @NotNull(message = "El campo no debe de estar vacio")
+    @NotNull(message = "La fecha de emisión es obligatorio")
     @Column (name = "fecha_emision")
     private LocalDate fechaEmision;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "El estado es obligatorio")
     @Pattern( regexp  = "^(pagado|pendiente|anulada)$",
-            message =  "El estado es valido unicamente bajo los dominios: pagado, pendiente, anulada")
+            message =  "El estado solo puede ser: pagado, pendiente o anulada")
     @Column (name = "estado")
     private String estado;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "El tipo de persona es obligatorio")
     @Pattern( regexp  = "^(visita|residente)$",
-            message =  "El estado es valido unicamente bajo los dominios: visita, residente")
+            message =  "El tipo de persona solo puede ser: visita o residente")
     @Column (name = "tipo_persona")
     private String tipoPersona;
 
