@@ -93,10 +93,19 @@ public class MultaController {
 
     @GetMapping("/multa/buscar")
     public String buscarMulta(@RequestParam Integer id, Model model) {
-        Multa multa = multaService.getMultaById(id);
-        model.addAttribute("multas", List.of(multa));
+
+        try {
+            Multa multa = multaService.getMultaById(id);
+            model.addAttribute("multas", List.of(multa));
+
+        } catch (RuntimeException e) {
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("multas", multaService.getAllMulta());
+        }
+
         model.addAttribute("multaNueva", new Multa());
         model.addAttribute("panelActivo", "consultar");
+
         return "VistaMulta";
     }
 

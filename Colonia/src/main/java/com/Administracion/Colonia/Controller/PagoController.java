@@ -93,10 +93,19 @@ public class PagoController {
 
     @GetMapping("/pago/buscar")
     public String buscarPago(@RequestParam Integer id, Model model) {
-        Pago pago = pagoService.getPagoById(id);
-        model.addAttribute("pagos", List.of(pago));
+
+        try {
+            Pago pago = pagoService.getPagoById(id);
+            model.addAttribute("pagos", List.of(pago));
+
+        } catch (RuntimeException e) {
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("pagos", pagoService.getAllPago());
+        }
+
         model.addAttribute("pagoNuevo", new Pago());
         model.addAttribute("panelActivo", "consultar");
+
         return "VistaPago";
     }
 }
