@@ -65,9 +65,15 @@
                 <div id="panel-consultar" class="panel">
                     <h3>Consulta de Multas</h3>
 
-                    <input type="number" id="buscarId" placeholder="Buscar por ID"/>
-                    <button onclick="buscarPorId()">Buscar</button>
-                    <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
+                    <div th:if="${errorGeneral}" class="mensaje-error-general">
+                        <p th:text="${errorGeneral}"></p>
+                    </div>
+
+                    <form th:action="@{/multa/buscar}" method="get" class="search_box">
+                        <input type="number" name="id" placeholder="Buscar por ID" required>
+                        <button type="submit">Buscar</button>
+                        <a th:href="@{/multa}">Mostrar Todo</a>
+                    </form>
 
                     <table id="tabla-multas">
                         <thead>
