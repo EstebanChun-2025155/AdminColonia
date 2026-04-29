@@ -143,15 +143,55 @@
 
 <input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
 
-<section class="seccion seccion--soft" id="ayuda">
+<section class="seccion" id="ayuda">
     <div class="container">
-        <h2>Ayuda</h2>
+        <div class="seccion_panel">
+            <span>AYUDA RÁPIDA</span>
+        </div>
 
-        <p class="muted">
-            En este módulo podrás consultar, registrar y editar
-            la información relacionada con las multas registradas.
-        </p>
+        <div class="ayuda-grid">
 
+            <article class="ayuda-card">
+                <div class="ayuda-tip">
+                    <span class="num">01</span>
+                    <span class="tip">TIP</span>
+                </div>
+                <div class="ayuda-contenido">
+                    <span class="ayuda-tag tag-eliminar">Eliminar</span>
+                    <h3 class="ayuda-titulo">Sencillo y practico</h3>
+                    <p class="ayuda-texto">Para eliminar una multa haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente.</p>
+                </div>
+            </article>
+
+            <article class="ayuda-card">
+                <div class="ayuda-tip">
+                    <span class="num">02</span>
+                    <span class="tip">TIP</span>
+                </div>
+                <div class="ayuda-contenido">
+                    <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                    <h3 class="ayuda-titulo">Consulta registros</h3>
+                    <p class="ayuda-texto">
+                        Para poder consultar una multa especifica o mostrar la tabla general con todos los registros,
+                        debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar
+                        todos los datos, unicamente debes de presionar el boton Mostrar Todo.
+                    </p>
+                </div>
+            </article>
+
+            <article class="ayuda-card">
+                <div class="ayuda-tip">
+                    <span class="num">03</span>
+                    <span class="tip">TIP</span>
+                </div>
+                <div class="ayuda-contenido">
+                    <span class="ayuda-tag tag-editar">Editar</span>
+                    <h3 class="ayuda-titulo">Registros Editables</h3>
+                    <p class="ayuda-texto">Para poder editar una multa unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
+                </div>
+            </article>
+
+        </div>
     </div>
 </section>
 
