@@ -1,22 +1,19 @@
+/* Variables */
 :root{
-    --bg-dark: #2A2522;
-    --bg-dark-2: #3E3A37;
-
-    --primary: #C46A3C;
-    --primary-light: #D98A5F;
-
-    --ink: #FFFFFF;
-    --muted: #B8B0A8;
-
-    --surface: rgba(62,58,55,.92);
-    --line: rgba(255,255,255,.15);
-
-    --danger: #D57A66;
-
-    --radius: 14px;
-    --shadow: 0 12px 30px rgba(0,0,0,.30);
+    --bg-dark:#2A2522;
+    --bg-dark-2:#3E3A37;
+    --primary:#C46A3C;
+    --primary-light:#D98A5F;
+    --ink:#FFFFFF;
+    --muted:#B8B0A8;
+    --surface:rgba(62,58,55,.92);
+    --line:rgba(255,255,255,.15);
+    --danger:#D57A66;
+    --radius:14px;
+    --shadow:0 12px 30px rgba(0,0,0,.30);
 }
 
+/* Base */
 *{
     margin:0;
     padding:0;
@@ -25,25 +22,42 @@
 }
 
 body{
-    height:100vh;
+    min-height:100vh;
     overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
     position:relative;
+    background:var(--bg-dark);
+}
 
-    background: linear-gradient(-45deg,
-        var(--bg-dark),
-        var(--bg-dark-2),
-        #4B2E22,
-        var(--primary));
-    background-size:400% 400%;
-    animation:fondoAnimado 10s ease infinite;
+/* Video de fondo */
+.video-fondo{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+    pointer-events:none;
+}
+
+/* Capa oscura */
+.capa-video{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(
+        0deg,
+        rgba(42,37,34,.74),
+        rgba(42,37,34,.58)
+    );
+    z-index:1;
+    pointer-events:none;
 }
 
 /* Fondo dinámico */
 .background{
-    position:absolute;
+    position:fixed;
     width:200%;
     height:200%;
     background:
@@ -51,13 +65,8 @@ body{
         radial-gradient(circle at 80% 30%, rgba(217,138,95,.15), transparent 30%),
         radial-gradient(circle at 50% 80%, rgba(255,255,255,.05), transparent 25%);
     animation:mover 16s linear infinite;
-    z-index:1;
-}
-
-@keyframes fondoAnimado{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
+    z-index:2;
+    pointer-events:none;
 }
 
 @keyframes mover{
@@ -69,20 +78,25 @@ body{
     }
 }
 
+/* Contenedor */
 .login-container{
     position:relative;
-    z-index:2;
+    z-index:3;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* Panel más compacto */
+/* Tarjeta */
 .login-card{
     width:360px;
-    padding:25px 25px;
+    padding:20px 24px 24px;
     border-radius:22px;
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    box-shadow: var(--shadow);
+    background:var(--surface);
+    backdrop-filter:blur(14px);
     border:1px solid rgba(255,255,255,.05);
+    box-shadow:var(--shadow);
     text-align:center;
     animation:aparecer 1s ease;
 }
@@ -100,66 +114,68 @@ body{
 
 /* Logo */
 .logo-container{
-    width: 100%;
+    width:100%;
+    margin-bottom:0;
     display:flex;
     justify-content:center;
     align-items:center;
-    margin-bottom: 2px;
-    animation: aparecerLogo 1.2s ease;
+    animation:aparecerLogo 1.2s ease;
 }
 
 .logo-container img{
-    width: 100%;
-    max-width: 340px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    object-fit: contain;
+    width:100%;
+    max-width:310px;
+    height:auto;
+    display:block;
+    margin:0 auto;
+    object-fit:contain;
 }
 
 @keyframes aparecerLogo{
     from{
         opacity:0;
-        transform: translateY(-15px) scale(.9);
+        transform:translateY(-15px) scale(.9);
     }
     to{
         opacity:1;
-        transform: translateY(0) scale(1);
+        transform:translateY(0) scale(1);
     }
 }
 
+/* Texto */
 .login-card h1{
+    margin-bottom:4px;
     color:var(--ink);
-    font-size:34px;
-    margin-bottom:5px;
+    font-size:32px;
 }
 
 .login-card p{
+    margin-bottom:16px;
     color:var(--muted);
-    margin-bottom:20px;
-    font-size:15px;
+    font-size:14px;
 }
 
+/* Inputs */
 .input-group{
     position:relative;
-    margin-bottom:22px;
+    margin-bottom:18px;
 }
 
 .input-group input{
     width:100%;
-    padding:15px 10px;
+    padding:13px 10px;
     border:none;
     border-bottom:2px solid var(--line);
     background:transparent;
     outline:none;
     color:var(--ink);
-    font-size:16px;
+    font-size:15px;
 }
 
 .input-group label{
     position:absolute;
+    top:13px;
     left:10px;
-    top:15px;
     color:var(--muted);
     pointer-events:none;
     transition:.3s;
@@ -172,23 +188,24 @@ body{
 
 .input-group input:focus + label,
 .input-group input:valid + label{
-    top:-10px;
-    font-size:12px;
+    top:-9px;
     color:var(--primary-light);
+    font-size:12px;
 }
 
+/* Botón */
 button{
     width:100%;
-    padding:14px;
+    padding:13px;
     border:none;
     border-radius:30px;
     background:linear-gradient(135deg, var(--primary), var(--primary-light));
+    box-shadow:0 5px 15px rgba(196,106,60,.35);
     color:white;
-    font-size:18px;
+    font-size:17px;
     font-weight:bold;
     cursor:pointer;
     transition:.3s;
-    box-shadow:0 5px 15px rgba(196,106,60,.35);
 }
 
 button:hover{
@@ -196,9 +213,31 @@ button:hover{
     box-shadow:0 0 18px rgba(196,106,60,.45);
 }
 
+/* Error */
 .error{
-    margin-top:15px;
+    margin-top:12px;
+    margin-bottom:0;
     color:var(--danger);
     font-size:14px;
     font-weight:500;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .login-card{
+        width:90%;
+        padding:20px;
+    }
+
+    .logo-container img{
+        max-width:280px;
+    }
+
+    .login-card h1{
+        font-size:28px;
+    }
+
+    button{
+        font-size:16px;
+    }
 }
