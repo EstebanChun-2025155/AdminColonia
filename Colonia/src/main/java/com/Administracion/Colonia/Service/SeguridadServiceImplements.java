@@ -69,4 +69,10 @@ public class  SeguridadServiceImplements implements SeguridadService {
         }
         seguridadRepository.deleteById(id);
     }
+
+    @Override
+    public Seguridad login(String nombre, String telefono) {
+
+        return seguridadRepository.findByNombreAndTelefono(nombre, telefono);
+    }
 }
