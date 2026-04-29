@@ -517,6 +517,38 @@ input{
     padding:0 18px;
 }
 
+.campo-form {
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+.mensaje-error {
+    display: block;
+    margin-top: 5px;
+    color: #b91c1c;
+    background-color: #fee2e2;
+    border-left: 4px solid #dc2626;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.mensaje-error-general {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-left: 5px solid #dc2626;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.mensaje-error-general p {
+    margin: 0;
+}
+
 .panel_list,
 table{
     margin-top:20px;
