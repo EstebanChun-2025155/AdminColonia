@@ -2,24 +2,28 @@ package com.Administracion.Colonia.Service;
 
 import com.Administracion.Colonia.Entity.Limpieza;
 import com.Administracion.Colonia.Repository.LimpiezaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LimpiezaServiceImplements implements LimpiezaService{
-    private final LimpiezaRepository limpiezaRepository;
+public class LimpiezaServiceImplements implements LimpiezaService {
 
-    public  LimpiezaServiceImplements(LimpiezaRepository limpiezaRepository) {
-        this.limpiezaRepository = limpiezaRepository;
+    @Autowired
+    private LimpiezaRepository limpiezaRepository;
+
+    @Override
+    public List<Limpieza> getAllLimpieza() {
+        return limpiezaRepository.findAll();
     }
-    @Override
-    public List<Limpieza> getAllLimpieza() { return limpiezaRepository.findAll(); }
 
     @Override
-    public Limpieza getLimpiezaById(Integer id) { return limpiezaRepository.getReferenceById(id); }
+    public Limpieza getLimpiezaById(Integer id) {
+        return limpiezaRepository.findById(id).orElseThrow(() -> new RuntimeException("Este empleado de limpieza no existe"));
+    }
 
     @Override
-    public Limpieza saveLimpieza(Limpieza limpieza) throws  RuntimeException {
+    public Limpieza saveLimpieza(Limpieza limpieza) throws RuntimeException {
         try {
             if (limpiezaRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefono(
                     limpieza.getNombre(),
@@ -29,7 +33,6 @@ public class LimpiezaServiceImplements implements LimpiezaService{
                     limpieza.getTelefono())) {
                 throw new RuntimeException("Ya existe un empleado de limpieza con estos datos");
             }
-
             return limpiezaRepository.save(limpieza);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -38,7 +41,8 @@ public class LimpiezaServiceImplements implements LimpiezaService{
 
     @Override
     public Limpieza updateLimpieza(Integer id, Limpieza limpieza) {
-        Limpieza existingLimpieza = limpiezaRepository.findById(id).orElseThrow(() -> new RuntimeException("El empleado de limpieza no existe"));
+        Limpieza existingLimpieza = limpiezaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El empleado de limpieza no existe"));
 
         if (limpiezaRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefono(
                 limpieza.getNombre(),
