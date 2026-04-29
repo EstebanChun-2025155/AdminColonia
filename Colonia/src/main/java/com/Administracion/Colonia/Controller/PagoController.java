@@ -2,9 +2,11 @@ package com.Administracion.Colonia.Controller;
 
 import com.Administracion.Colonia.Entity.Pago;
 import com.Administracion.Colonia.Service.PagoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +34,21 @@ public class PagoController {
     }
 
     @PostMapping("/pago/nueva")
-    public String guardarPago(@ModelAttribute Pago pago) {
-        pagoService.savePago(pago);
+    public String guardarPago(@Valid @ModelAttribute("pagoNuevo") Pago pago,
+                              BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("panelActivo", "registrar");
+            return "VistaPago";
+        }
+        try {
+            pagoService.savePago(pago);
+        } catch (RuntimeException e) {
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("panelActivo", "registrar");
+            return "VistaPago";
+        }
         return "redirect:/pago";
     }
 
@@ -47,8 +62,26 @@ public class PagoController {
     }
 
     @PostMapping("/pago/editar/{id}")
-    public String actualizarPago(@PathVariable Integer id, @ModelAttribute Pago pago) {
-        pagoService.updatePago(id, pago);
+    public String actualizarPago(@PathVariable Integer id,
+                                 @Valid @ModelAttribute("pagoEditar") Pago pago,
+                                 BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            pago.setIdPago(id);
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("pagoNuevo", new Pago());
+            model.addAttribute("panelActivo", "editar");
+            return "VistaPago";
+        }
+        try {
+            pagoService.updatePago(id, pago);
+        } catch (RuntimeException e) {
+            pago.setIdPago(id);
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("pagoNuevo", new Pago());
+            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("panelActivo", "editar");
+            return "VistaPago";
+        }
         return "redirect:/pago";
     }
 
@@ -56,5 +89,14 @@ public class PagoController {
     public String eliminarPago(@PathVariable Integer id) {
         pagoService.deletePago(id);
         return "redirect:/pago";
+    }
+
+    @GetMapping("/pago/buscar")
+    public String buscarPago(@RequestParam Integer id, Model model) {
+        Pago pago = pagoService.getPagoById(id);
+        model.addAttribute("pagos", List.of(pago));
+        model.addAttribute("pagoNuevo", new Pago());
+        model.addAttribute("panelActivo", "consultar");
+        return "VistaPago";
     }
 }
