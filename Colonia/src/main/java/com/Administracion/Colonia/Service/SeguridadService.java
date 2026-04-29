@@ -12,4 +12,6 @@ public interface SeguridadService {
     Seguridad saveSeguridad (Seguridad seguridad) throws RuntimeException;
     Seguridad updateSeguridad(Integer id, Seguridad seguridad);
     void deleteSeguridad(Integer id);
+
+    Seguridad login(String nombre, String telefono);
 }
