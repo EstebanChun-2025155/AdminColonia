@@ -13,4 +13,6 @@ public interface SeguridadRepository extends JpaRepository<Seguridad, Integer> {
             Double salario,
             String telefono
     );
+
+    Seguridad findByNombreAndTelefono(String nombre, String telefono);
 }
