@@ -41,6 +41,16 @@ public class ResidenteServiceImplements implements ResidenteService {
     public Residente updateResidente(Integer id, Residente residente) {
         Residente existingResidente = residenteRepository.findById(id).orElseThrow(()-> new RuntimeException("Este Residente no existe"));
 
+        if(residenteRepository.existsByNombreResidenteAndDpiResidenteAndTelefonoResidenteAndPosicionAndIdCasa(
+                residente.getNombreResidente(),
+                residente.getDpiResidente(),
+                residente.getTelefonoResidente(),
+                residente.getPosicion(),
+                residente.getIdCasa())){
+
+            throw new RuntimeException("Ya existe una residente con estos datos");
+        }
+
         existingResidente.setNombreResidente(residente.getNombreResidente());
         existingResidente.setDpiResidente(residente.getDpiResidente());
         existingResidente.setTelefonoResidente(residente.getTelefonoResidente());
