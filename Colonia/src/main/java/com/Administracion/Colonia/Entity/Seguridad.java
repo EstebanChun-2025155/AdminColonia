@@ -12,10 +12,12 @@ public class Seguridad {
     private Integer idSeguridad;
 
     @NotBlank(message = "El campo de nombre no debe de estar vacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚ ]+$", message = "El nombre no puede contener números ni caracteres especiales")
     @Column(name = "nombre")
     private String nombre;
 
     @NotBlank(message = "El campo de puesto no debe de estar vacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚ ]+$", message = "El nombre no puede contener números ni caracteres especiales")
     @Column(name = "puesto")
     private String puesto;
 
