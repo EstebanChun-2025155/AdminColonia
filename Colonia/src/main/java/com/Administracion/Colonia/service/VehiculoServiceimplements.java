@@ -27,51 +27,27 @@ public class VehiculoServiceimplements implements VehiculoService {
     }
 
     @Override
-    public Vehiculo saveVehiculo(Vehiculo vehiculo) throws RuntimeException {
-        try {
-            if (vehiculoRepository.existsByIdVehiculoAndPlacaAndMarcaModeloAndColorAndPropietarioAndIdCasa(
-                    vehiculo.getIdVehiculo(),
-                    vehiculo.getPlaca(),
-                    vehiculo.getMarcaModelo(),
-                    vehiculo.getColor(),
-                    vehiculo.getPropietario(),
-                    vehiculo.getIdCasa())) {
-
-                throw new RuntimeException("Ya existe un vehículo con estos datos");
-            }
-
-            return vehiculoRepository.save(vehiculo);
-
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
+    public Vehiculo saveVehiculo(Vehiculo vehiculo) {
+        // 1. Validar placa duplicada
+        if (vehiculoRepository.existsByPlaca(vehiculo.getPlaca())) {
+            throw new RuntimeException("La placa ya está registrada");
         }
+        // 2. Intentar guardar (Si el ID de casa no existe, el try-catch del Controller lo atrapará)
+        return vehiculoRepository.save(vehiculo);
     }
 
     @Override
     public Vehiculo updateVehiculo(Integer id, Vehiculo vehiculo) {
+        Vehiculo existente = vehiculoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
-        Vehiculo existingVehiculo = vehiculoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("El vehículo no existe"));
+        existente.setPlaca(vehiculo.getPlaca());
+        existente.setMarcaModelo(vehiculo.getMarcaModelo());
+        existente.setColor(vehiculo.getColor());
+        existente.setPropietario(vehiculo.getPropietario());
+        existente.setIdCasa(vehiculo.getIdCasa());
 
-        if (vehiculoRepository.existsByIdVehiculoAndPlacaAndMarcaModeloAndColorAndPropietarioAndIdCasa(
-                vehiculo.getIdVehiculo(),
-                vehiculo.getPlaca(),
-                vehiculo.getMarcaModelo(),
-                vehiculo.getColor(),
-                vehiculo.getPropietario(),
-                vehiculo.getIdCasa())) {
-
-            throw new RuntimeException("Ya existe un vehículo con estos datos");
-        }
-
-        existingVehiculo.setIdVehiculo(vehiculo.getIdVehiculo());
-        existingVehiculo.setPlaca(vehiculo.getPlaca());
-        existingVehiculo.setMarcaModelo(vehiculo.getMarcaModelo());
-        existingVehiculo.setColor(vehiculo.getColor());
-        existingVehiculo.setPropietario(vehiculo.getPropietario());
-        existingVehiculo.setIdCasa(vehiculo.getIdCasa());
-
-        return vehiculoRepository.save(existingVehiculo);
+        return vehiculoRepository.save(existente);
     }
 
     @Override
@@ -79,7 +55,8 @@ public class VehiculoServiceimplements implements VehiculoService {
         if (!vehiculoRepository.existsById(id)) {
             throw new RuntimeException("Este id no existe");
         }
-
         vehiculoRepository.deleteById(id);
     }
+
+
 }
