@@ -19,8 +19,7 @@ public class  SeguridadServiceImplements implements SeguridadService {
     }
 
     @Override
-    public Seguridad getSeguridadById(Integer id) {
-        return seguridadRepository.getReferenceById(id);
+    public Seguridad getSeguridadById(Integer id) {  return seguridadRepository.findById(id).orElseThrow(() -> new RuntimeException("Este empleado de limpieza no existe"));
     }
 
     @Override
