@@ -51,8 +51,8 @@
     <section class="vista">
         <h2 class="vista_titulo">REGISTRO DE CASAS</h2>
 
-        <input type="radio" name="tabs_casa" id="r1" checked hidden>
-        <input type="radio" name="tabs_casa" id="r2" hidden>
+        <input type="radio" name="tabs_casa" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_casa" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_casa" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
@@ -125,27 +125,75 @@
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Casa</h3>
             <form th:action="@{/guardar/casa}" th:object="${casaForm}" method="post">
-                <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa" required>
-                <input type="text" th:field="*{direccion}" placeholder="Dirección" required>
-                <input type="text" th:field="*{estado}" placeholder="Estado" required>
-                <input type="text" th:field="*{propietario}" placeholder="Propietario" required>
-                <input type="number" th:field="*{precioCasa}" placeholder="Precio" required>
+
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('noDeCasa')}" th:errors="*{noDeCasa}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{direccion}" placeholder="Dirección">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{estado}" placeholder="Estado">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{precioCasa}" placeholder="Precio">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('precioCasa')}" th:errors="*{precioCasa}"></span>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
-
         </div>
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Casa</h3>
 
-            <form th:action="@{/actualizar/casa/{id}(id=${casaForm.idCasa})}"
-                  th:object="${casaForm}" method="post">
+            <form th:action="@{/actualizar/casa/{id}(id=${casaForm.idCasa})}" th:object="${casaForm}" method="post">
                 <input type="hidden" th:field="*{idCasa}">
-                <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa" required>
-                <input type="text" th:field="*{direccion}" placeholder="Dirección" required>
-                <input type="text" th:field="*{estado}" placeholder="Estado" required>
-                <input type="text" th:field="*{propietario}" placeholder="Propietario" required>
-                <input type="number" th:field="*{precioCasa}" placeholder="Precio" required>
+
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{noDeCasa}" placeholder="No. Casa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('noDeCasa')}" th:errors="*{noDeCasa}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{direccion}" placeholder="Dirección">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{estado}" placeholder="Estado">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{precioCasa}" placeholder="Precio">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('precioCasa')}" th:errors="*{precioCasa}"></span>
+                </div>
+
                 <button type="submit" class="btn btn-edit">Actualizar</button>
             </form>
         </div>
