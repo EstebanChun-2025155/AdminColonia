@@ -48,7 +48,15 @@ public class VehiculoController {
             return "Vehiculos";
         }
 
-        vehiculoService.saveVehiculo(vehiculo);
+        try {
+            vehiculoService.saveVehiculo(vehiculo);
+        } catch (Exception e) {
+            // Si la base de datos rechaza el ID de casa, el error caerá aquí
+            model.addAttribute("error", "Error: La casa especificada no existe o los datos son duplicados.");
+            model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            return "Vehiculos";
+        }
+
         return "redirect:/vehiculos";
     }
 
