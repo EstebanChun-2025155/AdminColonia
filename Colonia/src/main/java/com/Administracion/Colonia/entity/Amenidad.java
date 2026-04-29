@@ -25,15 +25,13 @@ public class Amenidad {
     private double costoUso;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
-            message = "Estado no válido")
+    @Pattern(regexp = "^(?i)(ocupada|disponible|mantenimiento)$", message = "Estado no válido")
     @Column(name = "estado", nullable = false)
     private String estado;
 
     @Min(value = 0, message = "La capacidad no puede ser menor a 0")
     @Column(name = "capacidad")
     private Integer capacidad;
-
     public Integer getIdAmenidad() {
         return idAmenidad;
     }
