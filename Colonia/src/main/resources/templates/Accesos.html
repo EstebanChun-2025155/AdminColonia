@@ -13,7 +13,7 @@
     <div class="container menuAccesos_row">
         <nav class="menu">
             <a class="menuAccesos_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menuAccesos_link" href="#adminAccesos">Administracion</a>
+            <a class="menuAccesos_link" href="#adminAccesos">Administración</a>
             <a class="menuAccesos_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
@@ -27,8 +27,10 @@
             <div class="container frontAccesos_content">
                 <h1>ACCESOS</h1>
                 <p>
-                    Aqui podras manejar todas las consultas relacionadas con la informacion
-                    almacenada sobre el registro de Accesos dentro de la Colonia
+
+                    Aquí podrás manejar todas las consultas relacionadas con la información
+
+                    almacenada sobre el registro de accesos dentro de la colonia.
                 </p>
             </div>
         </div>
@@ -43,12 +45,23 @@
     </div>
 
     <section class="vista">
+
         <h2 class="vista_titulo">REGISTRO DE ACCESOS</h2>
 
+        <div class="alerta-error" th:if="${error}" th:text="${error}"></div>
+
         <!-- TABS -->
-        <input type="radio" name="tabs_acc" id="a1" hidden th:checked="${modoEditar == null}">
-        <input type="radio" name="tabs_acc" id="a2" hidden>
-        <input type="radio" name="tabs_acc" id="a3" hidden th:checked="${modoEditar}">
+        <input type="radio" name="tabs_acc" id="a1" hidden
+
+               th:checked="${tabActiva == null || tabActiva == 'consultar'}">
+
+        <input type="radio" name="tabs_acc" id="a2" hidden
+
+               th:checked="${tabActiva == 'registrar'}">
+
+        <input type="radio" name="tabs_acc" id="a3" hidden
+
+               th:checked="${tabActiva == 'editar'}">
 
         <div class="tabs">
             <label for="a1" class="tab label1">Consultar</label>
@@ -89,26 +102,52 @@
                     <td th:text="${a.id}"></td>
                     <td th:text="${a.tipoPersona}"></td>
                     <td th:text="${a.idSeguridad}"></td>
+
                     <td th:text="${a.horaEntrada != null ? #temporals.format(a.horaEntrada, 'yyyy-MM-dd HH:mm') : ''}"></td>
+
                     <td th:text="${a.horaSalida != null ? #temporals.format(a.horaSalida, 'yyyy-MM-dd HH:mm') : 'Sin salida'}"></td>
 
                     <td>
                         <div class="acciones">
 
-                        <a th:href="@{/accesos/editar/{id}(id=${a.id})}"class="btn btn-edit" title="Editar">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                            </svg>
-                        </a>
+                            <a th:href="@{/accesos/editar/{id}(id=${a.id})}"
 
-                        <form th:action="@{/accesos/eliminar/{id}(id=${a.id})}" method="get">
-                            <button class="btn btn-danger" title="Eliminar">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                               class="btn btn-edit"
+
+                               title="Editar">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+
+                                     width="16"
+
+                                     height="16"
+
+                                     fill="currentColor"
+
+                                     class="bi bi-pencil-square"
+
+                                     viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                 </svg>
-                            </button>
-                        </form>
+                            </a>
+
+                            <form th:action="@{/accesos/eliminar/{id}(id=${a.id})}" method="get">
+                                <button type="submit" class="btn btn-danger" title="Eliminar">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+
+                                         width="16"
+
+                                         height="16"
+
+                                         fill="currentColor"
+
+                                         class="bi bi-trash3-fill"
+
+                                         viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg>
+                                </button>
+                            </form>
 
                         </div>
                     </td>
@@ -121,17 +160,45 @@
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Acceso</h3>
 
-            <form th:action="@{/accesos/guardar}" th:object="${acceso}" method="post">
-                <select th:field="*{tipoPersona}" required>
+            <form th:action="@{/accesos/guardar}"
+                  th:object="${acceso}"
+                  method="post">
+
+                <select th:field="*{tipoPersona}">
                     <option value="">Seleccione tipo</option>
                     <option value="visita">Visita</option>
                     <option value="residente">Residente</option>
                     <option value="personal">Personal</option>
                 </select>
 
-                <input type="number" placeholder="ID Seguridad" th:field="*{idSeguridad}" required>
-                <input type="datetime-local" th:field="*{horaEntrada}" required>
-                <input type="datetime-local" th:field="*{horaSalida}">
+                <span class="campo-error"
+                      th:if="${#fields.hasErrors('tipoPersona')}"
+                      th:errors="*{tipoPersona}">
+                </span>
+
+                <input type="number"
+                       placeholder="ID Seguridad"
+                       th:field="*{idSeguridad}">
+
+                <span class="campo-error"
+                      th:if="${#fields.hasErrors('idSeguridad')}"
+                      th:errors="*{idSeguridad}">
+
+                </span>
+
+                <input type="datetime-local"
+                       th:field="*{horaEntrada}">
+
+                <span class="campo-error"
+                      th:if="${#fields.hasErrors('horaEntrada')}"
+                      th:errors="*{horaEntrada}">
+                </span>
+
+                <input type="datetime-local"
+                       th:field="*{horaSalida}">
+
+                <small class="muted">Deja este campo vacío si la persona aún no ha salido.</small>
+
                 <button type="submit">Guardar</button>
             </form>
         </div>
@@ -140,29 +207,53 @@
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Acceso</h3>
 
-            <div th:if="${modoEditar == null}">
-                <p>Usa el botón editar en la tabla</p>
+            <div th:if="${tabActiva != 'editar'}">
+                <p>Usa el botón editar en la tabla para modificar un acceso.</p>
             </div>
 
-            <div th:if="${modoEditar}">
-                <form th:action="@{/accesos/actualizar}" th:object="${acceso}" method="post">
+            <div th:if="${tabActiva == 'editar'}">
+
+                <form th:action="@{/accesos/actualizar/{id}(id=${acceso.id})}"
+                      th:object="${acceso}"
+                      method="post">
 
                     <input type="hidden" th:field="*{id}">
 
-                    <select th:field="*{tipoPersona}" required>
+                    <select th:field="*{tipoPersona}">
+                        <option value="">Seleccione tipo</option>
                         <option value="visita">Visita</option>
                         <option value="residente">Residente</option>
                         <option value="personal">Personal</option>
                     </select>
 
-                    <input type="number" th:field="*{idSeguridad}" required>
+                    <span class="campo-error"
+                          th:if="${#fields.hasErrors('tipoPersona')}"
+                          th:errors="*{tipoPersona}">
+                    </span>
 
-                    <input type="datetime-local" th:field="*{horaEntrada}" required>
+                    <input type="number"
+                           placeholder="ID Seguridad"
+                           th:field="*{idSeguridad}">
 
-                    <input type="datetime-local" th:field="*{horaSalida}">
+                    <span class="campo-error"
+                          th:if="${#fields.hasErrors('idSeguridad')}"
+                          th:errors="*{idSeguridad}">
+                    </span>
+
+                    <input type="datetime-local"
+                           th:field="*{horaEntrada}">
+
+                    <span class="campo-error"
+                          th:if="${#fields.hasErrors('horaEntrada')}"
+                          th:errors="*{horaEntrada}">
+                    </span>
+
+                    <input type="datetime-local"
+                           th:field="*{horaSalida}">
+
+                    <small class="muted">Completa este campo cuando la persona salga del condominio.</small>
 
                     <button type="submit" class="btn editar">Actualizar</button>
-
                 </form>
             </div>
         </div>
@@ -184,8 +275,11 @@
                     </div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
-                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                        <p class="ayuda-texto">Para eliminar un Residente haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente</p>
+                        <h3 class="ayuda-titulo">Eliminación de accesos</h3>
+                        <p class="ayuda-texto">
+
+                            Para eliminar un acceso haz clic en el botón rojo que se encuentra en el apartado de acciones.
+                        </p>
                     </div>
                 </article>
 
@@ -195,9 +289,12 @@
                         <span class="tip">TIP</span>
                     </div>
                     <div class="ayuda-contenido">
-                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <span class="ayuda-tag tag-busqueda">Búsqueda rápida</span>
                         <h3 class="ayuda-titulo">Consulta registros</h3>
-                        <p class="ayuda-texto">Para poder consultar un residente especifica o mostrar la tabla general con todos los registros, debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar todos los datos, unicamente debes de presionar el boton Mostrar Todo</p>
+                        <p class="ayuda-texto">
+
+                            Para consultar un acceso específico, ingresa el ID en el buscador. Para mostrar todos los registros, presiona el botón Mostrar Todo.
+                        </p>
                     </div>
                 </article>
 
@@ -208,8 +305,11 @@
                     </div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-editar">Editar</span>
-                        <h3 class="ayuda-titulo">Registros Editables</h3>
-                        <p class="ayuda-texto">Para poder editar un Residente unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
+                        <h3 class="ayuda-titulo">Registros editables</h3>
+                        <p class="ayuda-texto">
+
+                            Para editar un acceso, presiona el botón con ícono de lápiz. El sistema cargará los datos en el formulario de edición.
+                        </p>
                     </div>
                 </article>
 
