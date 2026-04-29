@@ -15,25 +15,25 @@ public class Visitas {
     private Integer id;
 
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "El nombre de la visita no puede estar vacío")
     @Column(name = "nombre_visita")
     private String nombreVisita;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
-    @Size(min = 11, max = 11, message = "El documento no puede exceder de 11 caracteres")
+    @NotBlank(message = "El documento no puede estar vacío")
+    @Size(min = 11, max = 11, message = "El documento debe tener exactamente 11 caracteres")
     @Column(name = "documento")
     private String documento;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
-    @Size(min = 8, max = 8, message = "La placa no puede exceder de 8 caracteres")
+    @NotBlank(message = "La placa no puede estar vacía")
+    @Size(min = 8, max = 8, message = "La placa debe tener exactamente 8 caracteres")
     @Column(name = "placa")
     private String placa;
 
-    @NotBlank(message = "El campo de texto no debe de estar vacio")
+    @NotBlank(message = "El motivo no puede estar vacío")
     @Column(name = "motivo")
     private String motivo;
 
-    @NotNull(message = "El campo no puede estar vacio")
+    @NotNull(message = "La casa no puede estar vacía")
     @Column(name = "id_casa")
     private Integer idCasa;
 
