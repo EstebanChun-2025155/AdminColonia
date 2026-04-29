@@ -362,3 +362,338 @@ input{
 .muted{
     color:var(--muted);
 }
+.menubar{
+    background: rgba(239, 230, 216, 0.90);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.menubar_row{
+display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0;
+}
+
+.brand{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 250px;
+    height: 100%;
+}
+
+.brand_logo{
+    width: 250px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 1000;
+    transition: .3s;
+}
+
+.brand_logo:hover{
+    transform: translateY(-50%) scale(1.05);
+}
+
+.menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.menu_link{
+    font-weight: 800;
+    letter-spacing: .5px;
+    color: var(--ink);
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: .3s;
+    position: relative;
+}
+
+.menu_link:hover{
+    background: rgba(196, 106, 60, .18);
+}
+
+.menu_link::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:0;
+    width:0;
+    height:2px;
+    background: var(--primary);
+    transition:.3s;
+    transform:translateX(-50%);
+}
+
+.menu_link:hover::after{
+    width:70%;
+}
+
+.is-active{
+    border-bottom: 3px solid var(--primary);
+    color: var(--primary);
+}
+
+/* ===============================
+   ADAPTACIÓN FORMULARIO EDICIÓN (Content 3)
+=================================*/
+
+/* Contenedor de los campos en fila */
+.content3 .form-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap; /* Se ajusta si la pantalla es pequeña */
+    margin-bottom: 20px;
+}
+
+/* Aplicar el estilo del input a los select y campos de número */
+.content3 input,
+.content3 select {
+    background: var(--surface); /* Tu color crema */
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--ink);
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    height: 45px; /* Altura uniforme */
+}
+
+/* Efecto al seleccionar un campo */
+.content3 input:focus,
+.content3 select:focus {
+    border-color: var(--primary);
+    background: var(--soft);
+}
+
+/* Botón Actualizar a lo largo de todo el panel */
+.content3 .btn-edit {
+    width: 100%;
+    height: 45px;
+    justify-content: center;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-weight: 900;
+}
+
+.content3 .btn-edit:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* ===============================
+   ADAPTACIÓN FORMULARIO REGISTRO (Content 2)
+=================================*/
+
+/* Estilo para los inputs y select en la pestaña de Registrar */
+.content2 input,
+.content2 select {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--ink);
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    width: 100%; /* Aquí ocupan el ancho total como en tu imagen */
+    height: 45px;
+    box-sizing: border-box;
+}
+
+/* Quitar el estilo por defecto del select en navegadores */
+.content2 select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233E3A37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.content2 input:focus,
+.content2 select:focus {
+    border-color: var(--primary);
+    background: var(--soft);
+}
+
+/* Estilo del botón Guardar */
+.content2 button[type="submit"] {
+    width: 100%;
+    height: 45px;
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.content2 button[type="submit"]:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+.acciones{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.seccion{
+    padding: 34px 0 44px;
+}
+
+#admin{
+    background:
+        radial-gradient(circle at top left, rgba(196,106,60,.08), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(217,138,95,.10), transparent 40%);
+}
+
+.seccion--soft{
+    background: var(--soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.seccion_panel{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin: 6px 0 22px;
+}
+
+.seccion_panel::before,
+.seccion_panel::after{
+    content: "";
+    height: 3px;
+    background: var(--primary);
+    flex: 1;
+    max-width: 260px;
+}
+
+.seccion_panel span{
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.ayuda-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.ayuda-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,.04);
+    border: 1px solid rgba(255,255,255,.6);
+    transition: all .3s ease;
+}
+
+.ayuda-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 12px 25px rgba(0,0,0,.08);
+    border-color: var(--primary-light);
+}
+
+.ayuda-tip {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-radius: 12px;
+    min-width: 65px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(196,106,60,.25);
+    flex-shrink: 0;
+}
+
+.ayuda-tip .num {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.ayuda-tip .tip {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.ayuda-contenido {
+    flex: 1;
+}
+
+.ayuda-titulo {
+    margin: 8px 0 6px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.ayuda-texto {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* Etiquetas de colores para las categorías */
+.ayuda-tag {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.tag-eliminar{
+    background: rgba(213, 122, 102, 0.15);
+    color: var(--danger);
+}
+.tag-busqueda {
+    background: rgba(163, 177, 138, 0.25);
+    color: #5D6B4C;
+}
+.tag-editar {
+    background: rgba(196, 106, 60, 0.15);
+    color: var(--primary);
+}
