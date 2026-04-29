@@ -23,12 +23,35 @@ public class PagoServiceImplements implements PagoService{
 
     @Override
     public Pago savePago(Pago pago) throws RuntimeException {
-        return pagoRepository.save(pago);
+        try {
+            if (pagoRepository.existsByIdResidenteAndClasificacionPagoAndMontoAndFechaPagoAndMetodoAndReferencia(
+                    pago.getIdResidente(),
+                    pago.getClasificacionPago(),
+                    pago.getMonto(),
+                    pago.getFechaPago(),
+                    pago.getMetodo(),
+                    pago.getReferencia())) {
+                throw new RuntimeException("Ya existe un pago con estos datos");
+            }
+            return pagoRepository.save(pago);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Pago updatePago(Integer id, Pago pago) {
         Pago existingPago = pagoRepository.findById(id).orElseThrow(() -> new RuntimeException("El pago no existe"));
+
+        if (pagoRepository.existsByIdResidenteAndClasificacionPagoAndMontoAndFechaPagoAndMetodoAndReferencia(
+                pago.getIdResidente(),
+                pago.getClasificacionPago(),
+                pago.getMonto(),
+                pago.getFechaPago(),
+                pago.getMetodo(),
+                pago.getReferencia())) {
+            throw new RuntimeException("Ya existe un pago con estos datos");
+        }
 
         existingPago.setIdResidente(pago.getIdResidente());
         existingPago.setClasificacionPago(pago.getClasificacionPago());

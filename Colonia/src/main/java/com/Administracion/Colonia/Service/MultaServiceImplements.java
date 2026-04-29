@@ -23,13 +23,33 @@ public class MultaServiceImplements implements MultaService {
 
     @Override
     public Multa saveMulta(Multa multa) throws RuntimeException {
-        return multaRepository.save(multa);
+        try {
+            if (multaRepository.existsByMontoAndDescripcionAndFechaEmisionAndEstadoAndTipoPersona(
+                    multa.getMonto(),
+                    multa.getDescripcion(),
+                    multa.getFechaEmision(),
+                    multa.getEstado(),
+                    multa.getTipoPersona())) {
+                throw new RuntimeException("Ya existe una multa con estos datos");
+            }
+            return multaRepository.save(multa);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public Multa updateMulta(Integer id, Multa multa) {
         Multa existingMulta = multaRepository.findById(id).orElseThrow(() -> new RuntimeException("La multa no existe"));
 
+        if (multaRepository.existsByMontoAndDescripcionAndFechaEmisionAndEstadoAndTipoPersona(
+                multa.getMonto(),
+                multa.getDescripcion(),
+                multa.getFechaEmision(),
+                multa.getEstado(),
+                multa.getTipoPersona())) {
+            throw new RuntimeException("Ya existe una multa con estos datos");
+        }
 
         existingMulta.setMonto(multa.getMonto());
         existingMulta.setDescripcion(multa.getDescripcion());
