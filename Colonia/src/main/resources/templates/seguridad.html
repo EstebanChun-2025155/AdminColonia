@@ -10,11 +10,9 @@
 
 <div class="menuCasa">
     <div class="container menuCasa_row">
-
         <div class="brand">
             <img th:src="@{/images/Logo-colonia.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-
         <nav class="menu">
             <a class="menuCasa_link is-active" th:href="@{/home}">Inicio</a>
             <a class="menuCasa_link" href="#adminSeguridad">Administración</a>
@@ -27,7 +25,6 @@
 
     <section class="frontCasa">
         <img class="frontCasa_img" th:src="@{/Images/Imagen-fondo.png}" alt="Seguridad">
-
         <div class="frontCasa_overlay">
             <div class="container frontCasa_content">
                 <h1>SEGURIDAD</h1>
@@ -52,10 +49,8 @@
 
         <input type="radio" name="tabs_seguridad" id="r1"
                th:checked="${tab == null || tab == 'consultar'}" hidden>
-
         <input type="radio" name="tabs_seguridad" id="r2"
                th:checked="${tab == 'registrar'}" hidden>
-
         <input type="radio" name="tabs_seguridad" id="r3"
                th:checked="${tab == 'editar'}" hidden>
 
@@ -67,6 +62,10 @@
 
         <div class="panel content1">
             <h3 class="panel_titulo">Consulta de Personal</h3>
+
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
             <form th:action="@{/buscar/seguridad}" method="get" class="search_box">
                 <input type="number" name="id" placeholder="Buscar por ID" required>
@@ -109,7 +108,6 @@
                                         </svg>
                                     </button>
                                 </form>
-
                             </div>
                         </td>
                     </tr>
@@ -120,15 +118,32 @@
 
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Personal</h3>
+            <form th:action="@{/guardar/seguridad}" th:object="${seguridadForm}" method="post">
 
-            <form th:action="@{/guardar/seguridad}"
-                  th:object="${seguridadForm}" method="post">
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
 
-                <input type="text" th:field="*{nombre}" placeholder="Nombre Completo" required>
-                <input type="text" th:field="*{puesto}" placeholder="Puesto" required>
-                <input type="text" th:field="*{jornada}" placeholder="Jornada" required>
-                <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario" required>
-                <input type="text" th:field="*{telefono}" placeholder="Teléfono" required>
+                <div class="campo-form">
+                    <input type="text" th:field="*{nombre}" placeholder="Nombre Completo">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{puesto}" placeholder="Puesto">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
@@ -136,18 +151,36 @@
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Personal</h3>
-
             <form th:if="${seguridadForm != null}"
                   th:action="@{/actualizar/seguridad/{id}(id=${seguridadForm.idSeguridad})}"
                   th:object="${seguridadForm}" method="post">
 
                 <input type="hidden" th:field="*{idSeguridad}">
 
-                <input type="text" th:field="*{nombre}" required>
-                <input type="text" th:field="*{puesto}" required>
-                <input type="text" th:field="*{jornada}" required>
-                <input type="number" step="0.01" th:field="*{salario}" required>
-                <input type="text" th:field="*{telefono}" required>
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{nombre}" placeholder="Nombre">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{puesto}" placeholder="Puesto">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{salario}" placeholder="Salario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                </div>
 
                 <button type="submit" class="btn btn-edit">Actualizar</button>
             </form>
@@ -157,53 +190,32 @@
 
     <section class="seccion" id="ayuda">
         <div class="container">
-            <div class="seccion_panel">
-                <span>AYUDA RÁPIDA</span>
-            </div>
+            <div class="seccion_panel"><span>AYUDA RÁPIDA</span></div>
             <div class="ayuda-grid">
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">01</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">01</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
-                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo que se
-                            encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente</p>
+                        <h3 class="ayuda-titulo">Sencillo y práctico</h3>
+                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo en Acciones.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">02</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">02</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
-                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <span class="ayuda-tag tag-busqueda">Búsqueda</span>
                         <h3 class="ayuda-titulo">Consulta registros</h3>
-                        <p class="ayuda-texto">Para poder consultar un empleado especifico o mostrar la tabla
-                            general con todos los registros, debes de ingresar un ID en el buscador que aparece
-                            en la parte superior de la tabla, si lo que buscas es mostrar todos los datos,
-                            unicamente debes de presionar el boton Mostrar Todo</p>
+                        <p class="ayuda-texto">Usa el buscador por ID o presiona Mostrar Todo para ver la tabla completa.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">03</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">03</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-editar">Editar</span>
                         <h3 class="ayuda-titulo">Registros Editables</h3>
-                        <p class="ayuda-texto">Para poder editar un empleado unicamente necesitas presionar
-                            el botón con icono de lapiz, al presionarlo este te enviara a un formulario para
-                            rellenar los datos que deseas editar.</p>
+                        <p class="ayuda-texto">Presiona el icono de lápiz para rellenar el formulario de edición.</p>
                     </div>
                 </article>
-
             </div>
         </div>
     </section>
