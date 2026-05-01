@@ -19,18 +19,19 @@ public class  SeguridadServiceImplements implements SeguridadService {
     }
 
     @Override
-    public Seguridad getSeguridadById(Integer id) {  return seguridadRepository.findById(id).orElseThrow(() -> new RuntimeException("Este empleado de limpieza no existe"));
+    public Seguridad getSeguridadById(Integer id) {  return seguridadRepository.findById(id).orElseThrow(() -> new RuntimeException("Este empleado de seguridad no existe"));
     }
 
     @Override
     public Seguridad saveSeguridad(Seguridad seguridad) throws RuntimeException {
         try {
-            if (seguridadRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefono(
+            if (seguridadRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefonoSeguridadAndDpiSeguridad(
                     seguridad.getNombre(),
                     seguridad.getPuesto(),
                     seguridad.getJornada(),
                     seguridad.getSalario(),
-                    seguridad.getTelefono())) {
+                    seguridad.getTelefonoSeguridad(),
+                    seguridad.getDpiSeguridad())) {
                 throw new RuntimeException("Ya existe un empleado de seguridad con estos datos");
             }
 
@@ -44,12 +45,13 @@ public class  SeguridadServiceImplements implements SeguridadService {
     public Seguridad updateSeguridad(Integer id, Seguridad seguridad) {
         Seguridad existingSeguridad = seguridadRepository.findById(id).orElseThrow(() -> new RuntimeException("El empleado de seguridad no existe"));
 
-        if (seguridadRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefono(
+        if (seguridadRepository.existsByNombreAndPuestoAndJornadaAndSalarioAndTelefonoSeguridadAndDpiSeguridad(
                 seguridad.getNombre(),
                 seguridad.getPuesto(),
                 seguridad.getJornada(),
                 seguridad.getSalario(),
-                seguridad.getTelefono())) {
+                seguridad.getTelefonoSeguridad(),
+                seguridad.getDpiSeguridad())) {
             throw new RuntimeException("Ya existe un empleado de seguridad con estos datos");
         }
 
@@ -57,7 +59,8 @@ public class  SeguridadServiceImplements implements SeguridadService {
         existingSeguridad.setPuesto(seguridad.getPuesto());
         existingSeguridad.setJornada(seguridad.getJornada());
         existingSeguridad.setSalario(seguridad.getSalario());
-        existingSeguridad.setTelefono(seguridad.getTelefono());
+        existingSeguridad.setTelefonoSeguridad(seguridad.getTelefonoSeguridad());
+        existingSeguridad.setDpiSeguridad(seguridad.getDpiSeguridad());
 
         return seguridadRepository.save(existingSeguridad);
     }
@@ -71,8 +74,7 @@ public class  SeguridadServiceImplements implements SeguridadService {
     }
 
     @Override
-    public Seguridad login(String nombre, String telefono) {
-
-        return seguridadRepository.findByNombreAndTelefono(nombre, telefono);
+    public Seguridad login(String nombreSeguridad, String dpiSeguridad) {
+        return seguridadRepository.findByNombreAndDpiSeguridad(nombreSeguridad, dpiSeguridad);
     }
 }
