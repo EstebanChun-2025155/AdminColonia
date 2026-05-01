@@ -34,8 +34,13 @@ public class Seguridad {
 
     @NotBlank(message = "El telefono no debe estar vacío")
     @Pattern(regexp = "^\\d{4}-\\d{4}$", message = "El telefono debe tener formato 0000-0000")
-    @Column(name = "telefono")
-    private String telefono;
+    @Column(name = "telefono_Seguridad")
+    private String telefonoSeguridad;
+
+    @NotBlank(message = "Los campos no pueden estar vacios")
+    @Size(max = 13, message = "El dpi solo puede tener 13 caracteres")
+    @Column(name = "dpi_Seguridad")
+    private String dpiSeguridad;
 
     public Integer getIdSeguridad() {
         return idSeguridad;
@@ -77,11 +82,19 @@ public class Seguridad {
         this.salario = salario;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getTelefonoSeguridad() {
+        return telefonoSeguridad;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelefonoSeguridad(String telefonoSeguridad) {
+        this.telefonoSeguridad = telefonoSeguridad;
+    }
+
+    public String getDpiSeguridad() {
+        return dpiSeguridad;
+    }
+
+    public void setDpiSeguridad(String dpiSeguridad) {
+        this.dpiSeguridad = dpiSeguridad;
     }
 }
