@@ -31,12 +31,12 @@
             <form th:action="@{/login}" method="post">
                 <div class="input-group">
                     <input type="text" name="username" id="username" required>
-                    <label for="username">Nombre Completo</label>
+                    <label for="username">Nombre</label>
                 </div>
 
                 <div class="input-group">
                     <input type="password" name="password" id="password" required>
-                    <label for="password">DPI o Teléfono (Contraseña)</label>
+                    <label for="password">DPI</label>
                 </div>
 
                 <button type="submit">Ingresar</button>
@@ -45,42 +45,42 @@
                    th:if="${error}" th:text="${error}"></p>
             </form>
 
-        <svg class="neon-svg" id="neonSvg" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <filter id="softglow">
-                    <feGaussianBlur stdDeviation="3.5" result="b1"/>
-                    <feGaussianBlur stdDeviation="8" result="b2"/>
-                    <feMerge>
-                        <feMergeNode in="b2"/>
-                        <feMergeNode in="b1"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-                <filter id="outerAura">
-                    <feGaussianBlur stdDeviation="14"/>
-                </filter>
-                <linearGradient id="movingGrad" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%"   stop-color="rgba(255,220,120,0)"/>
-                    <stop offset="35%"  stop-color="rgba(255,200,80,0.15)"/>
-                    <stop offset="50%"  stop-color="#FFE08A"/>
-                    <stop offset="65%"  stop-color="rgba(196,106,60,0.15)"/>
-                    <stop offset="100%" stop-color="rgba(196,106,60,0)"/>
-                </linearGradient>
-            </defs>
-            <rect id="auraRect" x="3" y="3" rx="22" ry="22"
-                  fill="none" stroke="rgba(196,106,60,0.22)" stroke-width="10"
-                  filter="url(#outerAura)"/>
-            <rect id="baseRect" x="1.5" y="1.5" rx="22" ry="22"
-                  fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="1"/>
-            <rect id="neonRect" x="1.5" y="1.5" rx="22" ry="22"
-                  fill="none" stroke="url(#movingGrad)" stroke-width="1.5"
-                  filter="url(#softglow)" stroke-linecap="round"/>
-        </svg>
+            <svg class="neon-svg" id="neonSvg" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="softglow">
+                        <feGaussianBlur stdDeviation="3.5" result="b1"/>
+                        <feGaussianBlur stdDeviation="8" result="b2"/>
+                        <feMerge>
+                            <feMergeNode in="b2"/>
+                            <feMergeNode in="b1"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    <filter id="outerAura">
+                        <feGaussianBlur stdDeviation="14"/>
+                    </filter>
+                    <linearGradient id="movingGrad" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%"   stop-color="rgba(255,220,120,0)"/>
+                        <stop offset="35%"  stop-color="rgba(255,200,80,0.15)"/>
+                        <stop offset="50%"  stop-color="#FFE08A"/>
+                        <stop offset="65%"  stop-color="rgba(196,106,60,0.15)"/>
+                        <stop offset="100%" stop-color="rgba(196,106,60,0)"/>
+                    </linearGradient>
+                </defs>
+                <rect id="auraRect" x="3" y="3" rx="22" ry="22"
+                      fill="none" stroke="rgba(196,106,60,0.22)" stroke-width="10"
+                      filter="url(#outerAura)"/>
+                <rect id="baseRect" x="1.5" y="1.5" rx="22" ry="22"
+                      fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="1"/>
+                <rect id="neonRect" x="1.5" y="1.5" rx="22" ry="22"
+                      fill="none" stroke="url(#movingGrad)" stroke-width="1.5"
+                      filter="url(#softglow)" stroke-linecap="round"/>
+            </svg>
 
+        </div>
     </div>
-</div>
 
-<script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
 
 </body>
 </html>
