@@ -18,7 +18,8 @@ create table Seguridad (
     Puesto varchar(100) not null,
     Jornada enum('dia','noche') not null,
     Salario decimal(10,2) not null,
-    Telefono varchar(20) not null,
+    telefono_Seguridad varchar(9) not null,
+    dpi_Seguridad varchar(13) not null,
     primary key PK_id_seguridad(id_Seguridad)
 );
 
@@ -28,7 +29,7 @@ create table Limpieza (
     Puesto varchar(100) not null,
     Jornada enum('manana','tarde') not null,
     Salario decimal(10,2) not null,
-    Telefono varchar(20) not null,
+    Telefono varchar(9) not null,
     primary key PK_id_Limpieza(id_Limpieza)
 );
 
@@ -94,21 +95,22 @@ Delimiter ;
 
 -- Seguridad --
 -- Create --
-Delimiter $$ 
-    create procedure sp_Seguridad_create(p_nombre varchar(100), p_puesto varchar(100), 
-    p_jornada enum('dia','noche'), p_salario decimal(10, 2), p_telefono varchar(20))
-    begin 
-        insert into Seguridad(Nombre, Puesto, Jornada, Salario, Telefono)
-        values (p_nombre, p_puesto, p_jornada, p_salario, p_telefono);
+Delimiter $$
+    create procedure sp_Seguridad_create(p_Nombre varchar(100), p_Puesto varchar(100), 
+    p_Jornada enum('dia','noche'), p_Salario decimal(10,2), p_telefono_Seguridad varchar(9), 
+    p_dpi_Seguridad varchar(13))
+    begin
+        insert into Seguridad(Nombre, Puesto, Jornada, Salario, telefono_Seguridad, dpi_Seguridad)
+        values (p_Nombre, p_Puesto, p_Jornada, p_Salario, p_telefono_Seguridad, p_dpi_Seguridad);
         select last_insert_id() as id_Seguridad;
     end $$
 Delimiter ;
 
 -- Delete --
 Delimiter $$
-    create procedure sp_Seguridad_delete(in p_id_seguridad int)
+    create procedure sp_Seguridad_delete(in p_id_Seguridad int)
     begin
-        delete from Seguridad where id_Seguridad = p_id_seguridad;
+        delete from Seguridad where id_Seguridad = p_id_Seguridad;
         select row_count() as filas_afectadas;
     end $$
 Delimiter ;
@@ -116,23 +118,26 @@ Delimiter ;
 -- Read -- 
 Delimiter $$
     create procedure sp_Seguridad_read_all()
-    begin 
+    begin
         select * from Seguridad order by id_Seguridad;
     end $$
 Delimiter ;
 
 -- Update -- 
 Delimiter $$
-    create procedure sp_Seguridad_update(in p_id_seguridad int, in p_nombre varchar(100), in p_puesto varchar(100), 
-    in p_jornada enum('dia','noche'), in p_salario decimal(10, 2), in p_telefono varchar(20))
-    begin 
+    create procedure sp_Seguridad_update(in p_id_Seguridad int, in p_Nombre varchar(100), in p_Puesto varchar(100), 
+    in p_Jornada enum('dia','noche'), in p_Salario decimal(10,2), in p_telefono_Seguridad varchar(9), 
+    in p_dpi_Seguridad varchar(13))
+    begin
         update Seguridad
-        set Nombre = p_nombre,
-            Puesto = p_puesto,
-            Jornada = p_jornada,
-            Salario = p_salario,
-            Telefono = p_telefono
-            where id_Seguridad = p_id_seguridad;
+        set id_Seguridad = p_id_Seguridad,
+            Nombre = p_Nombre,
+            Puesto = p_Puesto,
+            Jornada = p_Jornada,
+            Salario = p_Salario,
+            telefono_Seguridad = p_telefono_Seguridad,
+            dpi_Seguridad = p_dpi_Seguridad
+            where id_Seguridad = p_id_Seguridad;
         select row_count() as filas_afectadas;
     end $$
 Delimiter ;
@@ -141,7 +146,7 @@ Delimiter ;
 -- Create --
 Delimiter $$
     create procedure sp_Limpieza_create(p_nombre varchar(100), p_puesto varchar(100), 
-    p_jornada enum('manana','tarde'), p_salario decimal(10, 2), p_telefono varchar(20))
+    p_jornada enum('manana','tarde'), p_salario decimal(10, 2), p_telefono varchar(9))
     begin
         insert into Limpieza(Nombre, Puesto, Jornada, Salario, Telefono)
         values (p_nombre, p_puesto, p_jornada, p_salario, p_telefono);
@@ -169,7 +174,7 @@ Delimiter ;
 -- Update -- 
 Delimiter $$
     create procedure sp_Limpieza_update(in p_id_limpieza int, in p_nombre varchar(100), in p_puesto varchar(100), 
-    in p_jornada enum('manana','tarde'), in p_salario decimal(10, 2), in p_telefono varchar(20))
+    in p_jornada enum('manana','tarde'), in p_salario decimal(10, 2), in p_telefono varchar(9))
     begin
         update Limpieza
         set Nombre = p_nombre,
@@ -240,16 +245,16 @@ CALL sp_casa_create('C008','Zona 8, Calle 6','disponible','Miguel Hernández',33
 CALL sp_casa_create('C009','Zona 9, Av 3','ocupada','Elena Morales',410800.00);
 CALL sp_casa_create('C010','Zona 10, Calle 2','disponible','Ricardo Flores',299000.00);
 
-CALL sp_seguridad_create('Juan Pérez', 'Guardia de Garita', 'dia', 3500.00, '5544-3322');
-CALL sp_seguridad_create('Roberto Gómez', 'Vigilante Nocturno', 'noche', 3800.00, '4433-2211');
-CALL sp_seguridad_create('Carlos Méndez', 'Supervisor', 'dia', 4500.00, '3322-1100');
-CALL sp_seguridad_create('Luis Hernández', 'Operador CCTV', 'noche', 3600.00, '2211-0099');
-CALL sp_seguridad_create('Mario Estrada', 'Patrullero', 'noche', 3700.00, '1100-9988');
-CALL sp_seguridad_create('Fernando Ruiz', 'Guardia de Garita', 'dia', 3500.00, '9988-7766');
-CALL sp_seguridad_create('Jorge Blanco', 'Vigilante Nocturno', 'noche', 3800.00, '8877-6655');
-CALL sp_seguridad_create('Samuel Sosa', 'Rondín', 'dia', 3400.00, '7766-5544');
-CALL sp_seguridad_create('Ricardo Paz', 'Seguridad Perimetral', 'noche', 3750.00, '6655-4433');
-CALL sp_seguridad_create('Héctor Lima', 'Jefe de Seguridad', 'dia', 5000.00, '5544-4433');
+CALL sp_seguridad_create('Alejandro Ruiz', 'Guardia de Garita', 'dia', 3500.00, '5544-3322', '1357924680135');
+CALL sp_seguridad_create('Brandon Castillo', 'Vigilante Nocturno', 'noche', 3800.00, '4433-2211', '2468013579246');
+CALL sp_seguridad_create('César Morales', 'Supervisor', 'dia', 4500.00, '3322-1100', '3579246801357');
+CALL sp_seguridad_create('Diego Fernández', 'Operador CCTV', 'noche', 3600.00, '2211-0099', '4680135792468');
+CALL sp_seguridad_create('Eduardo Pineda', 'Patrullero', 'noche', 3700.00, '1100-9988', '5792468013579');
+CALL sp_seguridad_create('Felipe Navarro', 'Guardia de Garita', 'dia', 3500.00, '9988-7766', '6801357924680');
+CALL sp_seguridad_create('Gabriel Soto', 'Vigilante Nocturno', 'noche', 3800.00, '8877-6655', '7913579246801');
+CALL sp_seguridad_create('Hugo Salazar', 'Rondín', 'dia', 3400.00, '7766-5544', '8024680135792');
+CALL sp_seguridad_create('Iván Cabrera', 'Seguridad Perimetral', 'noche', 3750.00, '6655-4433', '9135792468013');
+CALL sp_seguridad_create('Javier Ordoñez', 'Jefe de Seguridad', 'dia', 5000.00, '5544-4433', '0246801357924');
 
 CALL sp_limpieza_create('Ana Martínez', 'Conserje Áreas Verdes', 'manana', 3200.00, '5566-7788');
 CALL sp_limpieza_create('María López', 'Mantenimiento', 'tarde', 3200.00, '4455-6677');
