@@ -13,5 +13,5 @@ public interface SeguridadService {
     Seguridad updateSeguridad(Integer id, Seguridad seguridad);
     void deleteSeguridad(Integer id);
 
-    Seguridad login(String nombre, String telefono);
+    Seguridad login(String nombre, String dpiSeguridad);
 }
