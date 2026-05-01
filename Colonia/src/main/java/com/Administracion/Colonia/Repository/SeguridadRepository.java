@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SeguridadRepository extends JpaRepository<Seguridad, Integer> {
-    Boolean existsByNombreAndPuestoAndJornadaAndSalarioAndTelefono(
+    Boolean existsByNombreAndPuestoAndJornadaAndSalarioAndTelefonoSeguridadAndDpiSeguridad(
             String nombre,
             String puesto,
             String jornada,
             Double salario,
-            String telefono
+            String telefono,
+            String dpiSeguridad
     );
 
-    Seguridad findByNombreAndTelefono(String nombre, String telefono);
+    Seguridad findByNombreAndDpiSeguridad(String nombreSeguridad, String dpiSeguridad);
 }
