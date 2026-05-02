@@ -1,0 +1,153 @@
+:root {
+    --primary: #C46A3C;
+    --primary-light: #D98A5F;
+    --ink: #FFFFFF;
+    --muted: rgba(255, 255, 255, 0.7);
+    --line: rgba(255, 255, 255, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+/* ── Video Background ── */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.login-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* ── Ajuste de Posicionamiento del Efecto ── */
+.card-wrap {
+    position: relative;
+    width: 380px;
+    padding: 2px;
+}
+
+.login-card {
+    width: 100%;
+    padding: 45px 35px;
+    background: transparent;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    border-radius: 22px;
+}
+
+/* ── Forzar el SVG a cubrir el card exactamente ── */
+.neon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: visible;
+}
+
+/* ── Elementos del Formulario ── */
+.logo-container img {
+    max-width: 220px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    color: var(--ink);
+    margin-bottom: 35px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 5px;
+    background: transparent !important;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    color: var(--ink);
+    font-size: 16px;
+    outline: none;
+}
+
+/* Quitar recuadro blanco de autocompletado */
+input:-webkit-autofill {
+    -webkit-text-fill-color: var(--ink) !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(0,0,0,0) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.input-group label {
+    position: absolute;
+    left: 5px;
+    top: 12px;
+    color: var(--muted);
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+    top: -18px;
+    font-size: 12px;
+    color: var(--primary-light);
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.error {
+    color: #ff8a8a;
+    margin-top: 15px;
+    font-size: 14px;
+}
