@@ -1,10 +1,7 @@
 package Control.Colonia.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "seguridad")
@@ -15,10 +12,12 @@ public class Seguridad {
     private Integer idSeguridad;
 
     @NotBlank(message = "El campo de nombre no debe de estar vacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚ ]+$", message = "El nombre no puede contener números ni caracteres especiales")
     @Column(name = "nombre")
     private String nombre;
 
     @NotBlank(message = "El campo de puesto no debe de estar vacios")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚ ]+$", message = "El nombre no puede contener números ni caracteres especiales")
     @Column(name = "puesto")
     private String puesto;
 
@@ -35,8 +34,13 @@ public class Seguridad {
 
     @NotBlank(message = "El telefono no debe estar vacío")
     @Pattern(regexp = "^\\d{4}-\\d{4}$", message = "El telefono debe tener formato 0000-0000")
-    @Column(name = "telefono")
-    private String telefono;
+    @Column(name = "telefono_Seguridad")
+    private String telefonoSeguridad;
+
+    @NotBlank(message = "Los campos no pueden estar vacios")
+    @Size(max = 13, message = "El dpi solo puede tener 13 caracteres")
+    @Column(name = "dpi_Seguridad")
+    private String dpiSeguridad;
 
     public Integer getIdSeguridad() {
         return idSeguridad;
@@ -78,11 +82,19 @@ public class Seguridad {
         this.salario = salario;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getTelefonoSeguridad() {
+        return telefonoSeguridad;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelefonoSeguridad(String telefonoSeguridad) {
+        this.telefonoSeguridad = telefonoSeguridad;
+    }
+
+    public String getDpiSeguridad() {
+        return dpiSeguridad;
+    }
+
+    public void setDpiSeguridad(String dpiSeguridad) {
+        this.dpiSeguridad = dpiSeguridad;
     }
 }
