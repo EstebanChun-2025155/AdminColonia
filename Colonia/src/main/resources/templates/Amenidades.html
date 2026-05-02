@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amenidades</title>
+
+    <link rel="stylesheet" th:href="@{/styles/Amenidades.css}">
+</head>
+<body>
+
+<div class="menubar_row">
+    <div class="container menubar_row">
+
+        <div class="brand">
+            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+        </div>
+
+        <nav class="menu">
+            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menu_link" href="#adminAmenidad">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
+        </nav>
+    </div>
+</div>
+
+<main>
+
+    <!-- PORTADA -->
+    <section class="banner">
+
+        <img class="banner_img"
+             th:src="@{/images/ImagenAmenidades.png}"
+             alt="Amenidades">
+
+        <div class="banner_overlay">
+            <div class="container banner_content">
+                <h1>AMENIDADES</h1>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PANEL -->
+    <div class="panelAmenidad">
+        <span>CONSULTAS</span>
+    </div>
+
+    <div class="seccionAmenidad" id="adminAmenidad">
+        <h2>CONSULTA DE AMENIDADES</h2>
+    </div>
+
+    <!-- VISTA -->
+    <section class="vista">
+
+        <h2 class="vista_titulo">REGISTRO DE AMENIDADES</h2>
+
+        <!-- TABS -->
+        <input type="radio" name="tabs_amenidad" id="r1" checked hidden>
+        <input type="radio" name="tabs_amenidad" id="r2" hidden>
+        <input type="radio" name="tabs_amenidad" id="r3"
+               th:checked="${amenidadForm.idAmenidad != null}" hidden>
+
+        <div class="tabs">
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
+        </div>
+
+        <!-- CONSULTAR -->
+        <div class="panel content1">
+
+            <h3 class="panel_titulo">Consulta de Amenidades</h3>
+
+            <form th:action="@{/amenidades/buscar}"
+                  method="get"
+                  class="search_box">
+
+                <input type="number"
+                       name="id"
+                       placeholder="Buscar amenidad por ID"
+                       required>
+
+                <button type="submit" class="btn btn-primary">
+                    Buscar
+                </button>
+
+                <a th:href="@{/amenidades}" class="btn btn-edit">
+                    Mostrar Todo
+                </a>
+
+            </form>
+
+            <div class="panel_list">
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Horario</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th>Capacidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="a : ${amenidades}">
+                        <td th:text="${a.idAmenidad}"></td>
+                        <td th:text="${a.nombreAmenidad}"></td>
+                        <td th:text="${a.horarioUso}"></td>
+                        <td th:text="${a.costoUso}"></td>
+                        <td th:text="${a.estado}"></td>
+                        <td th:text="${a.capacidad}"></td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <!-- EDITAR -->
+                                <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}"
+                                   class="btn btn-edit"
+                                   title="Editar">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="16"
+                                         height="16"
+                                         fill="currentColor"
+                                         viewBox="0 0 16 16">
+
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z"/>
+
+                                        <path d="M13.752 4.396l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12z"/>
+
+                                        <path fill-rule="evenodd"
+                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+
+                                </a>
+
+                                <!-- ELIMINAR -->
+                                <form th:action="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}"
+                                      method="post">
+
+                                    <button type="submit"
+                                            class="btn btn-danger"
+                                            title="Eliminar"
+                                            onclick="return confirm('¿Eliminar amenidad?')">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(amenidades)}">
+                        <td colspan="7">No hay amenidades registradas.</td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="panel content2">
+
+            <h3 class="panel_titulo">Registrar Amenidad</h3>
+
+            <form th:action="@{/amenidades/guardar}" th:object="${amenidadForm}" method="post">
+
+                <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre" required>
+
+                <input type="text" th:field="*{horarioUso}" placeholder="Horario">
+
+                <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
+
+                <select th:field="*{estado}" required>
+                    <option value="" disabled selected>Seleccione Estado</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="ocupada">Ocupada</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                </select>
+
+                <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
+
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+
+        <!-- EDITAR -->
+        <div class="panel content3">
+            <h3 class="panel_titulo">Editar Amenidad</h3>
+
+            <form th:action="@{/amenidades/actualizar/{id}(id=${amenidadForm.idAmenidad})}"
+                  th:object="${amenidadForm}"
+                  method="post">
+
+                <input type="hidden" th:field="*{idAmenidad}">
+
+                <div class="form-group">
+                    <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre" required>
+                    <input type="text" th:field="*{horarioUso}" placeholder="Horario">
+                    <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
+
+                    <select th:field="*{estado}" required>
+                        <option value="disponible">Disponible</option>
+                        <option value="ocupada">Ocupada</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                    </select>
+
+                    <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
+                </div>
+
+                <button type="submit" class="btn btn-edit">Actualizar</button>
+            </form>
+        </div>
+
+    </section>
+
+    <!-- AYUDA -->
+    <section class="seccion" id="ayuda">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>AYUDA RÁPIDA</span>
+            </div>
+
+            <div class="ayuda-grid">
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">01</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-eliminar">Eliminar</span>
+                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
+                        <p class="ayuda-texto">Para eliminar una vivienda haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">02</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <h3 class="ayuda-titulo">Consulta registros</h3>
+                        <p class="ayuda-texto">Para poder consultar una amenidad especifica o mostrar la tabla general con todos los registros, debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar todos los datos, unicamente debes de presionar el boton Mostrar Todo</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">03</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-editar">Editar</span>
+                        <h3 class="ayuda-titulo">Registros Editables</h3>
+                        <p class="ayuda-texto">Para poder editar una amenidad unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
