@@ -106,34 +106,57 @@ a{
 }
 
 /* Portada Casa */
-.frontCasa{
-    position:relative;
-    min-height:340px;
-    overflow:hidden;
+.frontCasa {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    background-color: #000;
 }
 
-.frontCasa_img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center;
-    z-index:0;
+.frontCasa_video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    object-fit: cover;
 }
 
-.frontCasa_overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    z-index:1;
-    background:linear-gradient(0deg, rgba(62,58,55,.65), rgba(62,58,55,.65));
+.frontCasa_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.frontCasa_content{
-    color:#fff;
-    padding:26px 0;
+.frontCasa_content {
+    color: #ffffff;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.frontCasa_content h1 {
+    font-size: 2.2rem;
+    margin: 0 0 8px 0;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.frontCasa_content p {
+    font-size: 1rem;
+    max-width: 500px;
+    line-height: 1.4;
+    margin: 0;
+    opacity: 0.9;
 }
 
 /* Panel */
