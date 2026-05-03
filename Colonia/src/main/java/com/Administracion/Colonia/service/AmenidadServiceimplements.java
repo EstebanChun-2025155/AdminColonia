@@ -5,6 +5,7 @@ import com.Administracion.Colonia.repository.AmenidadRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AmenidadServiceimplements implements AmenidadService {
@@ -47,15 +48,13 @@ public class AmenidadServiceimplements implements AmenidadService {
 
     @Override
     public Amenidad updateAmenidad(Integer id, Amenidad amenidad) {
-        // 1. Verificar existencia
+
         Amenidad existingAmenidad = amenidadRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("La amenidad no existe"));
 
-        // 2. Actualizar datos (Sin el IF de existsBy para evitar el bloqueo del mismo registro)
         existingAmenidad.setNombreAmenidad(amenidad.getNombreAmenidad());
         existingAmenidad.setHorarioUso(amenidad.getHorarioUso());
         existingAmenidad.setCostoUso(amenidad.getCostoUso());
-        // Forzamos a minúsculas para mantener consistencia en la BD
         existingAmenidad.setEstado(amenidad.getEstado().toLowerCase());
         existingAmenidad.setCapacidad(amenidad.getCapacidad());
 
@@ -69,4 +68,12 @@ public class AmenidadServiceimplements implements AmenidadService {
         }
         amenidadRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Amenidad> buscarPorId(Integer id) {
+
+        return amenidadRepository.findById(id);
+
+    }
+
 }
