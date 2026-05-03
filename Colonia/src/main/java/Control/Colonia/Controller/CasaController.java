@@ -98,12 +98,15 @@ public class CasaController {
 
     @GetMapping("/buscar/casa")
     public String buscarCasa(@RequestParam Integer id, Model model) {
-        Casa casa = casaService.getCasaById(id);
-
-        model.addAttribute("casa", List.of(casa));
+        try {
+            Casa casa = casaService.getCasaById(id);
+            model.addAttribute("casa", List.of(casa));
+        } catch (Exception e) {
+            model.addAttribute("casa", List.of());
+            model.addAttribute("errorGeneral", "No se existe una vivienda con ID: " + id);
+        }
         model.addAttribute("casaForm", new Casa());
         model.addAttribute("tab", "consultar");
-
         return "casa";
     }
 }

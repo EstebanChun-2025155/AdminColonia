@@ -3,6 +3,7 @@ package Control.Colonia.Controller;
 import Control.Colonia.Entity.Residente;
 import Control.Colonia.Service.ResidenteService;
 import jakarta.validation.Valid;
+import org.aspectj.internal.lang.annotation.ajcDeclareSoft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,12 +95,15 @@ public class ResidenteController {
 
     @GetMapping("/buscar/residente")
     public String buscarResidente(@RequestParam Integer id, Model model){
-        Residente residente = residenteService.getResidenteById(id);
-
-        model.addAttribute("residente", List.of(residente));
+        try {
+            Residente residente = residenteService.getResidenteById(id);
+            model.addAttribute("residente", List.of(residente));
+        } catch (Exception e) {
+            model.addAttribute("residente", List.of());
+            model.addAttribute("errorGeneral", "No existe un Residente con el ID " + id);
+        }
         model.addAttribute("residenteForm", new Residente());
         model.addAttribute("tab", "consultar");
-
         return "residente";
     }
 }
