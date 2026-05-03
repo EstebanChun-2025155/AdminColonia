@@ -24,13 +24,7 @@
 
 <main>
     <section class="frontResidente">
-        <img class="frontResidente_img" th:src="@{/images/VistaResidente.jpg}" alt="Residentes">
-
-        <div class="frontResidente_overlay">
-            <div class="container frontResidente_content">
-                <h1>RESIDENTES</h1>
-            </div>
-        </div>
+        <video class="front_media" th:src="@{/images/portadaResidente.mp4}" autoplay loop muted playsinline></video>
 
     </section>
     <div class="panelResidente">
@@ -46,7 +40,7 @@
             REGISTRO DE RESIDENTES
         </h2>
 
-        <input type="radio" name="tabs_residente" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_residente" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_residente" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_residente" id="r3" th:checked="${tab == 'editar'}" hidden>
 
@@ -60,14 +54,17 @@
 
             <h3 class="panel_titulo"> Consulta de Residentes </h3>
 
-            <form th:action="@{/buscar/residente}" method="get" class="search_box">
-                <input type="number" name="id" placeholder="Buscar residente por ID" required>
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
-                <button type="submit" class="btn btn-primary">
-                    Buscar
-                </button>
+            <form th:action="@{/buscar/casa}" method="get" class="search_box">
 
-                <a th:href="@{/residente}" class="btn btn-edit"> Mostrar Todo </a>
+                <input type="number" name="id" placeholder="Buscar por ID" required>
+
+                <button type="submit" class="btn btn-primary">Buscar</button>
+
+                <a th:href="@{/casa}" class="btn btn-edit">Mostrar Todo</a>
             </form>
 
             <div class="panel_list">

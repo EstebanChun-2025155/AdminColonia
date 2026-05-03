@@ -26,13 +26,7 @@
 <main>
     <section class="frontCasa">
 
-        <img class="frontCasa_img" th:src="@{/images/VistaCasa.png}" alt="Casas">
-
-        <div class="frontCasa_overlay">
-            <div class="container frontCasa_content">
-                <h1>CASAS</h1>
-            </div>
-        </div>
+        <video class="front_media" th:src="@{/images/portadaCasa.mp4}" autoplay loop muted playsinline></video>
 
     </section>
 
@@ -47,7 +41,7 @@
     <section class="vista">
         <h2 class="vista_titulo">REGISTRO DE CASAS</h2>
 
-        <input type="radio" name="tabs_casa" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_casa" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_casa" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_casa" id="r3" th:checked="${tab == 'editar'}" hidden>
 
@@ -61,14 +55,17 @@
 
             <h3 class="panel_titulo">Consulta de Casas</h3>
 
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
+
             <form th:action="@{/buscar/casa}" method="get" class="search_box">
-                <input type="number" name="id" placeholder="Buscar casa por ID" required>
 
-                <button type="submit" class="btn btn-primary">
-                    Buscar
-                </button>
+                <input type="number" name="id" placeholder="Buscar por ID" required>
 
-                <a th:href="@{/casa}" class="btn btn-edit"> Mostrar Todo </a>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+
+                <a th:href="@{/casa}" class="btn btn-edit">Mostrar Todo</a>
             </form>
 
             <div class="panel_list">
