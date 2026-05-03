@@ -5,6 +5,7 @@ import com.Administracion.Colonia.repository.VehiculoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehiculoServiceimplements implements VehiculoService {
@@ -56,6 +57,16 @@ public class VehiculoServiceimplements implements VehiculoService {
             throw new RuntimeException("Este id no existe");
         }
         vehiculoRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Vehiculo> buscarPorId(Integer id) {
+        return vehiculoRepository.findById(id);
+    }
+
+    @Override
+    public boolean existePlaca(String placa) {
+        return false;
     }
 
 
