@@ -118,7 +118,7 @@ a{
     overflow:hidden;
 }
 
-.frontCasa_img{
+.front_media{
     position:absolute;
     inset:0;
     width:100%;
@@ -126,20 +126,7 @@ a{
     object-fit:cover;
     object-position:center;
     z-index:0;
-}
-
-.frontCasa_overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    z-index:1;
-    background:linear-gradient(0deg, rgba(62,58,55,.65), rgba(62,58,55,.65));
-}
-
-.frontCasa_content{
-    color:#fff;
-    padding:26px 0;
+    animation:zoomHero 12s ease-in-out infinite alternate;
 }
 
 /* Panel */
