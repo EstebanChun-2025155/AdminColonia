@@ -17,6 +17,7 @@
         </div>
 
         <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link" th:href="@{/reporte}">Reportes</a>
             <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
             <a class="menu_link" href="#contacto">Contacto</a>
@@ -133,10 +134,9 @@
                                     <path d="M7 3h10a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-4 2V5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M9 8h6M9 12h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10 16h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
                                 </svg>
                             </span>
-                    <span class="tile_label">Multas</span>
+                    <span class="tile_label">Multa</span>
                 </a>
 
                 <a class="tile" th:href="@{/pago}" aria-label="Acceso a Pagos">
@@ -149,7 +149,6 @@
                             </span>
                     <span class="tile_label">Pago</span>
                 </a>
-
             </div>
 
             <p class="hint"> Aqui podras acceder a toda la informacion acerca de nuestra administración en nuestra colonia</p>
