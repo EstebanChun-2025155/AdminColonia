@@ -23,7 +23,10 @@
 
 <main>
     <section class="frontCasa">
-        <img class="frontCasa_img" th:src="@{/images/Imagen-limpieza.png}" alt="Limpieza">
+        <video autoplay muted loop playsinline class="frontCasa_video">
+            <source th:src="@{/images/Limpieza.mp4}" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
         <div class="frontCasa_overlay">
             <div class="container frontCasa_content">
                 <h1>LIMPIEZA</h1>
@@ -78,6 +81,7 @@
                         <th>Puesto</th>
                         <th>Jornada</th>
                         <th>Salario</th>
+                        <th>Telefono</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -88,6 +92,7 @@
                         <td th:text="${limpieza.puesto}"></td>
                         <td th:text="${limpieza.jornada}"></td>
                         <td th:text="${limpieza.salario}"></td>
+                        <td th:text="${limpieza.telefono}"></td>
                         <td>
                             <div class="acciones">
                                 <a th:href="@{/editar/limpieza/{id}(id=${limpieza.idLimpieza})}"
@@ -129,7 +134,7 @@
                     <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
                 </div>
                 <div class="campo-form">
-                    <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Matutina)">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Tarde)">
                     <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
                 </div>
                 <div class="campo-form">
