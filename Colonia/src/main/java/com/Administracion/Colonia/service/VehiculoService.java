@@ -3,6 +3,7 @@ package com.Administracion.Colonia.service;
 import com.Administracion.Colonia.entity.Vehiculo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface VehiculoService {
 
@@ -15,4 +16,8 @@ public interface VehiculoService {
     Vehiculo updateVehiculo(Integer id, Vehiculo vehiculo);
 
     void deleteVehiculo(Integer id);
+
+    Optional<Vehiculo> buscarPorId(Integer id);
+
+    boolean existePlaca(String placa);
 }
