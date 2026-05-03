@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/vehiculos")
@@ -23,17 +24,9 @@ public class VehiculoController {
     // MOSTRAR LISTA
     @GetMapping
     public String mostrarVehiculos(Model model) {
-        List<Vehiculo> lista = vehiculoService.getAllVehiculo();
-        model.addAttribute("vehiculos", lista);
-        model.addAttribute("vehiculoForm", new Vehiculo());
-        return "Vehiculos";
-    }
-
-    // NUEVO
-    @GetMapping("/nuevo")
-    public String nuevoVehiculo(Model model) {
         model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
         model.addAttribute("vehiculoForm", new Vehiculo());
+        model.addAttribute("tab", "consultar");
         return "Vehiculos";
     }
 
@@ -45,18 +38,18 @@ public class VehiculoController {
 
         if (br.hasErrors()) {
             model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            model.addAttribute("tab", "registrar");
             return "Vehiculos";
         }
 
-        try {
-            vehiculoService.saveVehiculo(vehiculo);
-        } catch (Exception e) {
-            // Si la base de datos rechaza el ID de casa, el error caerá aquí
-            model.addAttribute("error", "Error: La casa especificada no existe o los datos son duplicados.");
+        if (vehiculoService.existePlaca(vehiculo.getPlaca())) {
+            model.addAttribute("error", "La placa " + vehiculo.getPlaca() + " ya existe.");
             model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            model.addAttribute("tab", "registrar");
             return "Vehiculos";
         }
 
+        vehiculoService.saveVehiculo(vehiculo);
         return "redirect:/vehiculos";
     }
 
@@ -64,11 +57,9 @@ public class VehiculoController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
         Vehiculo vehiculo = vehiculoService.getVehiculoById(id);
-
         model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
         model.addAttribute("vehiculoForm", vehiculo);
         model.addAttribute("tab", "editar");
-
         return "Vehiculos";
     }
 
@@ -81,6 +72,8 @@ public class VehiculoController {
 
         if (br.hasErrors()) {
             model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            model.addAttribute("error", "Error al actualizar los datos.");
+            model.addAttribute("tab", "editar");
             return "Vehiculos";
         }
 
@@ -95,14 +88,26 @@ public class VehiculoController {
         return "redirect:/vehiculos";
     }
 
-    // BUSCAR
     @GetMapping("/buscar")
-    public String buscar(@RequestParam Integer id, Model model) {
-        Vehiculo vehiculo = vehiculoService.getVehiculoById(id);
+    public String buscar(@RequestParam(name = "id", required = false) Integer id, Model model) {
+        if (id == null) {
+            return "redirect:/vehiculos";
+        }
 
-        model.addAttribute("vehiculos", List.of(vehiculo));
+        Optional<Vehiculo> vOpt = vehiculoService.buscarPorId(id);
+
+        if (vOpt.isPresent()) {
+            model.addAttribute("vehiculos", List.of(vOpt.get()));
+            model.addAttribute("errorBusqueda", null);
+        } else {
+            // IMPORTANTE: Lista vacía para que la tabla diga "No se encontraron registros"
+            model.addAttribute("vehiculos", List.of());
+            // Mensaje exacto para activar el bloque rosado
+            model.addAttribute("errorBusqueda", "El vehículo con ID " + id + " no existe en nuestros registros.");
+        }
+
         model.addAttribute("vehiculoForm", new Vehiculo());
-
+        model.addAttribute("tab", "consultar");
         return "Vehiculos";
     }
 }
