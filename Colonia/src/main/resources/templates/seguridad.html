@@ -24,7 +24,10 @@
 <main>
 
     <section class="frontCasa">
-        <img class="frontCasa_img" th:src="@{/Images/Imagen-fondo.png}" alt="Seguridad">
+        <video autoplay muted loop playsinline class="frontCasa_video">
+            <source th:src="@{/images/Seguridad.mp4}" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
         <div class="frontCasa_overlay">
             <div class="container frontCasa_content">
                 <h1>SEGURIDAD</h1>
@@ -82,6 +85,8 @@
                         <th>Puesto</th>
                         <th>Jornada</th>
                         <th>Salario</th>
+                        <th>Telefono</th>
+                        <th>DPI</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -92,6 +97,8 @@
                         <td th:text="${seguridad.puesto}"></td>
                         <td th:text="${seguridad.jornada}"></td>
                         <td th:text="${seguridad.salario}"></td>
+                        <td th:text="${seguridad.telefonoSeguridad}"></td>
+                        <td th:text="${seguridad.dpiSeguridad}"></td>
                         <td>
                             <div class="acciones">
                                 <a th:href="@{/editar/seguridad/{id}(id=${seguridad.idSeguridad})}"
@@ -141,8 +148,12 @@
                     <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
                 </div>
                 <div class="campo-form">
-                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                    <input type="text" th:field="*{telefonoSeguridad}" placeholder="Teléfono (0000-0000)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefonoSeguridad')}" th:errors="*{telefonoSeguridad}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{dpiSeguridad}" placeholder="DPI (13 dígitos)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('dpiSeguridad')}" th:errors="*{dpiSeguridad}"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -178,8 +189,12 @@
                     <span class="mensaje-error" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></span>
                 </div>
                 <div class="campo-form">
-                    <input type="text" th:field="*{telefono}" placeholder="Teléfono">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></span>
+                    <input type="text" th:field="*{telefonoSeguridad}" placeholder="Teléfono">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefonoSeguridad')}" th:errors="*{telefonoSeguridad}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{dpiSeguridad}" placeholder="DPI">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('dpiSeguridad')}" th:errors="*{dpiSeguridad}"></span>
                 </div>
 
                 <button type="submit" class="btn btn-edit">Actualizar</button>
