@@ -22,17 +22,21 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String validar(@RequestParam String nombreResidente, @RequestParam String dpiResidente, Model model, HttpSession session) {
-        Residente u = residenteService.login(nombreResidente, dpiResidente);
-        if (u != null && u.getPosicion().equalsIgnoreCase("activo")) {
-            session.setAttribute("usuarioLogueado", u);
+    public String validar(
+            @RequestParam("username") String nombre,
+            @RequestParam("password") String credencial,
+            Model model,
+            HttpSession session) {
 
+        Residente res = residenteService.login(nombre, credencial);
+        if (res != null && res.getPosicion().equalsIgnoreCase("activo")) {
+            session.setAttribute("usuarioLogueado", res);
+            session.setAttribute("tipoUsuario", "RESIDENTE");
             return "redirect:/home";
-
-        } else {
-            model.addAttribute("error", "Credenciales incorrectas");
-            return "VistaLogin";
         }
+
+        model.addAttribute("error", "Nombre o credencial incorrectos");
+        return "VistaLogin";
     }
 
     @GetMapping("/logout")
