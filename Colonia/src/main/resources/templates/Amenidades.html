@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amenidades | Gestión Residencial</title>
 
-    <link rel="stylesheet" th:href="@{/Amenidades.css}">
+    <link rel="stylesheet" th:href="@{/Entidades.css}">
 </head>
 <body>
 
@@ -25,34 +25,23 @@
 <main>
 
     <!-- PORTADA -->
-    <section class="banner">
-        <img class="banner_img" th:src="@{/Images/ImagenAmenidades.png}" alt="Amenidades">
-        <div class="banner_overlay">
-            <div class="container banner_content">
-                <h1>AMENIDADES</h1>
-                <p>
-                    Gestión integral de espacios comunes: consulta disponibilidad,
-                    registra nuevas áreas o actualiza costos y horarios.
-                </p>
-            </div>
-        </div>
+    <section class="front">
+
+        <video class="front_media" th:src="@{/images/Amenidades.mp4}" autoplay loop muted playsinline></video>
     </section>
 
     <!-- PANEL DE TÍTULO -->
-    <div class="panelAmenidad">
+    <div class="panel">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccionAmenidad" id="adminAmenidad">
+    <div class="seccion" id="admin">
         <h2>CENTRO DE CONTROL</h2>
     </div>
 
     <!-- SECCIÓN PRINCIPAL DE VISTA -->
     <section class="vista">
-
         <h2 class="vista_titulo">GESTIÓN DE REGISTROS</h2>
-
-
         <input type="radio" name="tabs_amenidad" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_amenidad" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_amenidad" id="r3" th:checked="${tab == 'editar'}" hidden>
@@ -70,8 +59,6 @@
             <form th:action="@{/amenidades/buscar}" method="get" class="search_box">
                 <input type="number" name="id" placeholder="ID de la amenidad..." required>
                 <button type="submit" class="btn btn-primary">Buscar</button>
-
-                <!-- ESTA ES LA LÍNEA QUE TE FALTABA -->
                 <a th:href="@{/amenidades}" class="btn btn-edit" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                     Mostrar Todo
                 </a>
@@ -83,7 +70,6 @@
             </div>
 
             <div class="panel_list">
-
                 <table>
                     <thead>
                     <tr>
@@ -107,13 +93,10 @@
                         <td>
                             <div class="acciones">
                                 <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}" class="btn btn-edit" title="Editar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg>
                                 </a>
                                 <form th:action="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar esta amenidad?')">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar esta Amenidad?')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                                         </svg>
@@ -122,6 +105,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr th:if="${#lists.isEmpty(amenidades)}">
                         <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron registros.</td>
                     </tr>
@@ -131,10 +115,9 @@
         </div>
         <!-- PANEL 2: REGISTRAR -->
         <div class="panel content2">
-            <h3 class="panel_titulo">Nueva Amenidad</h3>
+            <h3 class="panel_titulo">Registra Nueva Amenidad</h3>
             <form th:action="@{/amenidades/guardar}" th:object="${amenidadForm}" method="post">
 
-                <div th:if="${errorGeneral}" class="mensaje-error-general" th:text="${errorGeneral}"></div>
 
                 <div class="campo-form">
                     <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre de la amenidad">
@@ -212,8 +195,8 @@
                 <button type="submit" class="btn btn-edit">Actualizar Datos</button>
             </form>
         </div>
-
     </section>
+
 
     <!-- AYUDA -->
     <section class="seccion seccion--soft" id="ayuda">
@@ -253,6 +236,5 @@
         </div>
     </section>
 </main>
-
 </body>
 </html>
