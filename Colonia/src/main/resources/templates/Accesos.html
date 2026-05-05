@@ -9,38 +9,27 @@
 
 <body>
 
-<div class="menuAccesos">
-    <div class="container menuAccesos_row">
+<div class="menu">
+    <div class="container menu_row">
         <nav class="menu">
-            <a class="menuAccesos_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menuAccesos_link" href="#adminAccesos">Administración</a>
-            <a class="menuAccesos_link" href="#ayuda">Ayuda</a>
+            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menu_link" href="#adminAccesos">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
 </div>
 
 <main>
 
-    <section class="frontAccesos">
-        <img class="frontAccesos_img" th:src="@{/images/VistaAccesos.png}" alt="Accesos">
-        <div class="frontAccesos_overlay">
-            <div class="container frontAccesos_content">
-                <h1>ACCESOS</h1>
-                <p>
-
-                    Aquí podrás manejar todas las consultas relacionadas con la información
-
-                    almacenada sobre el registro de accesos dentro de la colonia.
-                </p>
-            </div>
-        </div>
+    <section class="front">
+        <video class="front_media" th:src="@{/images/portadaAccesos.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <div class="panelAccesos">
+    <div class="panel">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccionAccesos" id="adminAccesos">
+    <div class="seccion" id="adminAccesos">
         <h2>CONSULTA DE ACCESOS</h2>
     </div>
 
@@ -73,13 +62,11 @@
         <div class="panel content1">
             <h3 class="panel_titulo">Consulta de Accesos</h3>
 
-            <div class="buscador">
-                <form th:action="@{/accesos/buscar}" method="get">
+                <form th:action="@{/accesos/buscar}" method="get" class="search_box">
                     <input type="number" name="id" placeholder="Buscar acceso por ID" required>
                     <button type="submit" class="btn-buscar">Buscar</button>
                     <a th:href="@{/accesos}" class="btn-reset">Mostrar Todo</a>
                 </form>
-            </div>
 
             <table>
                 <thead>
