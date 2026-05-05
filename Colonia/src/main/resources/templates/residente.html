@@ -3,45 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Residente</title>
-    <link rel="stylesheet" th:href="@{/styles/residente.css}">
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 <body>
 
-<div class="menuResidente">
-    <div class="container menuResidente_row">
+<div class="menu">
+    <div class="container menu_row">
 
         <div class="brand">
             <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
 
         <nav class="menu">
-            <a class="menuResidente_link is-active" th:href="@{/home}"> Inicio </a>
-            <a class="menuResidente_link" href="#adminResidente"> Administración </a>
-            <a class="menuResidente_link" href="#ayuda"> Ayuda </a>
+            <a class="menu_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menu_link" href="#adminResidente"> Administración </a>
+            <a class="menu_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="frontResidente">
-        <img class="frontResidente_img" th:src="@{/images/VistaResidente.png}" alt="Residentes">
+    <section class="front">
 
-        <div class="frontResidente_overlay">
-            <div class="container frontResidente_content">
-                <h1>RESIDENTES</h1>
-                <p>
-                    Aquí podrás consultar, registrar y editar la información
-                    relacionada con los residentes de la colonia.
-                </p>
-            </div>
-        </div>
+        <video class="front_media" th:src="@{/images/portadaResidente.mp4}" autoplay loop muted playsinline></video>
 
     </section>
-    <div class="panelResidente">
+
+    <div class="panel">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccionResidente" id="adminResidente">
+    <div class="seccion" id="adminResidente">
         <h2>CONSULTA DE RESIDENTES</h2>
     </div>
 
@@ -50,9 +42,9 @@
             REGISTRO DE RESIDENTES
         </h2>
 
-        <input type="radio" name="tabs_residente" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
-        <input type="radio" name="tabs_residente" id="r2" th:checked="${tab == 'registrar'}" hidden>
-        <input type="radio" name="tabs_residente" id="r3" th:checked="${tab == 'editar'}" hidden>
+        <input type="radio" name="tabs_info" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_info" id="r2" th:checked="${tab == 'registrar'}" hidden>
+        <input type="radio" name="tabs_info" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>

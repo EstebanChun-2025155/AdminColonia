@@ -3,57 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Casa</title>
-    <link rel="stylesheet" th:href="@{/styles/casa.css}">
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 
 <body>
 
-<div class="menuCasa">
-    <div class="container menuCasa_row">
+<div class="menu">
+    <div class="container menu_row">
 
         <div class="brand">
             <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
 
         <nav class="menu">
-            <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
-            <a class="menuCasa_link" href="#adminCasa"> Administración </a>
-            <a class="menuCasa_link" href="#ayuda"> Ayuda </a>
+            <a class="menu_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menu_link" href="#adminCasa"> Administración </a>
+            <a class="menu_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="frontCasa">
+    <section class="front">
 
-        <img class="frontCasa_img" th:src="@{/images/VistaCasa.png}" alt="Casas">
-
-        <div class="frontCasa_overlay">
-            <div class="container frontCasa_content">
-                <h1>CASAS</h1>
-                <p>
-                    Aquí podrás consultar, registrar y editar la información
-                    relacionada con las casas registradas en la colonia.
-                </p>
-            </div>
-        </div>
+        <video class="front_media" th:src="@{/images/portadaCasa.mp4}" autoplay loop muted playsinline></video>
 
     </section>
 
-    <div class="panelCasa">
+    <div class="panel">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccionCasa" id="adminCasa">
+    <div class="seccion" id="adminCasa">
         <h2>CONSULTA DE CASAS</h2>
     </div>
 
     <section class="vista">
         <h2 class="vista_titulo">REGISTRO DE CASAS</h2>
 
-        <input type="radio" name="tabs_casa" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
-        <input type="radio" name="tabs_casa" id="r2" th:checked="${tab == 'registrar'}" hidden>
-        <input type="radio" name="tabs_casa" id="r3" th:checked="${tab == 'editar'}" hidden>
+        <input type="radio" name="tabs_info" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_info" id="r2" th:checked="${tab == 'registrar'}" hidden>
+        <input type="radio" name="tabs_info" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
