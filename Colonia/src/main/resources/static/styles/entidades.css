@@ -47,7 +47,7 @@ a{
 }
 
 /* Menu Casa */
-.menuCasa{
+.menu{
     background: rgba(239, 230, 216, 0.90);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
@@ -57,7 +57,7 @@ a{
     z-index: 999;
 }
 
-.menuCasa_row{
+.menu_row{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -94,7 +94,7 @@ a{
     flex-wrap:wrap;
 }
 
-.menuCasa_link{
+.menu_link{
     font-weight:900;
     letter-spacing:.8px;
     color:var(--ink);
@@ -102,7 +102,7 @@ a{
     border-radius:10px;
 }
 
-.menuCasa_link:hover{
+.menu_link:hover{
     background:rgba(196,106,60,.12);
 }
 
@@ -130,14 +130,14 @@ a{
 }
 
 /* Panel */
-.panelCasa{
+.panel{
     text-align:center;
     border-top:4px solid var(--primary);
     margin:40px 20px;
     position:relative;
 }
 
-.panelCasa span{
+.panel span{
     background:var(--bg);
     padding:0 20px;
     color:var(--ink);
@@ -150,7 +150,7 @@ a{
 }
 
 /* Seccion */
-.seccionCasa{
+.seccion{
     display:flex;
     justify-content:center;
     align-items:center;
@@ -158,12 +158,12 @@ a{
     margin-bottom:40px;
 }
 
-.seccionCasa img{
+.seccion img{
     height:55px;
     width:auto;
 }
 
-.seccionCasa h2{
+.seccion h2{
     color:var(--primary);
     font-size:24px;
     margin:0;
