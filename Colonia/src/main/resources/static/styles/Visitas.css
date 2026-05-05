@@ -58,12 +58,12 @@ button {
 }
 
 /* ===================== MENÚ VISITAS ===================== */
-.menuVisitas {
+.menu {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
 }
 
-.menuVisitas_row {
+.menu_row {
     padding: 10px;
 }
 
@@ -74,7 +74,7 @@ button {
     flex-wrap: wrap;
 }
 
-.menuVisitas_link {
+.menu_link {
     font-weight: 900;
     letter-spacing: .8px;
     color: var(--ink);
@@ -83,7 +83,7 @@ button {
     transition: .25s ease;
 }
 
-.menuVisitas_link:hover {
+.menu_link:hover {
     color: var(--primary);
     background: rgba(196, 106, 60, .08);
 }
@@ -93,62 +93,32 @@ button {
 }
 
 /* ===================== PORTADA VISITAS ===================== */
-.frontVisitas {
-    position: relative;
-    min-height: 340px;
-    overflow: hidden;
+.front{
+    position:relative;
+    min-height:340px;
+    overflow:hidden;
 }
 
-.frontVisitas_img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
-}
-
-.frontVisitas_overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    z-index: 1;
-    background: linear-gradient(
-        0deg,
-        rgba(62, 58, 55, .60),
-        rgba(62, 58, 55, .60)
-    );
-}
-
-.frontVisitas_content {
-    color: #fff;
-    padding: 26px 0;
-}
-
-.frontVisitas_content h1 {
-    margin: 0 0 12px;
-    font-size: clamp(36px, 6vw, 64px);
-    letter-spacing: .08em;
-}
-
-.frontVisitas_content p {
-    max-width: 720px;
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.6;
+.front_media{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    z-index:0;
+    animation:zoomHero 12s ease-in-out infinite alternate;
 }
 
 /* ===================== PANEL TÍTULO ===================== */
-.panelVisitas {
+.panel {
     text-align: center;
     border-top: 4px solid var(--primary);
     margin: 44px 20px 36px;
     position: relative;
 }
 
-.panelVisitas span {
+.panel span {
     background: var(--bg);
     padding: 0 20px;
     color: var(--ink);
@@ -162,7 +132,7 @@ button {
 }
 
 /* ===================== SECCIÓN ENCABEZADO ===================== */
-.seccionVisitas {
+.seccion {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -171,7 +141,7 @@ button {
     text-align: center;
 }
 
-.seccionVisitas h2 {
+.seccion h2 {
     color: var(--primary);
     font-size: 24px;
     margin: 0;
@@ -642,20 +612,22 @@ tbody tr:hover {
     }
 
     .buscador {
-        justify-content: stretch;
-    }
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            gap:10px;
+            margin-bottom:30px;
+            flex-wrap:wrap;
+        }
 
-    .buscador form {
-        width: 100%;
-        flex-direction: column;
-    }
 
-    .buscador input,
-    .btn-buscar,
-    .btn-reset {
-        width: 100%;
-        text-align: center;
-    }
+        .buscador input,
+        .btn-buscar,
+        .btn-reset {
+             width:220px;
+             min-width:220px;
+             flex:none;
+        }
 
     table {
         min-width: 720px;
