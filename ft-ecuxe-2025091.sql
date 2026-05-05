@@ -808,13 +808,13 @@ CALL sp_pago_create(3,'mantenimiento',500.00,'2026-02-05','transferencia','REF00
 CALL sp_pago_create(4,'amenidad',80.00,'2026-02-08','tarjeta','REF009');
 CALL sp_pago_create(5,'multa',220.00,'2026-02-12','efectivo','REF010');
 
-CALL sp_reporte_create(1,2,'queja','El residente 2 dejó basura en área común','2026-01-10','pendiente');
-CALL sp_reporte_create(2,3,'incidente','El residente 3 causó daños a un vehículo en el parqueo','2026-01-12','en_revision');
-CALL sp_reporte_create(3,4,'ruido','El residente 4 puso música alta durante la noche','2026-01-15','resuelto');
-CALL sp_reporte_create(4,5,'seguridad','El residente 5 permitió el ingreso de persona sospechosa','2026-01-18','pendiente');
-CALL sp_reporte_create(5,1,'otro','El residente 1 causo fuga de agua en zona común','2026-01-20','en_revision');
-CALL sp_reporte_create(2,4,'queja','El residente 4 hizo mal uso de áreas recreativas','2026-01-22','resuelto');
-CALL sp_reporte_create(3,5,'incidente','El residente 5 estuvo involucrado en accidente en parqueo','2026-01-25','anulado');
-CALL sp_reporte_create(4,1,'ruido','El residente 1 realizó fiesta con volumen excesivo','2026-01-28','pendiente');
-CALL sp_reporte_create(5,2,'seguridad','El residente 2 dejó la puerta principal abierta','2026-02-01','en_revision');
-CALL sp_reporte_create(1,3,'otro','El residente 3 no reportó luz dañada en calle','2026-02-05','resuelto');
+CALL sp_reporte_create(1,2,'queja','conflicto de conducta reportado','2026-01-10','pendiente');
+CALL sp_reporte_create(2,3,'incidente','incidente reportado en sistema','2026-01-12','en_revision');
+CALL sp_reporte_create(3,4,'ruido','ruido fuerte fuera de horario','2026-01-15','resuelto');
+CALL sp_reporte_create(4,5,'seguridad','alerta de riesgo detectada','2026-01-18','pendiente');
+CALL sp_reporte_create(5,1,'otro','incidencia general en area comun','2026-01-20','en_revision');
+CALL sp_reporte_create(2,4,'queja','reclamo por comportamiento registrado','2026-01-22','resuelto');
+CALL sp_reporte_create(3,5,'incidente','evento critico reportado','2026-01-25','anulado');
+CALL sp_reporte_create(4,1,'ruido','molestia sonora nocturna detectada','2026-01-28','pendiente');
+CALL sp_reporte_create(5,2,'seguridad','incidente de vigilancia registrado','2026-02-01','en_revision');
+CALL sp_reporte_create(1,3,'otro','observacion general registrada','2026-02-05','resuelto');
