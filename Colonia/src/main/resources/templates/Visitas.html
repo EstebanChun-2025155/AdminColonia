@@ -9,35 +9,24 @@
 
 <body>
 
-<div class="menuVisitas">
-    <div class="container menuVisitas_row">
+<div class="menu">
+    <div class="container menu_row">
         <nav class="menu">
-            <a class="menuVisitas_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menuVisitas_link" href="#adminVisitas">Administración</a>
-            <a class="menuVisitas_link" href="#ayuda">Ayuda</a>
+            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menu_link" href="#adminVisitas">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
 </div>
 
 <main>
 
-    <section class="frontVisitas">
-        <img class="frontVisitas_img" th:src="@{/images/VistaVisitas.png}" alt="Visitas">
-        <div class="frontVisitas_overlay">
-            <div class="container frontVisitas_content">
-                <h1>VISITAS</h1>
-                <p>
-                    Administra la información de las visitas registradas dentro de la colonia.
-                </p>
-            </div>
-        </div>
+    <section class="front">
+        <video class="front_media" th:src="@{/images/portadaVisitas.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <div class="panelVisitas">
-        <span>CONSULTAS</span>
-    </div>
 
-    <div class="seccionVisitas" id="adminVisitas">
+    <div class="seccion" id="adminVisitas">
         <h2>CONSULTA DE VISITAS</h2>
     </div>
 
