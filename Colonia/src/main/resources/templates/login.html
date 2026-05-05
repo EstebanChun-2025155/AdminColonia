@@ -15,33 +15,38 @@
     <div class="overlay"></div>
 </div>
 
-<div class="card-wrap">
+<div class="background"></div>
 
-    <div class="login-card" id="loginCard">
+<div class="login-container">
+    <div class="card-wrap">
 
-        <div class="logo-container">
-            <img th:src="@{/Images/logo.png}" alt="Logo Residencial">
+        <div class="login-card" id="loginCard">
+
+            <div class="logo-container">
+                <img th:src="@{/Images/logo.png}" alt="Logo Residencial">
+            </div>
+
+            <p>¡Bienvenidos!</p>
+
+            <form th:action="@{/login}" method="post">
+                <div class="input-group">
+                    <input type="text" name="username" id="username" required>
+                    <label for="username">Nombre</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">DPI</label>
+                </div>
+
+                <button type="submit">Ingresar</button>
+
+                <p class="error" style="color: #ff4d4d; font-weight: bold; margin-top: 10px;"
+                   th:if="${error}" th:text="${error}"></p>
+            </form>
         </div>
 
-        <p>¡Bienvenidos!</p>
-
-        <form th:action="@{/login}" method="post">
-            <div class="input-group">
-                <input type="text" name="username" id="username" required>
-                <label for="username">Nombre</label>
-            </div>
-
-            <div class="input-group">
-                <input type="password" name="password" id="password" required>
-                <label for="password">DPI</label>
-            </div>
-
-            <button type="submit">Ingresar</button>
-
-            <p class="error" style="color: #ff4d4d; font-weight: bold; margin-top: 10px;"
-               th:if="${error}" th:text="${error}"></p>
-        </form>
-
+        <!-- SVG borde neón -->
         <svg class="neon-svg" id="neonSvg" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <filter id="softglow">
