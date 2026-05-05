@@ -7,34 +7,82 @@
 </head>
 <body>
 
+<div class="video-background">
+    <video autoplay muted loop playsinline id="bg-video">
+        <source th:src="@{/images/entradaLogin.mp4}" type="video/mp4">
+        Tu navegador no soporta videos.
+    </video>
+    <div class="overlay"></div>
+</div>
+
 <div class="background"></div>
 
 <div class="login-container">
-    <div class="login-card">
+    <div class="card-wrap">
 
-        <div class="logo-container">
-            <img th:src="@{/images/Logo.png}" alt="Logo Residencial">
+        <div class="login-card" id="loginCard">
+
+            <div class="logo-container">
+                <img th:src="@{/Images/Logo.png}" alt="Logo Residencial">
+            </div>
+
+            <p>¡Bienvenidos!</p>
+
+            <form th:action="@{/login}" method="post">
+                <div class="input-group">
+                    <input type="text" name="username" id="username" required>
+                    <label for="username">Nombre</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">DPI</label>
+                </div>
+
+                <button type="submit">Ingresar</button>
+
+                <p class="error" style="color: #ff4d4d; font-weight: bold; margin-top: 10px;"
+                   th:if="${error}" th:text="${error}"></p>
+            </form>
         </div>
 
-        <p>Acceso para residentes</p>
+        <!-- SVG borde neón -->
+        <svg class="neon-svg" id="neonSvg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="softglow">
+                    <feGaussianBlur stdDeviation="3.5" result="b1"/>
+                    <feGaussianBlur stdDeviation="8" result="b2"/>
+                    <feMerge>
+                        <feMergeNode in="b2"/>
+                        <feMergeNode in="b1"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="outerAura">
+                    <feGaussianBlur stdDeviation="14"/>
+                </filter>
+                <linearGradient id="movingGrad" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%"   stop-color="rgba(255,220,120,0)"/>
+                    <stop offset="35%"  stop-color="rgba(255,200,80,0.15)"/>
+                    <stop offset="50%"  stop-color="#FFE08A"/>
+                    <stop offset="65%"  stop-color="rgba(196,106,60,0.15)"/>
+                    <stop offset="100%" stop-color="rgba(196,106,60,0)"/>
+                </linearGradient>
+            </defs>
+            <rect id="auraRect" x="3" y="3" rx="22" ry="22"
+                  fill="none" stroke="rgba(196,106,60,0.22)" stroke-width="10"
+                  filter="url(#outerAura)"/>
+            <rect id="baseRect" x="1.5" y="1.5" rx="22" ry="22"
+                  fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="1"/>
+            <rect id="neonRect" x="1.5" y="1.5" rx="22" ry="22"
+                  fill="none" stroke="url(#movingGrad)" stroke-width="1.5"
+                  filter="url(#softglow)" stroke-linecap="round"/>
+        </svg>
 
-        <form th:action="@{/login}" method="post">
-            <div class="input-group">
-                <input type="text" name="nombreResidente" required>
-                <label>Nombre del Residente</label>
-            </div>
-
-            <div class="input-group">
-                <input type="text" name="dpiResidente" required maxlength="13">
-                <label>DPI</label>
-            </div>
-
-            <button type="submit">Ingresar</button>
-
-            <p class="error" th:if="${error}" th:text="${error}"></p>
-        </form>
     </div>
 </div>
+
+<script th:src="@{/js/Login.js}"></script>
 
 </body>
 </html>
