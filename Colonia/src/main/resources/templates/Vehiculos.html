@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehículos - Administración</title>
-    <link rel="stylesheet" th:href="@{/Vehiculos.css}">
+    <link rel="stylesheet" th:href="@{/Entidades.css}">
 </head>
 <body>
 
-<div class="menubar_row">
+<div class="menubar">
     <div class="container menubar_row">
-        <nav class="menu">
             <div class="brand">
                 <img th:src="@{/Images/logo.png}" alt="Logo" class="brand_logo">
             </div>
+            <nav class="menu">
             <a class="menu_link" th:href="@{/home}">Inicio</a>
             <a class="menu_link is-active" href="#adminVehiculo">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
@@ -22,25 +22,26 @@
 </div>
 
 <main>
-    <section class="banner">
-        <img class="banner_img" th:src="@{/Images/ImagenVehiculos.png}" alt="Vehículos">
-        <div class="banner_overlay">
-            <div class="container banner_content">
-                <h1>VEHÍCULOS</h1>
-                <p>Gestión centralizada de vehículos y control de acceso para residentes.</p>
-            </div>
-        </div>
+
+
+    <!-- PORTADA -->
+    <section class="front">
+
+        <video class="front_media" th:src="@{/images/Vehiculos.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <div class="panelVehiculo">
+    <!-- PANEL DE TÍTULO -->
+    <div class="panel">
         <span>CENTRO DE CONTROL</span>
     </div>
 
-    <div class="seccionVehiculo" id="adminVehiculo">
-        <h2>GESTIÓN DE VEHÍCULOS</h2>
+    <div class="seccion" id="admin">
+        <h2>CENTRO DE CONTROL</h2>
     </div>
 
+    <!-- SECCIÓN PRINCIPAL DE VISTA -->
     <section class="vista">
+        <h2 class="vista_titulo">GESTIÓN DE VEHICULOS</h2>
         <input type="radio" name="tabs_vehiculo" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_vehiculo" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_vehiculo" id="r3" th:checked="${tab == 'editar'}" hidden>
@@ -53,18 +54,18 @@
 
 
         <div class="panel content1">
-            <h3 class="panel_titulo">Listado General</h3>
-
+            <h3 class="panel_titulo">Listado de Vehiculos</h3>
 
             <form th:action="@{/vehiculos/buscar}" method="get" class="search_box">
-                <!-- El atributo 'name' DEBE ser 'id' para que el Controller lo reciba -->
                 <input type="number" name="id" placeholder="Buscar por ID..." required>
                 <button type="submit" class="btn btn-primary">Buscar</button>
-                <a th:href="@{/vehiculos}" class="btn btn-edit">Mostrar Todo</a>
+                <a th:href="@{/vehiculos}"class="btn btn-edit" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                    Mostrar Todo
+                </a>
             </form>
 
 
-            <div th:if="${errorBusqueda}" class="mensaje-error-interno">
+            <div th:if="${errorBusqueda}" class="mensaje-error" style="margin: 15px 0; text-align: center; color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 5px;">
                 <span th:text="${errorBusqueda}"></span>
             </div>
 
@@ -91,18 +92,20 @@
                         <td th:text="${v.idCasa}"></td>
                         <td>
                             <div class="acciones">
-                                <a th:href="@{/vehiculos/editar/{id}(id=${v.idVehiculo})}" class="btn btn-edit">
+                                <a th:href="@{/vehiculos/editar/{id}(id=${v.idVehiculo})}" class="btn btn-edit" title="Editar">
                                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10z"/></svg>
                                 </a>
                                 <form th:action="@{/vehiculos/eliminar/{id}(id=${v.idVehiculo})}" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar registro?')">
-                                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este Vehiculo')">
+                                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
                                     </button>
                                 </form>
                             </div>
                         </td>
                     </tr>
-                    <!-- AJUSTE 3: Mostrar fila vacía solo si la lista está realmente vacía -->
+
                     <tr th:if="${#lists.isEmpty(vehiculos)}">
                         <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron registros activos para esta búsqueda.</td>
                     </tr>
@@ -110,63 +113,94 @@
                 </table>
             </div>
         </div>
-
         <!-- PANEL 2: REGISTRAR -->
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Nuevo Vehículo</h3>
-            <div th:if="${error}" class="mensaje-error-interno">
-                <span th:text="${error}"></span>
-            </div>
             <form th:action="@{/vehiculos/guardar}" th:object="${vehiculoForm}" method="post">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <input type="text" th:field="*{placa}" placeholder="Placa (P123ABC)" class="form-control">
-                    <div class="mensaje-error-campo" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></div>
+                <div th:if="${errorGeneral}" class="mensaje-error-general" th:text="${errorGeneral}"></div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{placa}" placeholder="Placa (P123ABC)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo" class="form-control">
-                    <div class="mensaje-error-campo" th:if="${#fields.hasErrors('marcaModelo')}" th:errors="*{marcaModelo}"></div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('marcaModelo')}" th:errors="*{marcaModelo}"></span>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <input type="text" th:field="*{color}" placeholder="Color" class="form-control">
-                    <div class="mensaje-error-campo" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{color}" placeholder="Color">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <input type="text" th:field="*{propietario}" placeholder="Nombre del Propietario" class="form-control">
-                    <div class="mensaje-error-campo" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <input type="number" th:field="*{idCasa}" placeholder="ID de la Casa" class="form-control">
-                    <div class="mensaje-error-campo" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></div>
+
+                <div class="campo-form">
+                    <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">GUARDAR REGISTRO</button>
+
+                <button type="submit">Guardar Registro</button>
             </form>
         </div>
 
         <!-- PANEL 3: EDITAR -->
+
         <div class="panel content3">
-            <h3 class="panel_titulo">Actualizar Información</h3>
-            <form th:action="@{/vehiculos/actualizar/{id}(id=${vehiculoForm.idVehiculo})}" th:object="${vehiculoForm}" method="post">
+            <h3 class="panel_titulo">Modificar Registro</h3>
+            <form th:action="@{/vehiculos/actualizar/{id}(id=${vehiculoForm.idVehiculo})}"
+                  th:object="${vehiculoForm}" method="post">
+
                 <input type="hidden" th:field="*{idVehiculo}">
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label>Placa:</label>
-                    <input type="text" th:field="*{placa}" class="form-control">
+
+                <div class="form-group">
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{placa}" placeholder="Placa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('marcaModelo')}" th:errors="*{marcaModelo}"></span>
+                    </div>
+
                 </div>
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label>Marca / Modelo:</label>
-                    <input type="text" th:field="*{marcaModelo}" class="form-control">
+
+                <div class="form-group">
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{color}" placeholder="Color">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
+                    </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label>ID Casa:</label>
-                    <input type="number" th:field="*{idCasa}" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-edit">Aplicar Cambios</button>
+
+                <button type="submit" class="btn btn-edit">Actualizar Datos</button>
             </form>
         </div>
     </section>
 
-    <section class="seccion" id="ayuda">
+    <!-- AYUDA -->
+    <section class="seccion seccion--soft" id="ayuda">
         <div class="container">
-            <div class="seccion_panel"><span>AYUDA RÁPIDA</span></div>
+            <div class="seccion_panel">
+                <span>AYUDA RÁPIDA</span>
+            </div>
+
             <div class="ayuda-grid">
                 <article class="ayuda-card">
                     <div class="ayuda-tip"><span class="num">01</span><span class="tip">TIP</span></div>
