@@ -114,6 +114,21 @@ create table Pago (
     references Residente(id_Residente) on delete cascade
 );
 
+create table Reporte (
+    id_Reporte int auto_increment not null,
+    id_Residente_Reportante int not null,
+    id_Residente_Reportado int not null,
+    tipo_Reporte enum('queja', 'incidente', 'ruido', 'seguridad', 'otro') not null,
+    descripcion varchar(255) not null,
+    fecha_Reporte date not null,
+    estado enum('pendiente', 'en_revision', 'resuelto', 'anulado') not null,
+    primary key PK_id_Reporte(id_Reporte),
+    constraint FK_Reporte_Residente_Reportante foreign key(id_Residente_Reportante)
+        references Residente(id_Residente) on delete cascade,
+    constraint FK_Reporte_Residente_Reportado foreign key(id_Residente_Reportado)
+        references Residente(id_Residente) on delete cascade
+);
+
 -- PROCEDIMIENTOS ALMACENADOS
 
 
@@ -611,6 +626,83 @@ begin
 end $$
 delimiter ;
 
+-- Reportes --
+-- Create --
+delimiter $$
+create procedure sp_Reporte_create(
+    in p_id_Residente_Reportante int,
+    in p_id_Residente_Reportado int,
+    in p_tipo_Reporte enum('queja', 'incidente', 'ruido', 'seguridad', 'otro'),
+    in p_descripcion varchar(255),
+    in p_fecha_Reporte date,
+    in p_estado enum('pendiente', 'en_revision', 'resuelto', 'anulado')
+)
+begin
+    insert into Reporte (id_Residente_Reportante, id_Residente_Reportado, tipo_Reporte, descripcion, fecha_Reporte, estado)
+		values(p_id_Residente_Reportante, p_id_Residente_Reportado, p_tipo_Reporte, p_descripcion, p_fecha_Reporte, p_estado);
+    select last_insert_id() as id_Reporte;
+end $$
+delimiter ;
+ 
+-- Read --
+delimiter $$
+create procedure sp_Reporte_read_all()
+begin
+    select 
+        r.id_Reporte,
+        r.id_Residente_Reportante,
+        reportante.nombre_Residente as residente_Reportante,
+        r.id_Residente_Reportado,
+        reportado.nombre_Residente as residente_Reportado,
+        r.tipo_Reporte,
+        r.descripcion,
+        r.fecha_Reporte,
+        r.estado
+    from Reporte r
+    inner join Residente reportante
+        on r.id_Residente_Reportante = reportante.id_Residente
+    inner join Residente reportado
+        on r.id_Residente_Reportado = reportado.id_Residente
+    order by r.id_Reporte;
+end $$
+delimiter ;
+ 
+-- Delete --
+delimiter $$
+create procedure sp_Reporte_delete(in p_id_Reporte int)
+begin
+    delete from Reporte
+    where id_Reporte = p_id_Reporte;
+ 
+    select row_count() as filas_afectadas;
+end $$
+delimiter ;
+ 
+-- Update --
+delimiter $$
+create procedure sp_Reporte_update(
+    in p_id_Reporte int,
+    in p_id_Residente_Reportante int,
+    in p_id_Residente_Reportado int,
+    in p_tipo_Reporte enum('queja', 'incidente', 'ruido', 'seguridad', 'otro'),
+    in p_descripcion varchar(255),
+    in p_fecha_Reporte date,
+    in p_estado enum('pendiente', 'en_revision', 'resuelto', 'anulado')
+)
+begin
+    update Reporte
+    set id_Residente_Reportante = p_id_Residente_Reportante,
+        id_Residente_Reportado = p_id_Residente_Reportado,
+        tipo_Reporte = p_tipo_Reporte,
+        descripcion = p_descripcion,
+        fecha_Reporte = p_fecha_Reporte,
+        estado = p_estado
+    where id_Reporte = p_id_Reporte;
+
+    select row_count() as filas_afectadas;
+end $$
+delimiter ;
+
 CALL sp_casa_create('C001','Zona 1, Av 1','ocupada','Ana López',250000.00);
 CALL sp_casa_create('C002','Zona 2, Calle 3','disponible','Carlos Méndez',310500.00);
 CALL sp_casa_create('C003','Zona 3, Av 5','mantenimiento','María Pérez',275900.00);
@@ -720,3 +812,14 @@ CALL sp_pago_create(2,'multa',200.00,'2026-02-01','efectivo','REF007');
 CALL sp_pago_create(3,'mantenimiento',500.00,'2026-02-05','transferencia','REF008');
 CALL sp_pago_create(4,'amenidad',80.00,'2026-02-08','tarjeta','REF009');
 CALL sp_pago_create(5,'multa',220.00,'2026-02-12','efectivo','REF010');
+
+CALL sp_reporte_create(1,2,'queja','El residente 2 dejó basura en área común','2026-01-10','pendiente');
+CALL sp_reporte_create(2,3,'incidente','El residente 3 causó daños a un vehículo en el parqueo','2026-01-12','en_revision');
+CALL sp_reporte_create(3,4,'ruido','El residente 4 puso música alta durante la noche','2026-01-15','resuelto');
+CALL sp_reporte_create(4,5,'seguridad','El residente 5 permitió el ingreso de persona sospechosa','2026-01-18','pendiente');
+CALL sp_reporte_create(5,1,'otro','El residente 1 causo fuga de agua en zona común','2026-01-20','en_revision');
+CALL sp_reporte_create(2,4,'queja','El residente 4 hizo mal uso de áreas recreativas','2026-01-22','resuelto');
+CALL sp_reporte_create(3,5,'incidente','El residente 5 estuvo involucrado en accidente en parqueo','2026-01-25','anulado');
+CALL sp_reporte_create(4,1,'ruido','El residente 1 realizó fiesta con volumen excesivo','2026-01-28','pendiente');
+CALL sp_reporte_create(5,2,'seguridad','El residente 2 dejó la puerta principal abierta','2026-02-01','en_revision');
+CALL sp_reporte_create(1,3,'otro','El residente 3 no reportó luz dañada en calle','2026-02-05','resuelto');
