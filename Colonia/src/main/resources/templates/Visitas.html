@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitas</title>
-    <link rel="stylesheet" th:href="@{/styles/Visitas.css}">
+    <link rel="stylesheet" th:href="@{/styles/Entidades.css}">
 </head>
 
 <body>
 
 <div class="menu">
     <div class="container menu_row">
-        <nav class="menu">
+
+        <div class="brand">
+            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+        </div>
+
+        <nav class="menubar">
             <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
             <a class="menu_link" href="#adminVisitas">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
@@ -25,6 +30,9 @@
         <video class="front_media" th:src="@{/images/portadaVisitas.mp4}" autoplay loop muted playsinline></video>
     </section>
 
+    <div class="panel">
+        <span>VISITAS</span>
+    </div>
 
     <div class="seccion" id="adminVisitas">
         <h2>CONSULTA DE VISITAS</h2>
@@ -37,32 +45,31 @@
         <div class="alerta-error" th:if="${error}" th:text="${error}"></div>
 
         <!-- TABS -->
-        <input type="radio" name="tabs_vis" id="a1" hidden
+        <input type="radio" name="tabs_vis" id="r1" hidden
                th:checked="${tabActiva == null || tabActiva == 'consultar'}">
-
-        <input type="radio" name="tabs_vis" id="a2" hidden
+        <input type="radio" name="tabs_vis" id="r2" hidden
                th:checked="${tabActiva == 'registrar'}">
-
-        <input type="radio" name="tabs_vis" id="a3" hidden
+        <input type="radio" name="tabs_vis" id="r3" hidden
                th:checked="${tabActiva == 'editar'}">
 
         <div class="tabs">
-            <label for="a1" class="tab label1">Consultar</label>
-            <label for="a2" class="tab label2">Registrar</label>
-            <label for="a3" class="tab label3">Editar</label>
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
         </div>
 
         <!-- CONSULTAR -->
         <div class="panel content1">
             <h3 class="panel_titulo">Consulta de Visitas</h3>
 
-            <div class="buscador">
-                <form th:action="@{/visitas/buscar}" method="get">
+                <form th:action="@{/visitas/buscar}" method="get" class="search_box">
                     <input type="number" name="id" placeholder="Buscar visita por ID" required>
-                    <button type="submit" class="btn-buscar">Buscar</button>
-                    <a th:href="@{/visitas}" class="btn-reset">Mostrar Todo</a>
+
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+
+                    <a th:href="@{/visitas}" class="btn btn-edit">Mostrar Todo</a>
+
                 </form>
-            </div>
 
             <table>
                 <thead>
@@ -141,17 +148,15 @@
         <!-- REGISTRAR -->
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Visita</h3>
+            <form th:action="@{/visitas/guardar}" th:object="${visitaForm}" method="post">
 
-            <form th:action="@{/visitas/guardar}"
-                  th:object="${visitaForm}"
-                  method="post"
-                  class="formVisitas">
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
 
-                <input type="text"
-                       th:field="*{nombreVisita}"
-                       placeholder="Nombre">
+                <input type="text" th:field="*{nombreVisita}" placeholder="Nombre">
 
-                <span class="campo-error"
+                <span class="campo-form"
                       th:if="${#fields.hasErrors('nombreVisita')}"
                       th:errors="*{nombreVisita}">
                 </span>
@@ -160,7 +165,7 @@
                        th:field="*{documento}"
                        placeholder="Documento">
 
-                <span class="campo-error"
+                <span class="campo-form"
                       th:if="${#fields.hasErrors('documento')}"
                       th:errors="*{documento}">
                 </span>
@@ -169,7 +174,7 @@
                        th:field="*{placa}"
                        placeholder="Placa">
 
-                <span class="campo-error"
+                <span class="campo-form"
                       th:if="${#fields.hasErrors('placa')}"
                       th:errors="*{placa}">
                 </span>
@@ -178,7 +183,7 @@
                        th:field="*{motivo}"
                        placeholder="Motivo">
 
-                <span class="campo-error"
+                <span class="campo-form"
                       th:if="${#fields.hasErrors('motivo')}"
                       th:errors="*{motivo}">
                 </span>
@@ -187,12 +192,12 @@
                        th:field="*{idCasa}"
                        placeholder="ID Casa">
 
-                <span class="campo-error"
+                <span class="campo-form"
                       th:if="${#fields.hasErrors('idCasa')}"
                       th:errors="*{idCasa}">
                 </span>
 
-                <button type="submit" class="btn guardar">Guardar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
         </div>
 
@@ -206,16 +211,13 @@
 
             <div th:if="${tabActiva == 'editar'}">
 
-                <form th:action="@{/visitas/guardar}"
-                      th:object="${visitaForm}"
-                      method="post"
-                      class="formVisitas">
+                <form th:action="@{/visitas/guardar}" th:object="${visitaForm}" method="post" >
 
                     <input type="text"
                            th:field="*{nombreVisita}"
                            placeholder="Nombre">
 
-                    <span class="campo-error"
+                    <span class="campo-form"
                           th:if="${#fields.hasErrors('nombreVisita')}"
                           th:errors="*{nombreVisita}">
                     </span>
@@ -224,7 +226,7 @@
                            th:field="*{documento}"
                            placeholder="Documento">
 
-                    <span class="campo-error"
+                    <span class="campo-form"
                           th:if="${#fields.hasErrors('documento')}"
                           th:errors="*{documento}">
                     </span>
@@ -233,7 +235,7 @@
                            th:field="*{placa}"
                            placeholder="Placa">
 
-                    <span class="campo-error"
+                    <span class="campo-form"
                           th:if="${#fields.hasErrors('placa')}"
                           th:errors="*{placa}">
                     </span>
@@ -242,7 +244,7 @@
                            th:field="*{motivo}"
                            placeholder="Motivo">
 
-                    <span class="campo-error"
+                    <span class="campo-form"
                           th:if="${#fields.hasErrors('motivo')}"
                           th:errors="*{motivo}">
                     </span>
@@ -251,12 +253,12 @@
                            th:field="*{idCasa}"
                            placeholder="ID Casa">
 
-                    <span class="campo-error"
+                    <span class="campo-form"
                           th:if="${#fields.hasErrors('idCasa')}"
                           th:errors="*{idCasa}">
                     </span>
 
-                    <button type="submit" class="btn guardar">Guardar</button>
+                    <button type="submit" class="btn btn-edit">Actualizar</button>
                 </form>
 
             </div>
