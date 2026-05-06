@@ -3,46 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Limpieza</title>
-    <link rel="stylesheet" th:href="@{/styles/limpieza.css}">
+    <link rel="stylesheet" th:href="@{/styles/Entidades.css}">
 </head>
 
 <body>
 
-<div class="menuCasa">
-    <div class="container menuCasa_row">
+<div class="menu">
+    <div class="container menu_row">
         <div class="brand">
             <img th:src="@{/images/Logo-colonia.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-        <nav class="menu">
-            <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
-            <a class="menuCasa_link" href="#adminLimpieza"> Administración </a>
-            <a class="menuCasa_link" href="#ayuda"> Ayuda </a>
+        <nav class="menubar">
+            <a class="menu_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menu_link" href="#adminLimpieza"> Administración </a>
+            <a class="menu_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="frontCasa">
-        <video autoplay muted loop playsinline class="frontCasa_video">
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
             <source th:src="@{/images/Limpieza.mp4}" type="video/mp4">
-            Tu navegador no soporta videos.
         </video>
-        <div class="frontCasa_overlay">
-            <div class="container frontCasa_content">
-                <h1>LIMPIEZA</h1>
-                <p>
-                    Aquí podrás consultar, registrar y editar la información
-                    relacionada con el personal de limpieza de la colonia.
-                </p>
-            </div>
-        </div>
     </section>
 
-    <div class="panelCasa">
+    <div class="panel_header">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccionCasa" id="adminLimpieza">
+    <div class="seccion" id="adminLimpieza">
         <h2>CONSULTA DE LIMPIEZA</h2>
     </div>
 
@@ -151,8 +141,14 @@
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Empleado</h3>
-            <form th:if="${limpiezaForm != null}" th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
-                  th:object="${limpiezaForm}" method="post">
+            <div th:if="${limpiezaForm.idLimpieza == null}" class="editar-bloqueado">
+                <p>Selecciona un empleado desde la tabla para editar.</p>
+            </div>
+
+            <form th:if="${limpiezaForm.idLimpieza != null}"
+                  th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
+                  th:object="${limpiezaForm}"
+                  method="post">
 
                 <input type="hidden" th:field="*{idLimpieza}">
 
