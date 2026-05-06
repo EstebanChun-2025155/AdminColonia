@@ -9,38 +9,37 @@
 </head>
 <body>
 
-<!-- MENÚ -->
 <div class="menu">
     <div class="container menu_row">
         <div class="brand">
             <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-        <nav class="menu">
+        <nav class="menubar">
             <a class="menu_link" th:href="@{/home}">Inicio</a>
-            <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
-            <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
-            <a class="menu_link" th:href="@{/home#contacto}">Contacto</a>
+            <a class="menu_link is-active" href="#admin">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
 </div>
 
 <main>
-
-    <!-- VIDEO -->
     <section class="front">
         <video class="front_media" autoplay loop muted playsinline>
             <source th:src="@{/images/Reporte.mp4}" type="video/mp4">
         </video>
     </section>
 
-    <div class="seccion">
+    <div class="panel_header">
+        <span>CONSULTAS</span>
+    </div>
+
+    <div class="seccion" id="admin">
         <h2>CONTROL DE REPORTES</h2>
     </div>
 
     <section class="vista">
         <h2 class="vista_titulo">REGISTRO DE CONTROL DE REPORTES</h2>
 
-        <!-- TABS -->
         <input type="radio" name="tabs_reporte" id="r1"
                th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
         <input type="radio" name="tabs_reporte" id="r2"
@@ -118,23 +117,38 @@
 
             <form th:action="@{/reporte/nuevo}" th:object="${reporteNuevo}" method="post">
 
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
                 <div class="campo-form">
                     <input type="number" th:field="*{idResidenteReportante}" placeholder="Residente Reportante (ID)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportante')}" th:errors="*{idResidenteReportante}"></span>
                 </div>
+
                 <div class="campo-form">
                     <input type="number" th:field="*{idResidenteReportado}" placeholder="Residente Reportado (ID)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportado')}" th:errors="*{idResidenteReportado}"></span>
                 </div>
+
                 <div class="campo-form">
-                    <input type="text" th:field="*{tipoReporte}" placeholder="Tipo (queja, incidente, ruido, seguridad, otro)">
+                    <input type="text" th:field="*{tipoReporte}" placeholder="Tipo de reporte">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('tipoReporte')}" th:errors="*{tipoReporte}"></span>
                 </div>
+
                 <div class="campo-form">
                     <input type="text" th:field="*{descripcion}" placeholder="Descripción">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
                 </div>
+
                 <div class="campo-form">
                     <input type="date" th:field="*{fechaReporte}">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('fechaReporte')}" th:errors="*{fechaReporte}"></span>
                 </div>
+
                 <div class="campo-form">
-                    <input type="text" th:field="*{estado}" placeholder="Estado (pendiente, en_revision, resuelto, anulado)">
+                    <input type="text" th:field="*{estado}" placeholder="Estado (PENDIENTE, EN_REVISION, RESUELTO)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -149,23 +163,36 @@
                 <form th:action="@{'/reporte/editar/' + ${reporteEditar.idReporte}}"
                       th:object="${reporteEditar}" method="post">
 
+                    <input type="hidden" th:field="*{idReporte}">
+
                     <div class="campo-form">
                         <input type="number" th:field="*{idResidenteReportante}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportante')}" th:errors="*{idResidenteReportante}"></span>
                     </div>
+
                     <div class="campo-form">
                         <input type="number" th:field="*{idResidenteReportado}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportado')}" th:errors="*{idResidenteReportado}"></span>
                     </div>
+
                     <div class="campo-form">
                         <input type="text" th:field="*{tipoReporte}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('tipoReporte')}" th:errors="*{tipoReporte}"></span>
                     </div>
+
                     <div class="campo-form">
                         <input type="text" th:field="*{descripcion}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
                     </div>
+
                     <div class="campo-form">
                         <input type="date" th:field="*{fechaReporte}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('fechaReporte')}" th:errors="*{fechaReporte}"></span>
                     </div>
+
                     <div class="campo-form">
                         <input type="text" th:field="*{estado}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                     </div>
 
                     <button type="submit" class="btn btn-edit">Actualizar</button>
@@ -221,56 +248,55 @@
         </div>
 
     </section>
+
+    <section class="seccion" id="ayuda">
+        <div class="container">
+
+            <div class="seccion_panel">
+                <span>AYUDA RÁPIDA</span>
+            </div>
+
+            <div class="ayuda-grid">
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">01</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-eliminar">Eliminar</span>
+                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
+                        <p class="ayuda-texto">Para eliminar un reporte haz clic en el botón rojo que se encuentra en el apartado de Acciones.</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">02</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <h3 class="ayuda-titulo">Consulta registros</h3>
+                        <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar un reporte específico, o presiona Mostrar Todo para ver todos los registros.</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">03</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-editar">Editar</span>
+                        <h3 class="ayuda-titulo">Registros Editables</h3>
+                        <p class="ayuda-texto">Para editar un reporte presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 </main>
-
-<input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
-
-<!-- AYUDA (INTACTA) -->
-<section class="seccion" id="ayuda">
-    <div class="container">
-        <div class="seccion_panel">
-            <span>AYUDA RÁPIDA</span>
-        </div>
-
-        <div class="ayuda-grid">
-            <article class="ayuda-card">
-                <div class="ayuda-tip">
-                    <span class="num">01</span>
-                    <span class="tip">TIP</span>
-                </div>
-                <div class="ayuda-contenido">
-                    <span class="ayuda-tag tag-eliminar">Eliminar</span>
-                    <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                    <p class="ayuda-texto">Para eliminar un reporte haz clic en el botón rojo en el apartado de Acciones.</p>
-                </div>
-            </article>
-
-            <article class="ayuda-card">
-                <div class="ayuda-tip">
-                    <span class="num">02</span>
-                    <span class="tip">TIP</span>
-                </div>
-                <div class="ayuda-contenido">
-                    <span class="ayuda-tag tag-busqueda">Búsqueda Rápida</span>
-                    <h3 class="ayuda-titulo">Consulta registros</h3>
-                    <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar un reporte específico, o presiona Mostrar Todo para ver todos los registros.</p>
-                </div>
-            </article>
-
-            <article class="ayuda-card">
-                <div class="ayuda-tip">
-                    <span class="num">03</span>
-                    <span class="tip">TIP</span>
-                </div>
-                <div class="ayuda-contenido">
-                    <span class="ayuda-tag tag-editar">Editar</span>
-                    <h3 class="ayuda-titulo">Registros Editables</h3>
-                    <p class="ayuda-texto">Para editar un reporte presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
 
 </body>
 </html>
