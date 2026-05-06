@@ -31,9 +31,33 @@ html{
 
 body{
     margin:0;
+    min-height:100vh;
     font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    background:var(--bg);
     color:var(--ink);
+    overflow-x:hidden;
+    background:linear-gradient(135deg,#b88463,#d6c2a8,#c46a3c,#e4d6c3,#a96f52);
+    background-size:300% 300%;
+    animation:fondoCasa 18s ease-in-out infinite;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    opacity:.65;
+    background:
+        radial-gradient(circle at 18% 20%,rgba(196,106,60,.15),transparent 24%),
+        radial-gradient(circle at 82% 70%,rgba(62,58,55,.10),transparent 28%),
+        repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,.045) 0,
+            rgba(255,255,255,.045) 1px,
+            transparent 1px,
+            transparent 24px
+        );
+    animation:texturaCasa 24s linear infinite;
 }
 
 a{
@@ -46,7 +70,6 @@ a{
     margin:0 auto;
 }
 
-/* Menu Casa */
 .menu{
     background: rgba(239, 230, 216, 0.90);
     backdrop-filter: blur(10px);
@@ -88,10 +111,11 @@ a{
     transform: translateY(-50%) scale(1.05);
 }
 
-.menu{
-    display:flex;
-    gap:22px;
-    flex-wrap:wrap;
+.menubar{
+    box-shadow:transparent;
+    position:sticky;
+    top:0;
+    z-index:999;
 }
 
 .menu_link{
@@ -111,7 +135,7 @@ a{
     color:var(--primary);
 }
 
-/* Portada Casa */
+/* Portada */
 .front{
     position:relative;
     min-height:340px;
@@ -127,6 +151,38 @@ a{
     object-position:center;
     z-index:0;
     animation:zoomHero 12s ease-in-out infinite alternate;
+}
+
+.panel_header{
+    text-align:center;
+    margin:40px 20px;
+    position:relative;
+}
+
+.panel_header::before,
+.panel_header::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    width:44%;
+    height:4px;
+    background:var(--primary);
+}
+
+.panel_header::before{
+    left:0;
+}
+
+.panel_header::after{
+    right:0;
+}
+
+.panel_header span{
+    position:relative;
+    padding:0 20px;
+    color:var(--ink);
+    font-weight:bold;
+    font-size:28px;
 }
 
 /* Panel */
@@ -164,7 +220,7 @@ a{
 }
 
 .seccion h2{
-    color:var(--primary);
+    color:var(--ink);
     font-size:24px;
     margin:0;
     text-transform:uppercase;
@@ -172,11 +228,9 @@ a{
 
 /* Tabla */
 table{
-    width:98%;
-    margin:0 auto 50px;
+    width:100%;
     border-collapse:collapse;
-    border:1px solid var(--line);
-    background:var(--soft);
+    background:rgba(255,255,255,.72);
 }
 
 th{
@@ -193,6 +247,10 @@ td{
     color:var(--ink);
     font-weight:bold;
     font-size:16px;
+}
+
+tbody tr:hover{
+    background:rgba(196,106,60,.08);
 }
 
 tr:nth-child(even){
@@ -216,6 +274,7 @@ tr:nth-child(even){
 .tabs{
     display:flex;
     gap:12px;
+    flex-wrap:wrap;
     margin-bottom:30px;
 }
 
@@ -247,10 +306,10 @@ tr:nth-child(even){
 /* Panels */
 .panel{
     display:none;
-    background:var(--soft);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
     padding:30px;
+    border:1px solid rgba(255,255,255,.65);
+    border-radius:20px;
+    background:rgba(239,230,216,.86);
     box-shadow:var(--shadow);
 }
 
@@ -285,12 +344,18 @@ form:not(.search_box){
 }
 
 input{
-    padding:12px;
+    width:100%;
+    padding:13px 15px;
     border:1px solid var(--line);
-    border-radius:8px;
-    background:var(--surface);
+    border-radius:10px;
+    background:rgba(255,255,255,.58);
     color:var(--ink);
     font-size:14px;
+    outline:none;
+}
+
+input:focus{
+    border-color:var(--primary);
 }
 
 
@@ -440,18 +505,42 @@ input{
     color: var(--primary);
 }
 
+@media(max-width:768px){
+    .tabs{
+        justify-content:center;
+    }
+
+    .panel{
+        padding:24px;
+    }
+
+    .search_box input{
+        width:100%;
+        min-width:100%;
+    }
+
+    .search_box .btn{
+        flex:1;
+    }
+
+    .ayuda-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 /* Botones */
 .btn{
-    padding:6px 10px;
-    font-size:13px;
-    border-radius:6px;
-    border:none;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
+    min-width:70px;
+    min-height:38px;
+    padding:8px 14px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
+    border:none;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:800;
+    cursor:pointer;
 }
 
 .btn-primary{
@@ -487,6 +576,15 @@ input{
     background:#b85f4d;
 }
 
+.content2 form,
+.content3 form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    width:min(520px,100%);
+    margin:0 auto;
+}
+
 .search_box{
     display:flex;
     flex-direction:row;
@@ -509,21 +607,19 @@ input{
     padding:0 18px;
 }
 
-.campo-form {
-    width: 100%;
-    margin-bottom: 14px;
-}
-
-.mensaje-error {
-    display: block;
-    margin-top: 5px;
-    color: #b91c1c;
-    background-color: #fee2e2;
-    border-left: 4px solid #dc2626;
-    padding: 7px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
+.campo-form .mensaje-error{
+    display:block;
+    margin-top:5px;
+    color:#b91c1c;
+    background:#fee2e2;
+    border-left:4px solid #dc2626;
+    padding:7px 10px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:600;
+    text-align:left;
+    position:static;
+    transform:none;
 }
 
 .mensaje-error-general {
@@ -548,4 +644,22 @@ table{
 
 .muted{
     color:var(--muted);
+}
+
+@keyframes fondoCasa{
+    0%{background-position:0% 50%}
+    25%{background-position:50% 100%}
+    50%{background-position:100% 50%}
+    75%{background-position:50% 0%}
+    100%{background-position:0% 50%}
+}
+
+@keyframes texturaCasa{
+    from{background-position:0 0}
+    to{background-position:90px 90px}
+}
+
+@keyframes zoomHero{
+    from{transform:scale(1.04)}
+    to{transform:scale(1.08)}
 }
