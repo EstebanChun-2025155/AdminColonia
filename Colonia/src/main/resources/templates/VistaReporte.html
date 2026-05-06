@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte</title>
-    <link rel="stylesheet" th:href="@{/styles/Reporte.css}">
+    <link rel="stylesheet" th:href="@{/styles/Entidades.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
-<div class="menubar">
-    <div class="container menubar_row">
+<!-- MENÚ -->
+<div class="menu">
+    <div class="container menu_row">
         <div class="brand">
             <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-        <nav class="menu" aria-label="Menú principal">
+        <nav class="menu">
             <a class="menu_link" th:href="@{/home}">Inicio</a>
             <a class="menu_link is-active" th:href="@{/home#admin}">Administración</a>
             <a class="menu_link" th:href="@{/home#ayuda}">Ayuda</a>
@@ -24,266 +25,207 @@
 </div>
 
 <main>
-    <div class="banner">
-        <video class="banner_img" autoplay loop muted playsinline>
-            <source th:src="@{/Images/Reporte.mp4}" type="video/mp4">
+
+    <!-- VIDEO -->
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Reporte.mp4}" type="video/mp4">
         </video>
-        <div class="banner_overlay">
-            <h1>REPORTES</h1>
-        </div>
+    </section>
+
+    <div class="seccion">
+        <h2>CONTROL DE REPORTES</h2>
     </div>
 
-    <section class="tabla-seccion">
-        <div class="container">
+    <section class="vista">
+        <h2 class="vista_titulo">REGISTRO DE CONTROL DE REPORTES</h2>
 
-            <div class="divider-line">
-        <span>
-          <img th:src="@{/images/IconoReporte.jpg}" alt="Icono">
-          REPORTES
-        </span>
+        <!-- TABS -->
+        <input type="radio" name="tabs_reporte" id="r1"
+               th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
+        <input type="radio" name="tabs_reporte" id="r2"
+               th:checked="${panelActivo == 'registrar'}" hidden>
+        <input type="radio" name="tabs_reporte" id="r3"
+               th:checked="${panelActivo == 'editar'}" hidden>
+        <input type="radio" name="tabs_reporte" id="r4"
+               th:checked="${panelActivo == 'historial'}" hidden>
+
+        <div class="tabs">
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
+            <label for="r4" class="tab">Historial</label>
+        </div>
+
+        <!-- CONSULTAR -->
+        <div class="panel content1">
+            <h3 class="panel_titulo">Consulta de Reportes</h3>
+
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
             </div>
 
-            <div class="title-section">
-                <h2>REGISTRO DE CONTROL DE REPORTES</h2>
-            </div>
+            <form th:action="@{/reporte/buscar}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar por ID" required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/reporte}" class="btn btn-edit">Mostrar Todo</a>
+            </form>
 
-            <div class="tabla-wrapper">
-
-                <!-- TABS -->
-                <input type="radio" name="tabs_reporte" id="r1"
-                       th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
-                <input type="radio" name="tabs_reporte" id="r2"
-                       th:checked="${panelActivo == 'registrar'}" hidden>
-                <input type="radio" name="tabs_reporte" id="r3"
-                       th:checked="${panelActivo == 'editar'}" hidden>
-                <input type="radio" name="tabs_reporte" id="r4"
-                       th:checked="${panelActivo == 'historial'}" hidden>
-
-                <div class="tabs">
-                    <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
-                    <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
-                    <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
-                    <button class="tab" id="tab-historial" onclick="mostrarPanel('historial')">Historial</button>
-                </div>
-
-                <!-- PANEL CONSULTAR -->
-                <div id="panel-consultar" class="panel">
-                    <h3>Consulta de Reportes</h3>
-
-                    <div th:if="${errorGeneral}" class="mensaje-error-general">
-                        <p th:text="${errorGeneral}"></p>
-                    </div>
-
-                    <form th:action="@{/reporte/buscar}" method="get" class="search_box">
-                        <input type="number" name="id" placeholder="Buscar por ID" required>
-                        <button type="submit">Buscar</button>
-                        <a th:href="@{/reporte}">Mostrar Todo</a>
-                    </form>
-
-                    <table id="tabla-reportes">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Reportante (ID)</th>
-                            <th>Reportado (ID)</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody id="cuerpo-tabla">
-                        <tr th:each="reporte : ${reportes}" th:id="'fila-' + ${reporte.idReporte}">
-                            <td th:text="${reporte.idReporte}"></td>
-                            <td th:text="${reporte.idResidenteReportante}"></td>
-                            <td th:text="${reporte.idResidenteReportado}"></td>
-                            <td th:text="${reporte.tipoReporte}"></td>
-                            <td th:text="${reporte.descripcion}"></td>
-                            <td th:text="${reporte.fechaReporte}"></td>
-                            <td th:text="${reporte.estado}"></td>
-                            <td>
-                                <a th:href="@{'/reporte/editar/' + ${reporte.idReporte}}" class="btn-editar">
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Reportante</th>
+                        <th>Reportado</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reporte : ${reportes}">
+                        <td th:text="${reporte.idReporte}"></td>
+                        <td th:text="${reporte.idResidenteReportante}"></td>
+                        <td th:text="${reporte.idResidenteReportado}"></td>
+                        <td th:text="${reporte.tipoReporte}"></td>
+                        <td th:text="${reporte.descripcion}"></td>
+                        <td th:text="${reporte.fechaReporte}"></td>
+                        <td th:text="${reporte.estado}"></td>
+                        <td>
+                            <div class="acciones">
+                                <a th:href="@{'/reporte/editar/' + ${reporte.idReporte}}" class="btn btn-edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 <a th:href="@{'/reporte/eliminar/' + ${reporte.idReporte}}"
-                                   class="btn-eliminar"
+                                   class="btn btn-danger"
                                    onclick="return confirm('¿Seguro que deseas eliminar este reporte?')">
                                     <i class="bi bi-trash-fill"></i>
                                 </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- PANEL REGISTRAR -->
-                <div id="panel-registrar" class="panel" style="display:none;">
-                    <h3>Registrar Reporte</h3>
-
-                    <form th:action="@{/reporte/nuevo}" th:object="${reporteNuevo}" method="post">
-
-                        <div th:if="${errorGeneral}" class="mensaje-error-general">
-                            <p th:text="${errorGeneral}"></p>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="number" th:field="*{idResidenteReportante}" placeholder="Residente Reportante (ID)">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('idResidenteReportante')}"
-                                  th:errors="*{idResidenteReportante}"></span>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="number" th:field="*{idResidenteReportado}" placeholder="Residente Reportado (ID)">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('idResidenteReportado')}"
-                                  th:errors="*{idResidenteReportado}"></span>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="text" th:field="*{tipoReporte}" placeholder="Tipo (queja, incidente, ruido, seguridad, otro)">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('tipoReporte')}"
-                                  th:errors="*{tipoReporte}"></span>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="text" th:field="*{descripcion}" placeholder="Descripción">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('descripcion')}"
-                                  th:errors="*{descripcion}"></span>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="date" th:field="*{fechaReporte}">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('fechaReporte')}"
-                                  th:errors="*{fechaReporte}"></span>
-                        </div>
-
-                        <div class="campo-form">
-                            <input type="text" th:field="*{estado}" placeholder="Estado (pendiente, en_revision, resuelto, anulado)">
-                            <span class="mensaje-error"
-                                  th:if="${#fields.hasErrors('estado')}"
-                                  th:errors="*{estado}"></span>
-                        </div>
-
-                        <button type="submit">Guardar</button>
-                    </form>
-                </div>
-
-                <!-- PANEL EDITAR -->
-                <div id="panel-editar" class="panel" style="display:none;">
-                    <h3>Editar Reporte</h3>
-
-                    <div th:if="${reporteEditar != null}">
-                        <form th:action="@{'/reporte/editar/' + ${reporteEditar.idReporte}}"
-                              th:object="${reporteEditar}" method="post">
-
-                            <div th:if="${errorGeneral}" class="mensaje-error-general">
-                                <p th:text="${errorGeneral}"></p>
                             </div>
-
-                            <div class="campo-form">
-                                <input type="number" th:field="*{idResidenteReportante}" placeholder="Residente Reportante (ID)">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('idResidenteReportante')}"
-                                      th:errors="*{idResidenteReportante}"></span>
-                            </div>
-
-                            <div class="campo-form">
-                                <input type="number" th:field="*{idResidenteReportado}" placeholder="Residente Reportado (ID)">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('idResidenteReportado')}"
-                                      th:errors="*{idResidenteReportado}"></span>
-                            </div>
-
-                            <div class="campo-form">
-                                <input type="text" th:field="*{tipoReporte}" placeholder="Tipo (queja, incidente, ruido, seguridad, otro)">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('tipoReporte')}"
-                                      th:errors="*{tipoReporte}"></span>
-                            </div>
-
-                            <div class="campo-form">
-                                <input type="text" th:field="*{descripcion}" placeholder="Descripción">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('descripcion')}"
-                                      th:errors="*{descripcion}"></span>
-                            </div>
-
-                            <div class="campo-form">
-                                <input type="date" th:field="*{fechaReporte}">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('fechaReporte')}"
-                                      th:errors="*{fechaReporte}"></span>
-                            </div>
-
-                            <div class="campo-form">
-                                <input type="text" th:field="*{estado}" placeholder="Estado (pendiente, en_revision, resuelto, anulado)">
-                                <span class="mensaje-error"
-                                      th:if="${#fields.hasErrors('estado')}"
-                                      th:errors="*{estado}"></span>
-                            </div>
-
-                            <button type="submit">Actualizar</button>
-                        </form>
-                    </div>
-
-                    <div th:if="${reporteEditar == null}">
-                        <p>Selecciona un reporte desde la tabla para editar.</p>
-                    </div>
-                </div>
-
-                <!-- PANEL HISTORIAL -->
-                <div id="panel-historial" class="panel" style="display:none;">
-                    <h3>Historial de Reportes por Residente</h3>
-
-                    <form th:action="@{/reporte/historial}" method="get" class="search_box">
-                        <input type="number" name="id" placeholder="Buscar por ID de residente" required>
-                        <button type="submit">Buscar</button>
-                    </form>
-
-                    <div th:if="${idBuscado != null}" class="titulo-historial">
-                        <h4 th:text="'Historial del residente ID: ' + ${idBuscado}"></h4>
-                    </div>
-
-                    <div th:if="${mensajeHistorial}" class="mensaje-error-general">
-                        <p th:text="${mensajeHistorial}"></p>
-                    </div>
-
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>ID Reporte</th>
-                            <th>Reportante (ID)</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="rep : ${historial}">
-                            <td th:text="${rep.idReporte}"></td>
-                            <td th:text="${rep.idResidenteReportante}"></td>
-                            <td th:text="${rep.tipoReporte}"></td>
-                            <td th:text="${rep.descripcion}"></td>
-                            <td th:text="${rep.fechaReporte}"></td>
-                            <td th:text="${rep.estado}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <!-- REGISTRAR -->
+        <div class="panel content2">
+            <h3 class="panel_titulo">Registrar Reporte</h3>
+
+            <form th:action="@{/reporte/nuevo}" th:object="${reporteNuevo}" method="post">
+
+                <div class="campo-form">
+                    <input type="number" th:field="*{idResidenteReportante}" placeholder="Residente Reportante (ID)">
+                </div>
+                <div class="campo-form">
+                    <input type="number" th:field="*{idResidenteReportado}" placeholder="Residente Reportado (ID)">
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{tipoReporte}" placeholder="Tipo (queja, incidente, ruido, seguridad, otro)">
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{descripcion}" placeholder="Descripción">
+                </div>
+                <div class="campo-form">
+                    <input type="date" th:field="*{fechaReporte}">
+                </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{estado}" placeholder="Estado (pendiente, en_revision, resuelto, anulado)">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+
+        <!-- EDITAR -->
+        <div class="panel content3">
+            <h3 class="panel_titulo">Editar Reporte</h3>
+
+            <div th:if="${reporteEditar != null}">
+                <form th:action="@{'/reporte/editar/' + ${reporteEditar.idReporte}}"
+                      th:object="${reporteEditar}" method="post">
+
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idResidenteReportante}">
+                    </div>
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idResidenteReportado}">
+                    </div>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{tipoReporte}">
+                    </div>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{descripcion}">
+                    </div>
+                    <div class="campo-form">
+                        <input type="date" th:field="*{fechaReporte}">
+                    </div>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{estado}">
+                    </div>
+
+                    <button type="submit" class="btn btn-edit">Actualizar</button>
+                </form>
+            </div>
+
+            <div th:if="${reporteEditar == null}">
+                <p class="muted">Selecciona un reporte desde la tabla para editar.</p>
+            </div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="panel content4">
+            <h3 class="panel_titulo">Historial de Reportes por Residente</h3>
+
+            <form th:action="@{/reporte/historial}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar por ID de residente" required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+
+            <div th:if="${idBuscado != null}">
+                <h4 th:text="'Historial del residente ID: ' + ${idBuscado}"></h4>
+            </div>
+
+            <div th:if="${mensajeHistorial}" class="mensaje-error-general">
+                <p th:text="${mensajeHistorial}"></p>
+            </div>
+
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID Reporte</th>
+                        <th>Reportante</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="rep : ${historial}">
+                        <td th:text="${rep.idReporte}"></td>
+                        <td th:text="${rep.idResidenteReportante}"></td>
+                        <td th:text="${rep.tipoReporte}"></td>
+                        <td th:text="${rep.descripcion}"></td>
+                        <td th:text="${rep.fechaReporte}"></td>
+                        <td th:text="${rep.estado}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </section>
 </main>
 
 <input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
 
+<!-- AYUDA (INTACTA) -->
 <section class="seccion" id="ayuda">
     <div class="container">
         <div class="seccion_panel">
@@ -291,7 +233,6 @@
         </div>
 
         <div class="ayuda-grid">
-
             <article class="ayuda-card">
                 <div class="ayuda-tip">
                     <span class="num">01</span>
@@ -300,7 +241,7 @@
                 <div class="ayuda-contenido">
                     <span class="ayuda-tag tag-eliminar">Eliminar</span>
                     <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                    <p class="ayuda-texto">Para eliminar un reporte haz clic en el botón rojo en el apartado de Acciones. Esto lo eliminará instantáneamente.</p>
+                    <p class="ayuda-texto">Para eliminar un reporte haz clic en el botón rojo en el apartado de Acciones.</p>
                 </div>
             </article>
 
@@ -327,32 +268,9 @@
                     <p class="ayuda-texto">Para editar un reporte presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
                 </div>
             </article>
-
         </div>
     </div>
 </section>
-
-<script>
-    window.onload = function () {
-        const panel = document.getElementById('panelActivo').value;
-        mostrarPanel(panel);
-    };
-
-    function mostrarPanel(nombre) {
-        document.getElementById('panel-consultar').style.display = 'none';
-        document.getElementById('panel-registrar').style.display = 'none';
-        document.getElementById('panel-editar').style.display    = 'none';
-        document.getElementById('panel-historial').style.display = 'none';
-
-        document.getElementById('tab-consultar').classList.remove('active');
-        document.getElementById('tab-registrar').classList.remove('active');
-        document.getElementById('tab-editar').classList.remove('active');
-        document.getElementById('tab-historial').classList.remove('active');
-
-        document.getElementById('panel-' + nombre).style.display = 'block';
-        document.getElementById('tab-'   + nombre).classList.add('active');
-    }
-</script>
 
 </body>
 </html>
