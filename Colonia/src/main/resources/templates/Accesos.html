@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesos</title>
-    <link rel="stylesheet" th:href="@{/styles/Accesos.css}">
+    <link rel="stylesheet" th:href="@{/styles/Entidades.css}">
 </head>
 
 <body>
 
 <div class="menu">
     <div class="container menu_row">
-        <nav class="menu">
+
+        <div class="brand">
+            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+        </div>
+
+        <nav class="menubar">
             <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
             <a class="menu_link" href="#adminAccesos">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
@@ -33,29 +38,23 @@
         <h2>CONSULTA DE ACCESOS</h2>
     </div>
 
+
     <section class="vista">
 
         <h2 class="vista_titulo">REGISTRO DE ACCESOS</h2>
 
-        <div class="alerta-error" th:if="${error}" th:text="${error}"></div>
-
         <!-- TABS -->
-        <input type="radio" name="tabs_acc" id="a1" hidden
-
+        <input type="radio" name="tabs_info" id="r1" hidden
                th:checked="${tabActiva == null || tabActiva == 'consultar'}">
-
-        <input type="radio" name="tabs_acc" id="a2" hidden
-
+        <input type="radio" name="tabs_info" id="r2" hidden
                th:checked="${tabActiva == 'registrar'}">
-
-        <input type="radio" name="tabs_acc" id="a3" hidden
-
+        <input type="radio" name="tabs_info" id="r3" hidden
                th:checked="${tabActiva == 'editar'}">
 
         <div class="tabs">
-            <label for="a1" class="tab label1">Consultar</label>
-            <label for="a2" class="tab label2">Registrar</label>
-            <label for="a3" class="tab label3">Editar</label>
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
         </div>
 
         <!-- CONSULTAR -->
@@ -64,9 +63,12 @@
 
                 <form th:action="@{/accesos/buscar}" method="get" class="search_box">
                     <input type="number" name="id" placeholder="Buscar acceso por ID" required>
-                    <button type="submit" class="btn-buscar">Buscar</button>
-                    <a th:href="@{/accesos}" class="btn-reset">Mostrar Todo</a>
+
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+
+                    <a th:href="@{/accesos}" class="btn btn-edit">Mostrar Todo</a>
                 </form>
+
 
             <table>
                 <thead>
@@ -148,9 +150,12 @@
             <h3 class="panel_titulo">Registrar Acceso</h3>
 
             <form th:action="@{/accesos/guardar}"
+
                   th:object="${acceso}"
+
                   method="post">
 
+                <!-- Tipo Persona -->
                 <select th:field="*{tipoPersona}">
                     <option value="">Seleccione tipo</option>
                     <option value="visita">Visita</option>
@@ -158,37 +163,53 @@
                     <option value="personal">Personal</option>
                 </select>
 
-                <span class="campo-error"
-                      th:if="${#fields.hasErrors('tipoPersona')}"
-                      th:errors="*{tipoPersona}">
-                </span>
+                <div class="campo-form" th:if="${#fields.hasErrors('tipoPersona')}">
+<span class="mensaje-error"
 
+      th:errors="*{tipoPersona}"></span>
+                </div>
+
+                <!-- ID Seguridad -->
                 <input type="number"
+
                        placeholder="ID Seguridad"
+
                        th:field="*{idSeguridad}">
 
-                <span class="campo-error"
-                      th:if="${#fields.hasErrors('idSeguridad')}"
-                      th:errors="*{idSeguridad}">
+                <div class="campo-form" th:if="${#fields.hasErrors('idSeguridad')}">
+<span class="mensaje-error"
 
-                </span>
+      th:errors="*{idSeguridad}"></span>
+                </div>
 
+                <!-- Hora Entrada -->
                 <input type="datetime-local"
+
                        th:field="*{horaEntrada}">
 
-                <span class="campo-error"
-                      th:if="${#fields.hasErrors('horaEntrada')}"
-                      th:errors="*{horaEntrada}">
-                </span>
+                <div class="campo-form" th:if="${#fields.hasErrors('horaEntrada')}">
+<span class="mensaje-error"
 
+      th:errors="*{horaEntrada}"></span>
+                </div>
+
+                <!-- Hora Salida -->
                 <input type="datetime-local"
+
                        th:field="*{horaSalida}">
 
-                <small class="muted">Deja este campo vacío si la persona aún no ha salido.</small>
+                <small class="muted">
 
-                <button type="submit">Guardar</button>
+                    Deja este campo vacío si la persona aún no ha salido.
+                </small>
+
+                <button type="submit" class="btn btn-primary">
+
+                    Guardar
+                </button>
             </form>
         </div>
+
 
         <!-- EDITAR -->
         <div class="panel content3">
@@ -201,11 +222,14 @@
             <div th:if="${tabActiva == 'editar'}">
 
                 <form th:action="@{/accesos/actualizar/{id}(id=${acceso.id})}"
+
                       th:object="${acceso}"
+
                       method="post">
 
                     <input type="hidden" th:field="*{id}">
 
+                    <!-- Tipo Persona -->
                     <select th:field="*{tipoPersona}">
                         <option value="">Seleccione tipo</option>
                         <option value="visita">Visita</option>
@@ -213,37 +237,54 @@
                         <option value="personal">Personal</option>
                     </select>
 
-                    <span class="campo-error"
-                          th:if="${#fields.hasErrors('tipoPersona')}"
-                          th:errors="*{tipoPersona}">
-                    </span>
+                    <div class="campo-form" th:if="${#fields.hasErrors('tipoPersona')}">
+<span class="mensaje-error"
 
+      th:errors="*{tipoPersona}"></span>
+                    </div>
+
+                    <!-- ID Seguridad -->
                     <input type="number"
+
                            placeholder="ID Seguridad"
+
                            th:field="*{idSeguridad}">
 
-                    <span class="campo-error"
-                          th:if="${#fields.hasErrors('idSeguridad')}"
-                          th:errors="*{idSeguridad}">
-                    </span>
+                    <div class="campo-form" th:if="${#fields.hasErrors('idSeguridad')}">
+<span class="mensaje-error"
 
+      th:errors="*{idSeguridad}"></span>
+                    </div>
+
+                    <!-- Hora Entrada -->
                     <input type="datetime-local"
+
                            th:field="*{horaEntrada}">
 
-                    <span class="campo-error"
-                          th:if="${#fields.hasErrors('horaEntrada')}"
-                          th:errors="*{horaEntrada}">
-                    </span>
+                    <div class="campo-form" th:if="${#fields.hasErrors('horaEntrada')}">
+<span class="mensaje-error"
 
+      th:errors="*{horaEntrada}"></span>
+                    </div>
+
+                    <!-- Hora Salida -->
                     <input type="datetime-local"
+
                            th:field="*{horaSalida}">
 
-                    <small class="muted">Completa este campo cuando la persona salga del condominio.</small>
+                    <small class="muted">
 
-                    <button type="submit" class="btn editar">Actualizar</button>
+                        Completa este campo cuando la persona salga del condominio.
+                    </small>
+
+                    <button type="submit" class="btn btn-edit">
+
+                        Actualizar
+                    </button>
                 </form>
             </div>
         </div>
+
 
     </section>
 
