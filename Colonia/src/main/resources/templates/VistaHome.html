@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Control Colonia</title>
-    <link rel="stylesheet" th:href="@{/styles/Home.css}">
+    <link rel="stylesheet" th:href="@{/styles/home.css}">
 </head>
 <body>
 
@@ -15,6 +15,7 @@
         </div>
 
         <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link" th:href="@{/reporte}">Reportes</a>
             <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
             <a class="menu_link" href="#contacto">Contacto</a>
@@ -31,9 +32,6 @@
             <div class="container front_content">
 
                 <h1 class="hero-title">Bienvenido a Residenciales S.A</h1>
-                <p class="hero-text">
-                    Gestiona residentes y casas de manera eficiente.
-                </p>
 
                 <div class="front_cta">
                     <a class="btn btn--primary" href="#admin">Ir a Administración</a>
@@ -233,26 +231,107 @@
                 </a>
 
             </div>
-
-            <p class="hint"> Aqui podras acceder a toda la informacion acerca de nuestra administración en nuestra colonia</p>
         </div>
     </section>
 
     <section class="seccion seccion--soft" id="ayuda">
         <div class="container">
-            <h2>Ayuda</h2>
-            <p class="muted">
-                Esta pagina esta hecha para que puedas llevar un control adecuado sobre la gestión y administración dentro de una colonia/condominio.
-                Podrás acceder a toda la información almacenada mediante las funciones ya vistas en el apartado de Administració, en donde podras
-                acceder a ellas y corroborar la información ya almacenada
-            </p>
+
+            <div class="seccion_panel">
+                <span>GUÍA DE USO</span>
+            </div>
+
+            <div class="pasos-ayuda">
+
+                <article class="paso-card">
+                    <div class="paso-numero">01</div>
+                    <div class="paso-contenido">
+                        <h3>Selecciona un módulo</h3>
+                        <p>
+                            Ingresa al apartado de Administración y elige la entidad
+                            con la que desees trabajar.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card">
+                    <div class="paso-numero">02</div>
+                    <div class="paso-contenido">
+                        <h3>Consulta la información</h3>
+                        <p>
+                            Revisa los registros existentes desde la tabla principal
+                            o utiliza el buscador por ID.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card">
+                    <div class="paso-numero">03</div>
+                    <div class="paso-contenido">
+                        <h3>Registra nuevos datos</h3>
+                        <p>
+                            Usa la pestaña de registro para agregar un registro nuevo
+                            dentro de la tabla.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card">
+                    <div class="paso-numero">04</div>
+                    <div class="paso-contenido">
+                        <h3>Actualiza o elimina registros</h3>
+                        <p>
+                            Utiliza los botones de acción para editar información
+                            existente o eliminar registros cuando sea necesario.
+                        </p>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
 
-    <section class="section" id="contacto">
+    <section class="seccion" id="contacto">
         <div class="container">
-            <h2> Contacto</h2>
-            <p class="muted">echun-2025155@kinal.edu.gt</p>
+
+            <div class="seccion_panel">
+                <span>CONTACTO</span>
+            </div>
+
+            <div class="canales-grid">
+
+                <article class="canal-card">
+                    <div class="canal-contenido">
+                        <span class="canal-tag">Correo</span>
+                        <h3>Soporte administrativo</h3>
+                        <p>
+                            Si tienes consultas generales sobre el sistema
+                            o relacionado con su funcionalidad, contactanos:
+                        </p>
+                        <p class="canal-dato">echun-2025155@kinal.edu.gt</p>
+                        <p class="canal-dato">ecuxe-2025091@kinal.edu.gt</p>
+                        <p class="canal-dato">wdepaz-2025275@kinal.edu.gt</p>
+                        <p class="canal-dato">afriely-2025553@kinal.edu.gt</p>
+                        <p class="canal-dato">jchan-2022047@kinal.edu.gt</p>
+                    </div>
+                </article>
+
+                <article class="canal-card">
+                    <div class="canal-contenido">
+                        <span class="canal-tag">Atención</span>
+                        <h3>Horario de soporte</h3>
+                        <p>
+                            Las consultas pueden realizarse durante días hábiles.
+                            Se recomienda que se sea especificos a la hora de dirigirse
+                            sobre cual es su consulta o duda.
+                        </p>
+                        <p class="canal-dato">Lunes horario: 8:00am A 7:00pm </p>
+                        <p class="canal-dato">Martes horario: 8:00am A 5:00pm</p>
+                        <p class="canal-dato">Miercoles horario: 8:00am A 4:00pm</p>
+                        <p class="canal-dato">Jueves horario: 8:00am A 5:00pm</p>
+                        <p class="canal-dato">Viernes horario: 8:00am A 3:00pm</p>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
 
