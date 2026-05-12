@@ -151,6 +151,33 @@ Cada pago debe de contener:
 - Método de pago
 - Referencia
 
+### Reportes 
+
+Permite a los Residentes y al personal de Seguridad reportar quejas sobre incidentes, problemas de ruido, peleas, etc.
+
+Cada Reporte se clasifica con:
+
+- Id del Residente (tanto del que reporta como del reportado)
+- Clasificación del reporte (queja, incidente, ruido, seguridad, otro)
+- Descripción del Reporte
+- Fecha en la que se realizó el Reporte
+- Estado del Reporte (pendiente, en revision, resuelto, anulado)
+
+## Roles
+ ### Administrador (Seguridad)
+    El perosnal de Seguridad cumple el rol de Administrador, tienen el control para poder eliminar, editar, buscar y crear.
+    Para poder acceder como administrador se necesita:
+        - Nombre con el cual esta registrado.
+        - Su DPI.
+    Al registrase con estos datos en el login podrá acceder como administrador del programa.
+
+ ### Usuarios (Residentes)
+    Los residentes cumplen el rol de Usuarios, ellos únicamente tiene acceso al apartado de Amenidades y de Reportes.
+    Pueden relizar lo que son "reservas" de amenidades y reportar a otros residentess.
+    Para poder acceder con el rol de Usuario se necesita:
+        - Nombre con el cual esta registrado.
+        - Su DPI
+
 ## Tecnologías Utilizadas
 
 El proyecto utiliza las siguientes tecnologías:
@@ -171,3 +198,17 @@ La interfaz del sistema utiliza una paleta de colores cálida y neutral, diseña
 Se emplearon tonos beige y crema como base para mantener una apariencia limpia y amigable hacía la vista. El color terracota se utiliza para destacar botones, acciones principales y elementos, mientras que los tonos oscuros se aplican en los textos para mejorar la legibilidad.
 
 Esta combinación busca transmitir una imagen moderna, minimalista y elegante, manteniendo un equilibrio entre estética, funcionalidad y facilidad de uso.
+
+### Colores
+Para definir la paleta de colores se utilizaron los siguientes códigos:
+
+    #D6C2A8 (beige) 
+    #3E3A37 (negro grisaseo)
+    #7A746E (gris) 
+    #C46A3C (terracota) 
+    #D98A5F (terracota claro) 
+    #EFE6D8 (beige claro/crema) 
+    #E4D6C3 (beige grisaseo) 
+    #D57A66 (terracota crema) 
+    #D8CBB8 (beige oscuro) 
+
