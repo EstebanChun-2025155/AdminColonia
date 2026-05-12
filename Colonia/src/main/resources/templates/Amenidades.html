@@ -24,13 +24,12 @@
 
 <main>
 
-    <!-- PORTADA -->
     <section class="front">
 
         <video class="front_media" th:src="@{/images/Amenidades.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <!-- PANEL DE TÍTULO -->
+
     <div class="panel">
         <span>CONSULTAS</span>
     </div>
@@ -39,7 +38,7 @@
         <h2>CENTRO DE CONTROL</h2>
     </div>
 
-    <!-- SECCIÓN PRINCIPAL DE VISTA -->
+
     <section class="vista">
         <h2 class="vista_titulo">GESTIÓN DE REGISTROS</h2>
         <input type="radio" name="tabs_amenidad" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
@@ -137,7 +136,7 @@
                 <div class="campo-form">
                     <select th:field="*{estado}">
                         <option value="" disabled selected>Estado Inicial</option>
-                        <option value="Disponible">Disponible</option>
+                        <option value="reservacion">reservacion</option>
                         <option value="Ocupada">Ocupada</option>
                         <option value="Mantenimiento">Mantenimiento</option>
                     </select>
@@ -179,7 +178,7 @@
 
                     <div class="campo-form" style="flex: 1;">
                         <select th:field="*{estado}">
-                            <option value="Disponible">Disponible</option>
+                            <option value="reservacion">reservacion</option>
                             <option value="Ocupada">Ocupada</option>
                             <option value="Mantenimiento">Mantenimiento</option>
                         </select>
