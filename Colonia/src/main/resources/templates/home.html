@@ -15,6 +15,7 @@
         </div>
 
         <nav class="menu" aria-label="Menú principal">
+            <a class="menu_link" th:href="@{/perfil}" th:if="${isResidente}">Mi perfil</a>
             <a class="menu_link" th:href="@{/reporte}">Reportes</a>
             <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
