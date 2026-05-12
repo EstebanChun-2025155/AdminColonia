@@ -1,8 +1,10 @@
 package Control.Colonia.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -14,7 +16,10 @@ public class Amenidad {
     @Column(name = "idAmenidad")
     private Integer idAmenidad;
 
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank(message = "El nombre de la amenidad es obligatorio")
+    @Pattern(regexp = "(?i)^(piscina|cancha de futbol|salon social|área de bbq|lounge de estudio|cinema|salón de juegos)$",
+            message = "La amenidad solo puede ser: Piscina, cancha de futbol, salon social, Área de BBQ, lounge de estudio, cinema o salón de juegos"
+    )
     @Column(name = "nombreAmenidad")
     private String nombreAmenidad;
 
@@ -22,18 +27,23 @@ public class Amenidad {
     @Column(name = "horarioUso")
     private String horarioUso;
 
-    @Min(value = 0, message = "El costo no puede ser negativo")
+    @NotNull(message = "El costo es obligatorio")
+    @DecimalMin(value = "0.00", message = "El costo no puede ser negativo")
     @Column(name = "costoUso")
-    private double costoUso;
+    private Double costoUso;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "^(?i)(ocupada|disponible|mantenimiento)$", message = "Estado no válido")
-    @Column(name = "estado", nullable = false)
+    @Pattern(regexp = "(?i)^(ocupada|disponible|mantenimiento)$",
+            message = "El estado solo puede ser: ocupada, disponible o mantenimiento"
+    )
+    @Column(name = "estado")
     private String estado;
 
-    @Min(value = 0, message = "La capacidad no puede ser menor a 0")
+    @NotNull(message = "La capacidad es obligatoria")
+    @Min(value = 1, message = "La capacidad debe ser mayor a 0")
     @Column(name = "capacidad")
     private Integer capacidad;
+
     public Integer getIdAmenidad() {
         return idAmenidad;
     }
@@ -42,45 +52,43 @@ public class Amenidad {
         this.idAmenidad = idAmenidad;
     }
 
-    public @NotBlank(message = "El nombre es obligatorio") String getNombreAmenidad() {
+    public String getNombreAmenidad() {
         return nombreAmenidad;
     }
 
-    public void setNombreAmenidad(@NotBlank(message = "El nombre es obligatorio") String nombreAmenidad) {
+    public void setNombreAmenidad(String nombreAmenidad) {
         this.nombreAmenidad = nombreAmenidad;
     }
 
-    public @NotBlank(message = "El horario es obligatorio") String getHorarioUso() {
+    public String getHorarioUso() {
         return horarioUso;
     }
 
-    public void setHorarioUso(@NotBlank(message = "El horario es obligatorio") String horarioUso) {
+    public void setHorarioUso(String horarioUso) {
         this.horarioUso = horarioUso;
     }
 
-    public @Min(value = 0, message = "El costo no puede ser negativo") double getCostoUso() {
+    public Double getCostoUso() {
         return costoUso;
     }
 
-    public void setCostoUso(@Min(value = 0, message = "El costo no puede ser negativo") double costoUso) {
+    public void setCostoUso(Double costoUso) {
         this.costoUso = costoUso;
     }
 
-    public @NotBlank(message = "El estado es obligatorio") @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
-            message = "Estado no válido") String getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(@NotBlank(message = "El estado es obligatorio") @Pattern(regexp = "^(ocupada|disponible|mantenimiento)$",
-            message = "Estado no válido") String estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
-    public @Min(value = 0, message = "La capacidad no puede ser menor a 0") Integer getCapacidad() {
+    public Integer getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(@Min(value = 0, message = "La capacidad no puede ser menor a 0") Integer capacidad) {
+    public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
     }
 }
