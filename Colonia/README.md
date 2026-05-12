@@ -33,7 +33,7 @@ movimientos, mejorando la seguridad interna mediante el registro de ingresos y e
 * **Amenidades:** Control de áreas comunes como piscinas, gimnasios o salones sociales, gestionando horarios, costos de uso y capacidad permitida.
 * **Multas:** Registro y seguimiento de sanciones aplicadas, detallando el monto, la descripción de la falta y el estado de la misma.
 * **Pagos:** Gestión de cobros por mantenimiento, multas o uso de amenidades, incluyendo fechas, métodos de pago y números de referencia.
-* **Reportes:** Control de situaciones que pueden suceder en el residencial.
+* **Reportes:** Registro de incidentes, quejas u otras situaciones ocurridas en el residencial, incluyendo fecha, descripción, estado y responsable.
 
 ---
 
