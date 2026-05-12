@@ -18,7 +18,7 @@
 
         <nav class="menubar">
             <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menu_link" href="#adminVisitas">Administración</a>
+            <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
@@ -27,20 +27,14 @@
 <main>
 
     <section class="front">
-        <video class="front_media" th:src="@{/images/portadaVisitas.mp4}" autoplay loop muted playsinline></video>
+        <video class="front_media" th:src="@{/images/Visitas.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <div class="panel">
-        <span>VISITAS</span>
-    </div>
-
-    <div class="seccion" id="adminVisitas">
-        <h2>CONSULTA DE VISITAS</h2>
+    <div class="panel_header">
+        <span>CONTROL DE VISITAS</span>
     </div>
 
     <section class="vista">
-
-        <h2 class="vista_titulo">REGISTRO DE VISITAS</h2>
 
         <div class="alerta-error" th:if="${error}" th:text="${error}"></div>
 
@@ -59,17 +53,17 @@
         </div>
 
         <!-- CONSULTAR -->
-        <div class="panel content1">
+        <div class="panel content1" id="admin">
             <h3 class="panel_titulo">Consulta de Visitas</h3>
 
-                <form th:action="@{/visitas/buscar}" method="get" class="search_box">
-                    <input type="number" name="id" placeholder="Buscar visita por ID" required>
+            <form th:action="@{/visitas/buscar}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar visita por ID" required>
 
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="submit" class="btn btn-primary">Buscar</button>
 
-                    <a th:href="@{/visitas}" class="btn btn-edit">Mostrar Todo</a>
+                <a th:href="@{/visitas}" class="btn btn-edit">Mostrar Todo</a>
 
-                </form>
+            </form>
 
             <table>
                 <thead>
