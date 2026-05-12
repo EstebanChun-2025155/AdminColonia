@@ -18,7 +18,7 @@
 
         <nav class="menubar">
             <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menu_link" href="#adminAccesos">Administración</a>
+            <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
@@ -27,21 +27,16 @@
 <main>
 
     <section class="front">
-        <video class="front_media" th:src="@{/images/portadaAccesos.mp4}" autoplay loop muted playsinline></video>
+        <video class="front_media" th:src="@{/images/Accesos.mp4}" autoplay loop muted playsinline></video>
     </section>
 
-    <div class="panel">
+    <div class="panel_header">
         <span>CONSULTAS</span>
     </div>
 
-    <div class="seccion" id="adminAccesos">
-        <h2>CONSULTA DE ACCESOS</h2>
-    </div>
 
+    <section class="vista" id="admin">
 
-    <section class="vista">
-
-        <h2 class="vista_titulo">REGISTRO DE ACCESOS</h2>
 
         <!-- TABS -->
         <input type="radio" name="tabs_info" id="r1" hidden
