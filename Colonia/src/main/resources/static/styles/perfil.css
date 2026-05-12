@@ -17,10 +17,8 @@ body{
     min-height:100vh;
     font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     color:var(--ink);
-    background:
-        radial-gradient(circle at 20% 20%,rgba(196,106,60,.30),transparent 28%),
-        radial-gradient(circle at 80% 10%,rgba(217,138,95,.24),transparent 28%),
-        linear-gradient(135deg,#D6C2A8,#EFE6D8,#E4D6C3,#D98A5F);
+    overflow-x:hidden;
+    background:linear-gradient(135deg,#b88463,#d6c2a8,#c46a3c,#e4d6c3,#a96f52);
     background-size:300% 300%;
     animation:fondo 18s ease-in-out infinite;
 }
@@ -29,13 +27,14 @@ body::before{
     content:"";
     position:fixed;
     inset:0;
+    z-index:-1;
     pointer-events:none;
+    opacity:.65;
     background:
-        linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),
-        linear-gradient(0deg,rgba(255,255,255,.08) 1px,transparent 1px);
-    background-size:45px 45px;
-    opacity:.35;
-    animation:textura 22s linear infinite;
+        radial-gradient(circle at 18% 20%,rgba(196,106,60,.15),transparent 24%),
+        radial-gradient(circle at 82% 70%,rgba(62,58,55,.10),transparent 28%),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0,rgba(255,255,255,.045) 1px,transparent 1px,transparent 24px);
+    animation:textura 24s linear infinite
 }
 
 a{

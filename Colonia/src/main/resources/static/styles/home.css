@@ -23,42 +23,23 @@ body{
     font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     color:var(--ink);
     overflow-x:hidden;
-    position:relative;
-    background:linear-gradient(120deg,#D6C2A8,#E4D6C3,#D98A5F,#EFE6D8,#C46A3C,#D6C2A8);
-    background-size:420% 420%;
-    animation:fondoMovimientoContinuo 11s ease-in-out infinite;
-}
-
-body::before,
-body::after{
-    content:"";
-    position:fixed;
-    pointer-events:none;
+    background:linear-gradient(135deg,#b88463,#d6c2a8,#c46a3c,#e4d6c3,#a96f52);
+    background-size:300% 300%;
+    animation:fondo 18s ease-in-out infinite;
 }
 
 body::before{
-    inset:-35%;
-    z-index:-2;
-    background:
-        radial-gradient(circle at 18% 25%,rgba(196,106,60,.55),transparent 22%),
-        radial-gradient(circle at 78% 18%,rgba(217,138,95,.48),transparent 24%),
-        radial-gradient(circle at 62% 78%,rgba(122,116,110,.34),transparent 28%),
-        radial-gradient(circle at 30% 82%,rgba(239,230,216,.55),transparent 26%),
-        radial-gradient(circle at 85% 70%,rgba(196,106,60,.42),transparent 24%);
-    filter:blur(28px);
-    opacity:.95;
-    animation:manchasFlotantes 14s ease-in-out infinite alternate;
-}
-
-body::after{
+    content:"";
+    position:fixed;
     inset:0;
     z-index:-1;
-    background:
-        linear-gradient(115deg,rgba(255,255,255,.15),transparent 38%),
-        linear-gradient(290deg,rgba(196,106,60,.16),transparent 42%),
-        repeating-linear-gradient(45deg,rgba(255,255,255,.10) 0,rgba(255,255,255,.10) 1px,transparent 1px,transparent 18px);
+    pointer-events:none;
     opacity:.65;
-    animation:texturaDiagonal 9s linear infinite;
+    background:
+        radial-gradient(circle at 18% 20%,rgba(196,106,60,.15),transparent 24%),
+        radial-gradient(circle at 82% 70%,rgba(62,58,55,.10),transparent 28%),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0,rgba(255,255,255,.045) 1px,transparent 1px,transparent 24px);
+    animation:textura 24s linear infinite
 }
 
 a{
@@ -667,7 +648,7 @@ a{
     }
 }
 
-@keyframes fondoMovimientoContinuo{
+@keyframes fondo{
     0%{background-position:0% 50%}
     25%{background-position:50% 100%}
     50%{background-position:100% 50%}
@@ -675,17 +656,9 @@ a{
     100%{background-position:0% 50%}
 }
 
-@keyframes manchasFlotantes{
-    0%{transform:translate3d(-40px,-20px,0) scale(1)}
-    25%{transform:translate3d(35px,25px,0) scale(1.08)}
-    50%{transform:translate3d(70px,-10px,0) scale(1.12)}
-    75%{transform:translate3d(20px,50px,0) scale(1.06)}
-    100%{transform:translate3d(-35px,35px,0) scale(1.1)}
-}
-
-@keyframes texturaDiagonal{
-    from{background-position:0 0,0 0,0 0}
-    to{background-position:220px 160px,-180px 120px,90px 90px}
+@keyframes textura{
+    from{background-position:0 0}
+    to{background-position:90px 90px}
 }
 
 @keyframes blobAviso{
