@@ -3,6 +3,7 @@ package Control.Colonia.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -11,16 +12,16 @@ public class Vehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_Vehiculo") // Coincide con tu SQL
+    @Column(name = "id_Vehiculo")
     private Integer idVehiculo;
 
     @NotBlank(message = "Debe agregar la placa")
-    @Size(min = 7, max = 8, message = "La placa debe tener entre 7 y 8 caracteres")
+    @Pattern(regexp = "^[A-Za-z0-9-]{8}$", message = "La placa solo puede contener letras, números o guion")
     @Column(name = "placa", unique = true)
     private String placa;
 
     @NotBlank(message = "Debe llenar el campo")
-    @Column(name = "marca_Modelo") // Coincide con tu SQL: marca_Modelo
+    @Column(name = "marca_Modelo")
     private String marcaModelo;
 
     @NotBlank(message = "Debe llenar el campo")
@@ -32,7 +33,7 @@ public class Vehiculo {
     private String propietario;
 
     @NotNull(message = "La casa no puede ser nula")
-    @Column(name = "id_Casa", nullable = false) // Coincide con tu SQL: id_Casa
+    @Column(name = "id_Casa", nullable = false)
     private Integer idCasa;
 
     public Integer getIdVehiculo() {
