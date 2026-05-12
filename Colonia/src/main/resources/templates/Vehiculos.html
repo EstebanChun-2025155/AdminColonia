@@ -3,56 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehículos</title>
-
-
-    <link rel="stylesheet" th:href="@{/styles/Vehiculos.css}">
+    <title>Vehículos - Administración</title>
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 <body>
 
-<div class="menubar_row">
-    <div class="container menubar_row">
-
+<header class="menu">
+    <div class="container menu_row">
         <div class="brand">
-            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+            <img th:src="@{/Images/logo.png}" alt="Logo" class="brand_logo">
         </div>
-
-        <nav class="menu">
-            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menu_link" href="#adminVehiculo">Administración</a>
+        <nav class="menubar">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
+            <a class="menu_link is-active" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
-</div>
+</header>
 
 <main>
 
+
     <!-- PORTADA -->
-    <section class="frontVehiculo">
+    <section class="front">
 
         <video class="front_media" th:src="@{/images/Vehiculos.mp4}" autoplay loop muted playsinline></video>
-
     </section>
 
-    <!-- PANEL -->
-    <div class="panelVehiculo">
-        <span>VEHICULOS</span>
+    <!-- PANEL DE TÍTULO -->
+    <div class="panel_header">
+        <span>CONTROL DE VEHICULOS</span>
     </div>
 
-    <div class="seccionVehiculo" id="adminVehiculo">
-        <h2>CONSULTA DE VEHÍCULOS</h2>
-    </div>
-
-    <!-- VISTA -->
-    <section class="vista">
-
-        <h2 class="vista_titulo">REGISTRO DE VEHÍCULOS</h2>
-
-        <!-- TABS -->
-        <input type="radio" name="tabs_vehiculo" id="r1" checked hidden>
-        <input type="radio" name="tabs_vehiculo" id="r2" hidden>
-        <input type="radio" name="tabs_vehiculo" id="r3"
-               th:checked="${vehiculoForm.idVehiculo != null}" hidden>
+    <!-- SECCIÓN PRINCIPAL DE VISTA -->
+    <section class="vista" id="admin">
+        <input type="radio" name="tabs_vehiculo" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_vehiculo" id="r2" th:checked="${tab == 'registrar'}" hidden>
+        <input type="radio" name="tabs_vehiculo" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
@@ -60,33 +47,24 @@
             <label for="r3" class="tab">Editar</label>
         </div>
 
-        <!-- CONSULTAR -->
+
         <div class="panel content1">
+            <h3 class="panel_titulo">Listado de Vehiculos</h3>
 
-            <h3 class="panel_titulo">Consulta de Vehículos</h3>
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
-            <form th:action="@{/vehiculos/buscar}"
-                  method="get"
-                  class="search_box">
-
-                <input type="number"
-                       name="id"
-                       placeholder="Buscar vehículo por ID"
-                       required>
-
-                <button type="submit" class="btn btn-primary">
-                    Buscar
-                </button>
-
-                <a th:href="@{/vehiculos}" class="btn btn-edit">
+            <form th:action="@{/vehiculos/buscar}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar por ID..." required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/vehiculos}"class="btn btn-edit" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                     Mostrar Todo
                 </a>
-
             </form>
 
             <div class="panel_list">
                 <table>
-
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -94,13 +72,11 @@
                         <th>Marca / Modelo</th>
                         <th>Color</th>
                         <th>Propietario</th>
-                        <th>Casa</th>
+                        <th>ID Casa</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
-
                     <tbody>
-
                     <tr th:each="v : ${vehiculos}">
                         <td th:text="${v.idVehiculo}"></td>
                         <td th:text="${v.placa}"></td>
@@ -108,108 +84,110 @@
                         <td th:text="${v.color}"></td>
                         <td th:text="${v.propietario}"></td>
                         <td th:text="${v.idCasa}"></td>
-
                         <td>
                             <div class="acciones">
-
-                                <!-- EDITAR -->
-                                <a th:href="@{/vehiculos/editar/{id}(id=${v.idVehiculo})}"
-                                   class="btn btn-edit"
-                                   title="Editar">
-
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="16"
-                                         height="16"
-                                         fill="currentColor"
-                                         viewBox="0 0 16 16">
-
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293z"/>
-
-                                        <path d="M13.752 4.396l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12z"/>
-
-                                        <path fill-rule="evenodd"
-                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                <a th:href="@{/vehiculos/editar/{id}(id=${v.idVehiculo})}" class="btn btn-edit" title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                     </svg>
-
                                 </a>
-
-                                <!-- ELIMINAR -->
-                                <form th:action="@{/vehiculos/eliminar/{id}(id=${v.idVehiculo})}"
-                                      method="post">
-
-                                    <button type="submit"
-                                            class="btn btn-danger"
-                                            title="Eliminar"
-                                            onclick="return confirm('¿Eliminar vehículo?')">
-
+                                <form th:action="@{/vehiculos/eliminar/{id}(id=${v.idVehiculo})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este Vehiculo')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                                         </svg>
-
                                     </button>
-
                                 </form>
-
                             </div>
                         </td>
                     </tr>
 
                     <tr th:if="${#lists.isEmpty(vehiculos)}">
-                        <td colspan="7">No hay vehículos registrados.</td>
+                        <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron registros activos para esta búsqueda.</td>
                     </tr>
-
                     </tbody>
-
                 </table>
             </div>
         </div>
-
-        <!-- REGISTRAR -->
+        <!-- PANEL 2: REGISTRAR -->
         <div class="panel content2">
+            <h3 class="panel_titulo">Registrar Nuevo Vehículo</h3>
+            <form th:action="@{/vehiculos/guardar}" th:object="${vehiculoForm}" method="post">
+                <div th:if="${errorGeneral}" class="mensaje-error-general" th:text="${errorGeneral}"></div>
 
-            <h3 class="panel_titulo">Registrar Vehículo</h3>
+                <div class="campo-form">
+                    <input type="text" th:field="*{placa}" placeholder="Placa (P123ABC)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
+                </div>
 
-            <form th:action="@{/vehiculos/guardar}"
-                  th:object="${vehiculoForm}"
-                  method="post">
+                <div class="campo-form">
+                    <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('marcaModelo')}" th:errors="*{marcaModelo}"></span>
+                </div>
 
-                <input type="text" th:field="*{placa}" placeholder="Placa" required>
-                <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo" required>
-                <input type="text" th:field="*{color}" placeholder="Color">
-                <input type="text" th:field="*{propietario}" placeholder="Propietario">
-                <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                <div class="campo-form">
+                    <input type="text" th:field="*{color}" placeholder="Color">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
+                </div>
 
-                <button type="submit" class="btn btn-primary">
-                    Guardar
-                </button>
+                <div class="campo-form">
+                    <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
+                </div>
 
+                <div class="campo-form">
+                    <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Registro</button>
             </form>
         </div>
 
-        <!-- EDITAR -->
+        <!-- PANEL 3: EDITAR -->
+
         <div class="panel content3">
+            <h3 class="panel_titulo">Modificar Registro</h3>
 
-            <h3 class="panel_titulo">Editar Vehículo</h3>
+            <div th:if="${vehiculoForm.idVehiculo == null}" class="editar-bloqueado">
+                <p>Selecciona un Vehículo desde la tabla para editar.</p>
+            </div>
 
-            <form th:action="@{/vehiculos/actualizar/{id}(id=${vehiculoForm.idVehiculo})}"
-                  th:object="${vehiculoForm}"
-                  method="post">
+            <form th:if="${vehiculoForm.idVehiculo != null}"
+                  th:action="@{/vehiculos/actualizar/{id}(id=${vehiculoForm.idVehiculo})}"
+                  th:object="${vehiculoForm}" method="post">
 
                 <input type="hidden" th:field="*{idVehiculo}">
 
-                <input type="text" th:field="*{placa}" placeholder="Placa" required>
-                <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo" required>
-                <input type="text" th:field="*{color}" placeholder="Color">
-                <input type="text" th:field="*{propietario}" placeholder="Propietario">
-                <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                    <div class="campo-form">
+                        <input type="text" th:field="*{placa}" placeholder="Placa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
+                    </div>
 
-                <button type="submit" class="btn btn-edit">
-                    Actualizar
-                </button>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{marcaModelo}" placeholder="Marca / Modelo">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('marcaModelo')}" th:errors="*{marcaModelo}"></span>
+                    </div>
 
+                    <div class="campo-form">
+                        <input type="text" th:field="*{color}" placeholder="Color">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{propietario}" placeholder="Propietario">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
+                    </div>
+
+                <button type="submit" class="btn btn-edit">Actualizar Datos</button>
             </form>
         </div>
-
     </section>
 
     <!-- AYUDA -->
@@ -220,43 +198,22 @@
             </div>
 
             <div class="ayuda-grid">
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">01</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">01</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
-                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
-                        <p class="ayuda-texto">Para eliminar una vivienda haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente</p>
+                        <h3 class="ayuda-titulo">Gestión de Bajas</h3>
+                        <p class="ayuda-texto">Para eliminar un vehículo, use el botón rojo. Esta acción es permanente.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">02</span>
-                        <span class="tip">TIP</span>
-                    </div>
+                    <div class="ayuda-tip"><span class="num">02</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
-                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
-                        <h3 class="ayuda-titulo">Consulta registros</h3>
-                        <p class="ayuda-texto">Para poder consultar un vehiculo en especific o mostrar la tabla general con todos los registros, debes de ingresar un ID en el buscador que aparece en la parte superior de la tabla, si lo que buscas es mostrar todos los datos, unicamente debes de presionar el boton Mostrar Todo</p>
+                        <span class="ayuda-tag tag-busqueda">Búsqueda</span>
+                        <h3 class="ayuda-titulo">Localización</h3>
+                        <p class="ayuda-texto">Utilice el ID numérico para localizar vehículos de manera instantánea.</p>
                     </div>
                 </article>
-
-                <article class="ayuda-card">
-                    <div class="ayuda-tip">
-                        <span class="num">03</span>
-                        <span class="tip">TIP</span>
-                    </div>
-                    <div class="ayuda-contenido">
-                        <span class="ayuda-tag tag-editar">Editar</span>
-                        <h3 class="ayuda-titulo">Registros Editables</h3>
-                        <p class="ayuda-texto">Para poder editar un Vehiculo unicamente necesitas presionar el botón con icono de lapiz, al presionarlo este te enviara a un formulario para rellenar los datos que deseas editar.</p>
-                    </div>
-                </article>
-
             </div>
         </div>
     </section>
