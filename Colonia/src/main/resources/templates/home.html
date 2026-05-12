@@ -244,18 +244,17 @@
 
             <div class="pasos-ayuda">
 
-                <article class="paso-card">
+                <article class="paso-card" th:if="${isSeguridad}">
                     <div class="paso-numero">01</div>
                     <div class="paso-contenido">
                         <h3>Selecciona un módulo</h3>
                         <p>
-                            Ingresa al apartado de Administración y elige la entidad
-                            con la que desees trabajar.
+                            Ingresa al apartado de Administración, haz clic en la sección que desees trabajar.
                         </p>
                     </div>
                 </article>
 
-                <article class="paso-card">
+                <article class="paso-card" th:if="${isSeguridad}">
                     <div class="paso-numero">02</div>
                     <div class="paso-contenido">
                         <h3>Consulta la información</h3>
@@ -266,24 +265,46 @@
                     </div>
                 </article>
 
-                <article class="paso-card">
+                <article class="paso-card" th:if="${isSeguridad}">
                     <div class="paso-numero">03</div>
                     <div class="paso-contenido">
                         <h3>Registra nuevos datos</h3>
                         <p>
-                            Usa la pestaña de registro para agregar un registro nuevo
-                            dentro de la tabla.
+                            Usa el form de registrar que se encuentran dento de las secciones de Administración
+                            para agregar un registro nuevo dentro de la tabla.
                         </p>
                     </div>
                 </article>
 
-                <article class="paso-card">
+                <article class="paso-card" th:if="${isSeguridad}">
                     <div class="paso-numero">04</div>
                     <div class="paso-contenido">
                         <h3>Actualiza o elimina registros</h3>
                         <p>
                             Utiliza los botones de acción para editar información
                             existente o eliminar registros cuando sea necesario.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card" th:if="${isResidente}">
+                    <div class="paso-numero">01</div>
+                    <div class="paso-contenido">
+                        <h3>Reserva una Amenidad</h3>
+                        <p>
+                            Ingresa a la sección de Amenidades en el apartado de Administración.
+                            Ahí podrás consultar reservaciones, mantenimiento o amenidades ocupadas.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card" th:if="${isResidente}">
+                    <div class="paso-numero">02</div>
+                    <div class="paso-contenido">
+                        <h3>Agregar una reservación</h3>
+                        <p>
+                            Al entrar a la sección de amenidades, encontraras un form en donde podrás hacer reservaciones
+                            de las amenidades que disponemos.
                         </p>
                     </div>
                 </article>
