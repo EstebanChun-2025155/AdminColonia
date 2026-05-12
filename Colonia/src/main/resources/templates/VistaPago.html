@@ -4,50 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pago</title>
-  <link rel="stylesheet" th:href="@{/styles/Pago.css}">
+  <link rel="stylesheet" th:href="@{/styles/entidades.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
-<div class="menubar">
-  <div class="container menubar_row">
-
-    <div class="brand">
-      <img th:src="@{/images/Logo.png}" alt="Logo Residencial" class="brand_logo">
+<div class="menu">
+    <div class="container menu_row">
+        <div class="brand">
+            <img th:src="@{/images/Logo.png}" class="brand_logo">
+        </div>
+        <nav class="menubar">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
+            <a class="menu_link is-active" href="#admin">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
+        </nav>
     </div>
-
-    <nav class="menu" >
-      <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
-      <a class="menu_link " href="#adminPago">Administración</a>
-      <a class="menu_link" href="#ayuda">Ayuda</a>
-      <a class="menu_link" th:href="@{/home#contacto}">Contacto</a>
-    </nav>
-  </div>
 </div>
 
 <main>
-    <section class="frontPago">
-
-        <video class="front_media" th:src="@{/images/Pagos.mp4}" autoplay loop muted playsinline></video>
-
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Pagos.mp4}" type="video/mp4">
+        </video>
     </section>
 
-  <section class="tabla-seccion">
-    <div class="container">
+    <div class="panel_header">
+        <span>CONTROL DE PAGOS</span>
+    </div>
 
-      <div class="divider-line">
-        <span>
-          PAGOS
-        </span>
-      </div>
+    <section class="vista" id="admin">
 
-      <div class="title-section" id="adminPago">
-        <h2>REGISTRO DE CONTROL DE PAGOS</h2>
-      </div>
-
-      <div class="tabla-wrapper">
-
-        <!-- TABS -->
         <input type="radio" name="tabs_pago" id="r1"
                th:checked="${panelActivo == null or panelActivo == 'consultar'}" hidden>
         <input type="radio" name="tabs_pago" id="r2"
@@ -56,263 +43,208 @@
                th:checked="${panelActivo == 'editar'}" hidden>
 
         <div class="tabs">
-          <button class="tab" id="tab-consultar" onclick="mostrarPanel('consultar')">Consultar</button>
-          <button class="tab" id="tab-registrar" onclick="mostrarPanel('registrar')">Registrar</button>
-          <button class="tab" id="tab-editar"    onclick="mostrarPanel('editar')">Editar</button>
+            <label for="r1" class="tab">Consultar</label>
+            <label for="r2" class="tab">Registrar</label>
+            <label for="r3" class="tab">Editar</label>
         </div>
 
         <!-- PANEL CONSULTAR -->
-        <div id="panel-consultar" class="panel">
-          <h3>Consulta de Pagos</h3>
+        <div class="panel content1">
+            <h3 class="panel_titulo">Consulta de Pagos</h3>
 
-          <input type="number" id="buscarId" placeholder="Buscar por ID"/>
-          <button onclick="buscarPorId()">Buscar</button>
-          <a href="#" onclick="mostrarTodas(); return false;">Mostrar Todo</a>
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
-          <table id="tabla-pagos">
-            <thead>
-            <tr>
-              <th>ID</th>
-              <th>Residente (ID)</th>
-              <th>Clasificación</th>
-              <th>Monto</th>
-              <th>Fecha de Pago</th>
-              <th>Método</th>
-              <th>Referencia</th>
-              <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody id="cuerpo-tabla">
-            <tr th:each="pago : ${pagos}" th:id="'fila-' + ${pago.idPago}">
-              <td th:text="${pago.idPago}"></td>
-              <td th:text="${pago.idResidente}"></td>
-              <td th:text="${pago.clasificacionPago}"></td>
-              <td th:text="${pago.monto}"></td>
-              <td th:text="${pago.fechaPago}"></td>
-              <td th:text="${pago.metodo}"></td>
-              <td th:text="${pago.referencia}"></td>
-              <td>
-                <a th:href="@{'/pago/editar/' + ${pago.idPago}}" class="btn-editar">
-                  <i class="bi bi-pencil-square"></i>
-                </a>
-                <a th:href="@{'/pago/eliminar/' + ${pago.idPago}}"
-                   class="btn-eliminar"
-                   onclick="return confirm('¿Seguro que deseas eliminar este pago?')">
-                  <i class="bi bi-trash-fill"></i>
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+            <form th:action="@{/pago/buscar}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar por ID" required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/pago}" class="btn btn-edit">Mostrar Todo</a>
+            </form>
+
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Residente</th>
+                        <th>Clasificación</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                        <th>Método</th>
+                        <th>Referencia</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pago : ${pagos}">
+                        <td th:text="${pago.idPago}"></td>
+                        <td th:text="${pago.idResidente}"></td>
+                        <td th:text="${pago.clasificacionPago}"></td>
+                        <td th:text="${pago.monto}"></td>
+                        <td th:text="${pago.fechaPago}"></td>
+                        <td th:text="${pago.metodo}"></td>
+                        <td th:text="${pago.referencia}"></td>
+                        <td>
+                            <div class="acciones">
+                                <a th:href="@{'/pago/editar/' + ${pago.idPago}}" class="btn btn-edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a th:href="@{'/pago/eliminar/' + ${pago.idPago}}"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('¿Eliminar este pago?')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- PANEL REGISTRAR -->
-        <div id="panel-registrar" class="panel" style="display:none;">
-          <h3>Registrar Pago</h3>
+        <div class="panel content2">
+            <h3 class="panel_titulo">Registrar Pago</h3>
 
-          <form th:action="@{/pago/nueva}" th:object="${pagoNuevo}" method="post">
+            <form th:action="@{/pago/nueva}" th:object="${pagoNuevo}" method="post">
 
-            <div th:if="${errorGeneral}" class="mensaje-error-general">
-              <p th:text="${errorGeneral}"></p>
-            </div>
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
 
-            <div class="campo-form">
-              <input type="number" th:field="*{idResidente}" placeholder="Residente (ID)">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('idResidente')}"
-                    th:errors="*{idResidente}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="number" th:field="*{idResidente}" placeholder="Residente ID">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idResidente')}" th:errors="*{idResidente}"></span>
+                </div>
 
-            <div class="campo-form">
-              <input type="text" th:field="*{clasificacionPago}" placeholder="Clasificación">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('clasificacionPago')}"
-                    th:errors="*{clasificacionPago}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{clasificacionPago}" placeholder="Clasificación">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('clasificacionPago')}" th:errors="*{clasificacionPago}"></span>
+                </div>
 
-            <div class="campo-form">
-              <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('monto')}"
-                    th:errors="*{monto}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('monto')}" th:errors="*{monto}"></span>
+                </div>
 
-            <div class="campo-form">
-              <input type="date" th:field="*{fechaPago}">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('fechaPago')}"
-                    th:errors="*{fechaPago}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="date" th:field="*{fechaPago}">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('fechaPago')}" th:errors="*{fechaPago}"></span>
+                </div>
 
-            <div class="campo-form">
-              <input type="text" th:field="*{metodo}" placeholder="Método">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('metodo')}"
-                    th:errors="*{metodo}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{metodo}" placeholder="Método">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('metodo')}" th:errors="*{metodo}"></span>
+                </div>
 
-            <div class="campo-form">
-              <input type="text" th:field="*{referencia}" placeholder="Referencia">
-              <span class="mensaje-error"
-                    th:if="${#fields.hasErrors('referencia')}"
-                    th:errors="*{referencia}"></span>
-            </div>
+                <div class="campo-form">
+                    <input type="text" th:field="*{referencia}" placeholder="Referencia">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('referencia')}" th:errors="*{referencia}"></span>
+                </div>
 
-            <button type="submit">Guardar</button>
-          </form>
-        </div>
-
-        <!-- PANEL EDITAR -->
-        <div id="panel-editar" class="panel" style="display:none;">
-          <h3>Editar Pago</h3>
-
-          <div th:if="${pagoEditar != null}">
-            <form th:action="@{'/pago/editar/' + ${pagoEditar.idPago}}"
-                  th:object="${pagoEditar}" method="post">
-
-              <div th:if="${errorGeneral}" class="mensaje-error-general">
-                <p th:text="${errorGeneral}"></p>
-              </div>
-
-              <div class="campo-form">
-                <input type="number" th:field="*{idResidente}" placeholder="Residente (ID)">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('idResidente')}"
-                      th:errors="*{idResidente}"></span>
-              </div>
-
-              <div class="campo-form">
-                <input type="text" th:field="*{clasificacionPago}" placeholder="Clasificación">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('clasificacionPago')}"
-                      th:errors="*{clasificacionPago}"></span>
-              </div>
-
-              <div class="campo-form">
-                <input type="number" step="0.01" th:field="*{monto}" placeholder="Monto">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('monto')}"
-                      th:errors="*{monto}"></span>
-              </div>
-
-              <div class="campo-form">
-                <input type="date" th:field="*{fechaPago}">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('fechaPago')}"
-                      th:errors="*{fechaPago}"></span>
-              </div>
-
-              <div class="campo-form">
-                <input type="text" th:field="*{metodo}" placeholder="Método">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('metodo')}"
-                      th:errors="*{metodo}"></span>
-              </div>
-
-              <div class="campo-form">
-                <input type="text" th:field="*{referencia}" placeholder="Referencia">
-                <span class="mensaje-error"
-                      th:if="${#fields.hasErrors('referencia')}"
-                      th:errors="*{referencia}"></span>
-              </div>
-
-              <button type="submit">Actualizar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
-          </div>
-
-          <div th:if="${pagoEditar == null}">
-            <p>Selecciona un pago desde la tabla para editar.</p>
-          </div>
         </div>
 
-      </div>
-    </div>
-  </section>
+        <!-- EDITAR -->
+        <div class="panel content3">
+            <h3 class="panel_titulo">Editar Pago</h3>
+
+            <div th:if="${pagoEditar != null}">
+                <form th:action="@{'/pago/editar/' + ${pagoEditar.idPago}}"
+                      th:object="${pagoEditar}" method="post">
+
+                    <input type="hidden" th:field="*{idPago}">
+
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idResidente}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idResidente')}" th:errors="*{idResidente}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{clasificacionPago}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('clasificacionPago')}" th:errors="*{clasificacionPago}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="number" step="0.01" th:field="*{monto}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('monto')}" th:errors="*{monto}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="date" th:field="*{fechaPago}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('fechaPago')}" th:errors="*{fechaPago}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{metodo}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('metodo')}" th:errors="*{metodo}"></span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text" th:field="*{referencia}">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('referencia')}" th:errors="*{referencia}"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-edit">Actualizar</button>
+                </form>
+            </div>
+
+            <div th:if="${pagoEditar == null}">
+                <p class="muted">Selecciona un pago para editar.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="seccion" id="ayuda">
+        <div class="container">
+            <div class="seccion_panel">
+                <span>AYUDA RÁPIDA</span>
+            </div>
+
+            <div class="ayuda-grid">
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">01</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-eliminar">Eliminar</span>
+                        <h3 class="ayuda-titulo">Sencillo y practico</h3>
+                        <p class="ayuda-texto">Para eliminar un pago haz clic en el botón rojo que se encuentra en el apartado de Acciones.</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">02</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
+                        <h3 class="ayuda-titulo">Consulta registros</h3>
+                        <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar un pago específico, o presiona Mostrar Todo para ver todos los registros.</p>
+                    </div>
+                </article>
+
+                <article class="ayuda-card">
+                    <div class="ayuda-tip">
+                        <span class="num">03</span>
+                        <span class="tip">TIP</span>
+                    </div>
+                    <div class="ayuda-contenido">
+                        <span class="ayuda-tag tag-editar">Editar</span>
+                        <h3 class="ayuda-titulo">Registros Editables</h3>
+                        <p class="ayuda-texto">Para editar un pago presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 </main>
-
-<input type="hidden" id="panelActivo" th:value="${panelActivo != null ? panelActivo : 'consultar'}">
-
-<section class="seccion" id="ayuda">
-  <div class="container">
-    <div class="seccion_panel">
-      <span>AYUDA RÁPIDA</span>
-    </div>
-
-    <div class="ayuda-grid">
-
-      <article class="ayuda-card">
-        <div class="ayuda-tip">
-          <span class="num">01</span>
-          <span class="tip">TIP</span>
-        </div>
-        <div class="ayuda-contenido">
-          <span class="ayuda-tag tag-eliminar">Eliminar</span>
-          <h3 class="ayuda-titulo">Sencillo y practico</h3>
-          <p class="ayuda-texto">Para eliminar un pago haz clic en el botón rojo que se encuentra en el apartado de Acciones. Esto hara que se elimine instantaneamente.</p>
-        </div>
-      </article>
-
-      <article class="ayuda-card">
-        <div class="ayuda-tip">
-          <span class="num">02</span>
-          <span class="tip">TIP</span>
-        </div>
-        <div class="ayuda-contenido">
-          <span class="ayuda-tag tag-busqueda">Busqueda Rápida</span>
-          <h3 class="ayuda-titulo">Consulta registros</h3>
-          <p class="ayuda-texto">Ingresa un ID en el buscador para encontrar un pago específico, o presiona Mostrar Todo para ver todos los registros.</p>
-        </div>
-      </article>
-
-      <article class="ayuda-card">
-        <div class="ayuda-tip">
-          <span class="num">03</span>
-          <span class="tip">TIP</span>
-        </div>
-        <div class="ayuda-contenido">
-          <span class="ayuda-tag tag-editar">Editar</span>
-          <h3 class="ayuda-titulo">Registros Editables</h3>
-          <p class="ayuda-texto">Para editar un pago presiona el botón con icono de lápiz, te llevará al formulario de edición.</p>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<script>
-  window.onload = function () {
-    const panel = document.getElementById('panelActivo').value;
-    mostrarPanel(panel);
-  };
-
-  function mostrarPanel(nombre) {
-    document.getElementById('panel-consultar').style.display = 'none';
-    document.getElementById('panel-registrar').style.display = 'none';
-    document.getElementById('panel-editar').style.display    = 'none';
-
-    document.getElementById('tab-consultar').classList.remove('active');
-    document.getElementById('tab-registrar').classList.remove('active');
-    document.getElementById('tab-editar').classList.remove('active');
-
-    document.getElementById('panel-' + nombre).style.display = 'block';
-    document.getElementById('tab-'   + nombre).classList.add('active');
-  }
-
-  function buscarPorId() {
-    const id = document.getElementById('buscarId').value.trim();
-    const filas = document.querySelectorAll('#cuerpo-tabla tr');
-    filas.forEach(fila => {
-      const idFila = fila.querySelector('td')?.textContent.trim();
-      fila.style.display = (!id || idFila === id) ? '' : 'none';
-    });
-  }
-
-  function mostrarTodas() {
-    document.querySelectorAll('#cuerpo-tabla tr').forEach(f => f.style.display = '');
-    document.getElementById('buscarId').value = '';
-  }
-</script>
 
 </body>
 </html>
