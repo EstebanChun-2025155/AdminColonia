@@ -26,7 +26,7 @@ public class Amenidad {
     private Double costoUso;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "^(?i)(ocupada|disponible|mantenimiento)$", message = "Estado no válido")
+    @Pattern(regexp = "^(?i)(ocupada|reservacion|mantenimiento)$", message = "Estado no válido")
     @Column(name = "estado", nullable = false)
     private String estado;
 
