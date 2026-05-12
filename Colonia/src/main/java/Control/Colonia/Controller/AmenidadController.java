@@ -2,6 +2,7 @@ package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Amenidad;
 import Control.Colonia.Service.AmenidadService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,20 @@ public class AmenidadController {
     private AmenidadService amenidadService;
 
     @GetMapping
-    public String mostrarAmenidades(Model model) {
+    public String mostrarAmenidades(HttpSession session, Model model) {
         List<Amenidad> lista = amenidadService.getAllAmenidad();
         model.addAttribute("amenidades", lista);
         model.addAttribute("amenidadForm", new Amenidad());
+
+        String tipo = (String) session.getAttribute("tipoUsuario");
+
+        if (tipo == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("isResidente", tipo.equals("RESIDENTE"));
+        model.addAttribute("isSeguridad", tipo.equals("SEGURIDAD"));
+
         return "Amenidades";
     }
 
