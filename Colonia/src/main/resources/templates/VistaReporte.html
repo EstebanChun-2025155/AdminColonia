@@ -47,7 +47,7 @@
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
             <label for="r2" class="tab">Registrar</label>
-            <label for="r3" class="tab">Editar</label>
+            <label for="r3" class="tab" th:if="${isSeguridad}">Editar</label>
             <label for="r4" class="tab">Historial</label>
         </div>
 
@@ -89,7 +89,7 @@
                         <td th:text="${reporte.fechaReporte}"></td>
                         <td th:text="${reporte.estado}"></td>
                         <td>
-                            <div class="acciones">
+                            <div class="acciones" th:if="${isSeguridad}">
                                 <a th:href="@{'/reporte/editar/' + ${reporte.idReporte}}" class="btn btn-edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
@@ -151,7 +151,7 @@
         </div>
 
         <!-- EDITAR -->
-        <div class="panel content3">
+        <div class="panel content3" th:if="${isSeguridad}">
             <h3 class="panel_titulo">Editar Reporte</h3>
 
             <div th:if="${reporteEditar != null}">

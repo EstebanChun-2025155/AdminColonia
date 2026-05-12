@@ -2,6 +2,7 @@ package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Reporte;
 import Control.Colonia.Service.ReporteService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,20 @@ public class ReporteController {
     private ReporteService reporteService;
 
     @GetMapping("/reporte")
-    public String mostrarReporte(Model model) {
+    public String mostrarReporte(HttpSession session, Model model) {
         model.addAttribute("reportes", reporteService.getAllReporte());
         model.addAttribute("reporteNuevo", new Reporte());
         model.addAttribute("panelActivo", "consultar");
+
+        String tipo = (String) session.getAttribute("tipoUsuario");
+
+        if (tipo == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("isResidente", tipo.equals("RESIDENTE"));
+        model.addAttribute("isSeguridad", tipo.equals("SEGURIDAD"));
+
         return "VistaReporte";
     }
 
