@@ -3,42 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Seguridad</title>
-    <link rel="stylesheet" th:href="@{/styles/seguridad.css}">
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 
 <body>
 
-<div class="menuCasa">
-    <div class="container menuCasa_row">
+<div class="menu">
+    <div class="container menu_row">
         <div class="brand">
-            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+            <img th:src="@{/images/logo.png}" alt="Logo" class="brand_logo">
         </div>
-        <nav class="menu">
-            <a class="menuCasa_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menuCasa_link" href="#adminSeguridad">Administración</a>
-            <a class="menuCasa_link" href="#ayuda">Ayuda</a>
+        <nav class="menubar">
+            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menu_link" href="#admin">Administración</a>
+            <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
 </div>
 
 <main>
-
-    <section class="frontCasa">
-
-        <video class="front_media" th:src="@{/images/Seguridad.mp4}" autoplay loop muted playsinline></video>
-
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Seguridad.mp4}" type="video/mp4">
+        </video>
     </section>
 
-    <div class="panelCasa">
-        <span>CONSULTAS</span>
+    <div class="panel_header">
+        <span>CONTROL DE SEGURIDAD</span>
     </div>
 
-    <div class="seccionCasa" id="adminSeguridad">
-        <h2>CONSULTA DE SEGURIDAD</h2>
-    </div>
-
-    <section class="vista">
-        <h2 class="vista_titulo">REGISTRO DE PERSONAL</h2>
+    <section class="vista" id="admin">
 
         <input type="radio" name="tabs_seguridad" id="r1"
                th:checked="${tab == null || tab == 'consultar'}" hidden>
@@ -53,7 +47,7 @@
             <label for="r3" class="tab">Editar</label>
         </div>
 
-        <div class="panel content1">
+        <div class="panel content1" >
             <h3 class="panel_titulo">Consulta de Personal</h3>
 
             <div th:if="${errorGeneral}" class="mensaje-error-general">
@@ -152,9 +146,14 @@
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Personal</h3>
-            <form th:if="${seguridadForm != null}"
+            <div th:if="${seguridadForm.idSeguridad == null}" class="editar-bloqueado">
+                <p>Selecciona un empleado desde la tabla para editar.</p>
+            </div>
+
+            <form th:if="${seguridadForm.idSeguridad != null}"
                   th:action="@{/actualizar/seguridad/{id}(id=${seguridadForm.idSeguridad})}"
-                  th:object="${seguridadForm}" method="post">
+                  th:object="${seguridadForm}"
+                  method="post">
 
                 <input type="hidden" th:field="*{idSeguridad}">
 
@@ -202,7 +201,7 @@
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
                         <h3 class="ayuda-titulo">Sencillo y práctico</h3>
-                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo en Acciones.</p>
+                        <p class="ayuda-texto">Para eliminar un empleado haz clic en el botón rojo.</p>
                     </div>
                 </article>
                 <article class="ayuda-card">
@@ -210,7 +209,7 @@
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-busqueda">Búsqueda</span>
                         <h3 class="ayuda-titulo">Consulta registros</h3>
-                        <p class="ayuda-texto">Usa el buscador por ID o presiona Mostrar Todo para ver la tabla completa.</p>
+                        <p class="ayuda-texto">Ingresa un ID en el buscador superior para filtrar un empleado específico.</p>
                     </div>
                 </article>
                 <article class="ayuda-card">
@@ -218,7 +217,7 @@
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-editar">Editar</span>
                         <h3 class="ayuda-titulo">Registros Editables</h3>
-                        <p class="ayuda-texto">Presiona el icono de lápiz para rellenar el formulario de edición.</p>
+                        <p class="ayuda-texto">Presiona el icono de lápiz para modificar los datos del empleado.</p>
                     </div>
                 </article>
             </div>

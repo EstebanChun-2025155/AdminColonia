@@ -3,46 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Residente</title>
-    <link rel="stylesheet" th:href="@{/styles/residente.css}">
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 <body>
 
-<div class="menuResidente">
-    <div class="container menuResidente_row">
+<div class="menu">
+    <div class="container menu_row">
 
         <div class="brand">
             <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
 
-        <nav class="menu">
-            <a class="menuResidente_link is-active" th:href="@{/home}"> Inicio </a>
-            <a class="menuResidente_link" href="#adminResidente"> Administración </a>
-            <a class="menuResidente_link" href="#ayuda"> Ayuda </a>
+        <nav class="menubar">
+            <a class="menu_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menu_link" href="#admin"> Administración </a>
+            <a class="menu_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="frontResidente">
+    <section class="front">
         <video class="front_media" th:src="@{/images/portadaResidente.mp4}" autoplay loop muted playsinline></video>
-
     </section>
-    <div class="panelResidente">
-        <span>CONSULTAS</span>
+
+    <div class="panel_header">
+        <span>CONTROL DE RESIDENTES</span>
     </div>
 
-    <div class="seccionResidente" id="adminResidente">
-        <h2>CONSULTA DE RESIDENTES</h2>
-    </div>
+    <section class="vista" id="admin">
 
-    <section class="vista">
-        <h2 class="vista_titulo">
-            REGISTRO DE RESIDENTES
-        </h2>
-
-        <input type="radio" name="tabs_residente" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
-        <input type="radio" name="tabs_residente" id="r2" th:checked="${tab == 'registrar'}" hidden>
-        <input type="radio" name="tabs_residente" id="r3" th:checked="${tab == 'editar'}" hidden>
+        <input type="radio" name="tabs_info" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
+        <input type="radio" name="tabs_info" id="r2" th:checked="${tab == 'registrar'}" hidden>
+        <input type="radio" name="tabs_info" id="r3" th:checked="${tab == 'editar'}" hidden>
 
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
@@ -51,20 +44,20 @@
         </div>
 
         <div class="panel content1">
-
             <h3 class="panel_titulo"> Consulta de Residentes </h3>
 
             <div th:if="${errorGeneral}" class="mensaje-error-general">
                 <p th:text="${errorGeneral}"></p>
             </div>
 
-            <form th:action="@{/buscar/casa}" method="get" class="search_box">
+            <form th:action="@{/buscar/residente}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar residente por ID" required>
 
-                <input type="number" name="id" placeholder="Buscar por ID" required>
+                <button type="submit" class="btn btn-primary">
+                    Buscar
+                </button>
 
-                <button type="submit" class="btn btn-primary">Buscar</button>
-
-                <a th:href="@{/casa}" class="btn btn-edit">Mostrar Todo</a>
+                <a th:href="@{/residente}" class="btn btn-edit"> Mostrar Todo </a>
             </form>
 
             <div class="panel_list">
@@ -153,7 +146,15 @@
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Residente</h3>
-            <form th:action="@{/actualizar/residente/{id}(id=${residenteForm.idResidente})}" th:object="${residenteForm}" method="post">
+
+            <div th:if="${residenteForm.idResidente == null}" class="editar-bloqueado">
+                <p>Selecciona un residente desde la tabla para editar.</p>
+            </div>
+
+            <form th:if="${residenteForm.idResidente != null}"
+                  th:action="@{/actualizar/residente/{id}(id=${residenteForm.idResidente})}"
+                  th:object="${residenteForm}"
+                  method="post">
 
                 <input type="hidden" th:field="*{idResidente}">
 
@@ -163,27 +164,42 @@
 
                 <div class="campo-form">
                     <input type="text" th:field="*{nombreResidente}" placeholder="Nombre del Residente">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreResidente')}" th:errors="*{nombreResidente}"></span>
+                    <span class="mensaje-error"
+                          th:if="${#fields.hasErrors('nombreResidente')}"
+                          th:errors="*{nombreResidente}">
+            </span>
                 </div>
 
                 <div class="campo-form">
                     <input type="text" th:field="*{dpiResidente}" placeholder="DPI">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('dpiResidente')}" th:errors="*{dpiResidente}"></span>
+                    <span class="mensaje-error"
+                          th:if="${#fields.hasErrors('dpiResidente')}"
+                          th:errors="*{dpiResidente}">
+            </span>
                 </div>
 
                 <div class="campo-form">
                     <input type="text" th:field="*{telefonoResidente}" placeholder="Teléfono">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('telefonoResidente')}" th:errors="*{telefonoResidente}"></span>
+                    <span class="mensaje-error"
+                          th:if="${#fields.hasErrors('telefonoResidente')}"
+                          th:errors="*{telefonoResidente}">
+            </span>
                 </div>
 
                 <div class="campo-form">
                     <input type="text" th:field="*{posicion}" placeholder="Posición">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('posicion')}" th:errors="*{posicion}"></span>
+                    <span class="mensaje-error"
+                          th:if="${#fields.hasErrors('posicion')}"
+                          th:errors="*{posicion}">
+            </span>
                 </div>
 
                 <div class="campo-form">
                     <input type="number" th:field="*{idCasa}" placeholder="ID de Casa">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
+                    <span class="mensaje-error"
+                          th:if="${#fields.hasErrors('idCasa')}"
+                          th:errors="*{idCasa}">
+            </span>
                 </div>
 
                 <button type="submit" class="btn btn-edit">Actualizar</button>

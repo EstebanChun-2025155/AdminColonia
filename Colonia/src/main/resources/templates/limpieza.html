@@ -3,41 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Limpieza</title>
-    <link rel="stylesheet" th:href="@{/styles/limpieza.css}">
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
 </head>
 
 <body>
 
-<div class="menuCasa">
-    <div class="container menuCasa_row">
+<div class="menu">
+    <div class="container menu_row">
         <div class="brand">
             <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
         </div>
-        <nav class="menu">
-            <a class="menuCasa_link is-active" th:href="@{/home}"> Inicio </a>
-            <a class="menuCasa_link" href="#adminLimpieza"> Administración </a>
-            <a class="menuCasa_link" href="#ayuda"> Ayuda </a>
+        <nav class="menubar">
+            <a class="menu_link is-active" th:href="@{/home}"> Inicio </a>
+            <a class="menu_link" href="#admin"> Administración </a>
+            <a class="menu_link" href="#ayuda"> Ayuda </a>
         </nav>
     </div>
 </div>
 
 <main>
-    <section class="frontCasa">
-
-        <video class="front_media" th:src="@{/images/Limpieza.mp4}" autoplay loop muted playsinline></video>
-
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Limpieza.mp4}" type="video/mp4">
+        </video>
     </section>
 
-    <div class="panelCasa">
-        <span>CONSULTAS</span>
+    <div class="panel_header">
+        <span>CONTROL DE LIMPIEZA</span>
     </div>
 
-    <div class="seccionCasa" id="adminLimpieza">
-        <h2>CONSULTA DE LIMPIEZA</h2>
-    </div>
-
-    <section class="vista">
-        <h2 class="vista_titulo">REGISTRO DE PERSONAL</h2>
+    <section class="vista" id="admin">
 
         <input type="radio" name="tabs_limpieza" id="r1" th:checked="${tab == null || tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_limpieza" id="r2" th:checked="${tab == 'registrar'}" hidden>
@@ -71,6 +66,7 @@
                         <th>Puesto</th>
                         <th>Jornada</th>
                         <th>Salario</th>
+                        <th>Telefono</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -81,6 +77,7 @@
                         <td th:text="${limpieza.puesto}"></td>
                         <td th:text="${limpieza.jornada}"></td>
                         <td th:text="${limpieza.salario}"></td>
+                        <td th:text="${limpieza.telefono}"></td>
                         <td>
                             <div class="acciones">
                                 <a th:href="@{/editar/limpieza/{id}(id=${limpieza.idLimpieza})}"
@@ -122,7 +119,7 @@
                     <span class="mensaje-error" th:if="${#fields.hasErrors('puesto')}" th:errors="*{puesto}"></span>
                 </div>
                 <div class="campo-form">
-                    <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Matutina)">
+                    <input type="text" th:field="*{jornada}" placeholder="Jornada (ej. Tarde)">
                     <span class="mensaje-error" th:if="${#fields.hasErrors('jornada')}" th:errors="*{jornada}"></span>
                 </div>
                 <div class="campo-form">
@@ -139,8 +136,14 @@
 
         <div class="panel content3">
             <h3 class="panel_titulo">Editar Empleado</h3>
-            <form th:if="${limpiezaForm != null}" th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
-                  th:object="${limpiezaForm}" method="post">
+            <div th:if="${limpiezaForm.idLimpieza == null}" class="editar-bloqueado">
+                <p>Selecciona un empleado desde la tabla para editar.</p>
+            </div>
+
+            <form th:if="${limpiezaForm.idLimpieza != null}"
+                  th:action="@{/actualizar/limpieza/{id}(id=${limpiezaForm.idLimpieza})}"
+                  th:object="${limpiezaForm}"
+                  method="post">
 
                 <input type="hidden" th:field="*{idLimpieza}">
 
