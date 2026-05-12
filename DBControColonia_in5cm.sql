@@ -737,15 +737,15 @@ CALL sp_limpieza_create('Raúl Cano', 'Mantenimiento General', 'tarde', 3250.00,
 CALL sp_limpieza_create('Clara Villeda', 'Conserje', 'manana', 3100.00, '5566-5566');
 
 CALL sp_amenidad_create('Piscina','06:00 - 18:00',25.00,'disponible',30);
-CALL sp_amenidad_create('Gimnasio','05:00 - 22:00',0.00,'disponible',20);
-CALL sp_amenidad_create('Salón Social','08:00 - 23:00',150.00,'ocupado',50);
-CALL sp_amenidad_create('Cancha de Fútbol','07:00 - 20:00',40.00,'mantenimiento',22);
-CALL sp_amenidad_create('Parque Infantil','06:00 - 19:00',0.00,'disponible',40);
-CALL sp_amenidad_create('Cancha de Tenis','07:00 - 20:00',35.00,'disponible',4);
+CALL sp_amenidad_create('cancha de futbol','07:00 - 20:00',40.00,'mantenimiento',22);
+CALL sp_amenidad_create('salon social','08:00 - 23:00',150.00,'ocupado',50);
 CALL sp_amenidad_create('Área de BBQ','09:00 - 21:00',20.00,'ocupado',10);
-CALL sp_amenidad_create('Jacuzzi','08:00 - 20:00',15.00,'disponible',6);
-CALL sp_amenidad_create('Sala de Juegos','10:00 - 22:00',10.00,'mantenimiento',15);
-CALL sp_amenidad_create('Estudio Comunitario','06:00 - 22:00',5.00,'disponible',12);
+CALL sp_amenidad_create('lounge de estudio','06:00 - 22:00',5.00,'disponible',12);
+CALL sp_amenidad_create('cinema','10:00 - 22:00',15.00,'disponible',20);
+CALL sp_amenidad_create('salón de juegos','10:00 - 22:00',10.00,'mantenimiento',15);
+CALL sp_amenidad_create('Piscina','18:00 - 21:00',30.00,'disponible',20);
+CALL sp_amenidad_create('Área de BBQ','12:00 - 18:00',25.00,'disponible',8);
+CALL sp_amenidad_create('salon social','09:00 - 17:00',120.00,'disponible',40);
 
 CALL sp_multa_create(150.00,'Estacionarse en lugar prohibido','2026-01-10','pendiente','visita');
 CALL sp_multa_create(300.00,'Ruido excesivo','2026-01-15','pagado','residente');
@@ -813,13 +813,13 @@ CALL sp_pago_create(3,'mantenimiento',500.00,'2026-02-05','transferencia','REF00
 CALL sp_pago_create(4,'amenidad',80.00,'2026-02-08','tarjeta','REF009');
 CALL sp_pago_create(5,'multa',220.00,'2026-02-12','efectivo','REF010');
 
-CALL sp_reporte_create(1,2,'queja','El residente 2 dejó basura en área común','2026-01-10','pendiente');
-CALL sp_reporte_create(2,3,'incidente','El residente 3 causó daños a un vehículo en el parqueo','2026-01-12','en_revision');
-CALL sp_reporte_create(3,4,'ruido','El residente 4 puso música alta durante la noche','2026-01-15','resuelto');
-CALL sp_reporte_create(4,5,'seguridad','El residente 5 permitió el ingreso de persona sospechosa','2026-01-18','pendiente');
-CALL sp_reporte_create(5,1,'otro','El residente 1 causo fuga de agua en zona común','2026-01-20','en_revision');
-CALL sp_reporte_create(2,4,'queja','El residente 4 hizo mal uso de áreas recreativas','2026-01-22','resuelto');
-CALL sp_reporte_create(3,5,'incidente','El residente 5 estuvo involucrado en accidente en parqueo','2026-01-25','anulado');
-CALL sp_reporte_create(4,1,'ruido','El residente 1 realizó fiesta con volumen excesivo','2026-01-28','pendiente');
-CALL sp_reporte_create(5,2,'seguridad','El residente 2 dejó la puerta principal abierta','2026-02-01','en_revision');
-CALL sp_reporte_create(1,3,'otro','El residente 3 no reportó luz dañada en calle','2026-02-05','resuelto');
+CALL sp_reporte_create(1,2,'queja','Se le vio dejando basura en un área común','2026-01-10','pendiente');
+CALL sp_reporte_create(2,3,'incidente','Ocasionó daños a un vehículo en el área de parqueo','2026-01-12','en_revision');
+CALL sp_reporte_create(3,4,'ruido','Se reportó música alta durante horas de descanso','2026-01-15','resuelto');
+CALL sp_reporte_create(4,5,'seguridad','Permitió el ingreso de una persona no autorizada o sospechosa','2026-01-18','pendiente');
+CALL sp_reporte_create(5,1,'otro','Ocasionó una fuga de agua en una zona común','2026-01-20','en_revision');
+CALL sp_reporte_create(2,4,'queja','Hizo mal uso de las áreas recreativas','2026-01-22','resuelto');
+CALL sp_reporte_create(3,5,'incidente','Estuvo involucrado en un accidente dentro del área de parqueo','2026-01-25','anulado');
+CALL sp_reporte_create(4,1,'ruido','Realizó una reunión con volumen excesivo durante la noche','2026-01-28','pendiente');
+CALL sp_reporte_create(5,2,'seguridad','Dejó abierta la puerta principal de acceso','2026-02-01','en_revision');
+CALL sp_reporte_create(1,3,'otro','No reportó una luz dañada en la calle interna','2026-02-05','resuelto');
