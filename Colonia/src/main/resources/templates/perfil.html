@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <link rel="stylesheet" th:href="@{/styles/perfil.css}">
+</head>
+
+<body>
+
+<div class="menubar">
+    <div class="container menubar_row">
+
+        <div class="brand">
+            <img th:src="@{/images/logo.png}" alt="Logo Residencial" class="brand_logo">
+        </div>
+
+        <nav class="menu">
+            <a class="menu_link" th:href="@{/home}">Inicio</a>
+            <a class="menu_link logout-link" th:href="@{/logout}">Cerrar sesión</a>
+        </nav>
+    </div>
+</div>
+
+<main class="perfil-main">
+
+    <section class="seccion">
+        <div class="container">
+
+            <div class="perfil-card">
+
+                <div class="perfil-header">
+                    <div class="perfil-avatar">
+                        <span th:text="${#strings.substring(residente.nombreResidente, 0, 1)}">R</span>
+                    </div>
+
+                    <div>
+                        <h2 th:text="${residente.nombreResidente}">Nombre del residente</h2>
+                        <p>Información registrada en el sistema</p>
+                    </div>
+                </div>
+
+                <div class="perfil-grid">
+
+                    <div class="perfil-item">
+                        <span>DPI</span>
+                        <strong th:text="${residente.dpiResidente}">DPI</strong>
+                    </div>
+
+                    <div class="perfil-item">
+                        <span>Teléfono</span>
+                        <strong th:text="${residente.telefonoResidente}">Teléfono</strong>
+                    </div>
+
+                    <div class="perfil-item">
+                        <span>Estado</span>
+                        <strong th:text="${residente.posicion}">Activo</strong>
+                    </div>
+
+                    <div class="perfil-item" th:if="${residente.idCasa != null}">
+                        <span>Casa</span>
+                        <strong th:text="${residente.idCasa}">Dirección</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
