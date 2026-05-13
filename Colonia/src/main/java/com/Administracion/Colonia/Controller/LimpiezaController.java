@@ -26,7 +26,7 @@ public class LimpiezaController {
         return "limpieza";
     }
 
-    @PostMapping("/eliminar/limpieza/{id}")
+    @GetMapping ("/eliminar/limpieza/{id}")
     public String eliminar(@PathVariable Integer id) {
         limpiezaService.deleteLimpieza(id);
         return "redirect:/limpieza";
