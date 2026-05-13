@@ -6,7 +6,7 @@ create table Casa(
 	id_Casa int auto_increment not null,
 	no_De_Casa varchar(5) not null,
 	Direccion varchar(25) not null,
-	Estado enum("ocupada", "disponible", "mantenimiento") not null,
+	Estado enum("ocupada", "reservación", "mantenimiento") not null,
 	Propietario varchar(100) not null,
 	precio_Casa decimal(12,2) not null,
 	primary key PK_id_casa(id_Casa)
@@ -281,7 +281,7 @@ Delimiter ;
 -- Create
 	Delimiter $$
 	create procedure sp_amenidad_create(a_nombre_amenidad varchar(100),a_horario_uso varchar(30),
-    a_costo_uso decimal(12,2),a_estado enum('disponible','ocupado','mantenimiento'),a_capacidad int)
+    a_costo_uso decimal(12,2),a_estado enum('reservación','ocupado','mantenimiento'),a_capacidad int)
 		begin
 			insert into Amenidades(nombre_Amenidad, horario_uso, costo_uso, Estado, Capacidad)
 			values(a_nombre_amenidad, a_horario_uso, a_costo_uso, a_estado, a_capacidad);
@@ -309,7 +309,7 @@ Delimiter ;
 -- Update
 	Delimiter $$
 	create procedure sp_amenidad_update(in p_id_amenidad int, in p_nombre_amenidad varchar(100),in p_horario_uso varchar(30),
-    in p_costo_uso decimal(12,2), in p_estado enum('disponible','ocupado','mantenimiento'), in p_capacidad int)
+    in p_costo_uso decimal(12,2), in p_estado enum('reservación','ocupado','mantenimiento'), in p_capacidad int)
 		begin
 			update Amenidades
 			set nombre_Amenidad = a_nombre_amenidad,
@@ -520,16 +520,14 @@ CALL sp_vehiculo_create('P009YZA','Chevrolet Spark','Azul','Elena Morales',9);
 CALL sp_vehiculo_create('P010BCD','Toyota Hilux','Gris','Ricardo Flores',10);
 
 
-CALL sp_amenidad_create('Piscina','06:00 - 18:00',25.00,'disponible',30);
-CALL sp_amenidad_create('Gimnasio','05:00 - 22:00',0.00,'disponible',20);
-CALL sp_amenidad_create('Salón Social','08:00 - 23:00',150.00,'ocupado',50);
+CALL sp_amenidad_create('Piscina','06:00 - 18:00',25.00,'reservación',30);
 CALL sp_amenidad_create('Cancha de Fútbol','07:00 - 20:00',40.00,'mantenimiento',22);
-CALL sp_amenidad_create('Parque Infantil','06:00 - 19:00',0.00,'disponible',40);
-CALL sp_amenidad_create('Cancha de Tenis','07:00 - 20:00',35.00,'disponible',4);
+CALL sp_amenidad_create('Salon Social','06:00 - 19:00',0.00,'reservación',40);
+CALL sp_amenidad_create('Cancha de Tenis','07:00 - 20:00',35.00,'reservación',4);
 CALL sp_amenidad_create('Área de BBQ','09:00 - 21:00',20.00,'ocupado',10);
-CALL sp_amenidad_create('Jacuzzi','08:00 - 20:00',15.00,'disponible',6);
-CALL sp_amenidad_create('Sala de Juegos','10:00 - 22:00',10.00,'mantenimiento',15);
-CALL sp_amenidad_create('Estudio Comunitario','06:00 - 22:00',5.00,'disponible',12);
+CALL sp_amenidad_create('Lounge de estudio','08:00 - 20:00',15.00,'reservación',6);
+CALL sp_amenidad_create('Cinema','10:00 - 22:00',10.00,'mantenimiento',15);
+CALL sp_amenidad_create('Salon de juegos','06:00 - 22:00',5.00,'reservación',12);
 
 CALL sp_residente_create('Juan Pérez','1234567890123','55123456','activo',1);
 CALL sp_residente_create('Lucía Gómez','2345678901234','55234567','activo',2);
@@ -563,3 +561,8 @@ CALL sp_accesos_create('visita',    7,  '2025-06-04 23:00:00', NULL);
 CALL sp_accesos_create('residente', 8,  '2025-06-04 07:45:00', '2025-06-04 09:00:00');
 CALL sp_accesos_create('personal',  9,  '2025-06-05 22:00:00', '2025-06-05 23:30:00');
 CALL sp_accesos_create('visita',    10, '2025-06-05 08:00:00', NULL);
+
+select*from residente;
+select*from vehiculos;
+select*from amenidades;
+
