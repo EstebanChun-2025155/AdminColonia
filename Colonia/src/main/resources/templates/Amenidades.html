@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amenidades | Gestión Residencial</title>
-
-    <link rel="stylesheet" th:href="@{/Entidades.css}">
+    <link rel="stylesheet" th:href="@{/entidades.css}">
 </head>
 <body>
 
-<header class="menubar">
-    <div class="container menubar_row">
+<header class="menu">
+    <div class="container menu_row">
         <div class="brand">
             <img th:src="@{/Images/logo.png}" alt="Logo" class="brand_logo">
         </div>
-        <nav class="menu">
+        <nav class="menubar">
             <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
-            <a class="menu_link" href="#adminAmenidad">Administración</a>
+            <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
         </nav>
     </div>
@@ -24,23 +23,21 @@
 
 <main>
 
+    <!-- PORTADA -->
     <section class="front">
-
-        <video class="front_media" th:src="@{/images/Amenidades.mp4}" autoplay loop muted playsinline></video>
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Amenidades.mp4}" type="video/mp4">
+        </video>
     </section>
 
-
-    <div class="panel">
-        <span>CONSULTAS</span>
+    <!-- PANEL DE TÍTULO -->
+    <div class="panel_header">
+        <span>CONTROL DE AMENIDADES</span>
     </div>
 
-    <div class="seccion" id="admin">
-        <h2>CENTRO DE CONTROL</h2>
-    </div>
+    <!-- SECCIÓN PRINCIPAL DE VISTA -->
+    <section class="vista" id="admin">
 
-
-    <section class="vista">
-        <h2 class="vista_titulo">GESTIÓN DE REGISTROS</h2>
         <input type="radio" name="tabs_amenidad" id="r1" th:checked="${tab == null or tab == 'consultar'}" hidden>
         <input type="radio" name="tabs_amenidad" id="r2" th:checked="${tab == 'registrar'}" hidden>
         <input type="radio" name="tabs_amenidad" id="r3" th:checked="${tab == 'editar'}" hidden>
@@ -51,18 +48,19 @@
             <label for="r3" class="tab">Editar</label>
         </div>
 
-
+        <!-- PANEL 1: CONSULTAR -->
         <div class="panel content1">
             <h3 class="panel_titulo">Listado de Amenidades</h3>
 
-            <form th:action="@{/amenidades/buscar}" method="get" class="search_box">
-                <input type="number" name="id" placeholder="ID de la amenidad..." required>
-                <button type="submit" class="btn btn-primary">Buscar</button>
-                <a th:href="@{/amenidades}" class="btn btn-edit" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
-                    Mostrar Todo
-                </a>
-            </form>
+            <div th:if="${errorGeneral}" class="mensaje-error-general" style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <p th:text="${errorGeneral}"></p>
+            </div>
 
+            <form th:action="@{/amenidades/buscar}" method="get" class="search_box">
+                <input type="number" name="id" placeholder="Buscar por ID..." required>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a th:href="@{/amenidades}" class="btn btn-edit" style="text-decoration: none;">Mostrar Todo</a>
+            </form>
 
             <div th:if="${errorBusqueda}" class="mensaje-error" style="margin: 15px 0; text-align: center; color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 5px;">
                 <span th:text="${errorBusqueda}"></span>
@@ -104,7 +102,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr th:if="${#lists.isEmpty(amenidades)}">
                         <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron registros.</td>
                     </tr>
@@ -112,123 +109,194 @@
                 </table>
             </div>
         </div>
+
         <!-- PANEL 2: REGISTRAR -->
         <div class="panel content2">
             <h3 class="panel_titulo">Registra Nueva Amenidad</h3>
             <form th:action="@{/amenidades/guardar}" th:object="${amenidadForm}" method="post">
-
-
                 <div class="campo-form">
-                    <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre de la amenidad">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
+                    <select th:field="*{nombreAmenidad}">
+                        <option value="" disabled selected>Seleccione una amenidad</option>
+                        <option value="Piscina">Piscina</option>
+                        <option value="cancha de futbol">cancha de futbol</option>
+                        <option value="salon social">salon social</option>
+                        <option value="Área de BBQ">Área de BBQ</option>
+                        <option value="lounge de estudio">lounge de estudio</option>
+                        <option value="cinema">cinema</option>
+                        <option value="salón de juegos">salón de juegos</option>
+                    </select>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
+                </div>
+                <div class="campo-form">
+                    <div style="display: flex; gap: 5px;">
+                        <!-- Input visual para la hora -->
+                        <input type="text" id="horaVisual" placeholder="08:00" style="flex: 2;">
+
+                        <!-- Select visual para el periodo -->
+                        <select id="periodoVisual" style="flex: 1;">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+
+                    <!-- El campo REAL que Spring Boot leerá (está oculto) -->
+                    <input type="hidden" th:field="*{horarioUso}" id="horarioReal">
+
+                    <span style="color:red; font-size: 0.8rem;"
+                          th:if="${#fields.hasErrors('horarioUso')}"
+                          th:errors="*{horarioUso}"></span>
                 </div>
 
-                <div class="campo-form">
-                    <input type="text" th:field="*{horarioUso}" placeholder="Horario (Ej: 08:00 - 18:00)">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('horarioUso')}" th:errors="*{horarioUso}"></span>
-                </div>
+                <script>
+                    const horaInput = document.getElementById('horaVisual');
+                    const periodoSelect = document.getElementById('periodoVisual');
+                    const horarioReal = document.getElementById('horarioReal');
 
+                    // Función para unir los valores: "08:00" + " " + "AM"
+                    function actualizarHorario() {
+                        if(horaInput.value) {
+                            horarioReal.value = horaInput.value + " " + periodoSelect.value;
+                        }
+                    }
+
+                    // Escuchar cambios en ambos campos
+                    horaInput.addEventListener('input', actualizarHorario);
+                    periodoSelect.addEventListener('change', actualizarHorario);
+
+                </script>
                 <div class="campo-form">
                     <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo de reserva">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('costoUso')}" th:errors="*{costoUso}"></span>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('costoUso')}" th:errors="*{costoUso}"></span>
                 </div>
-
                 <div class="campo-form">
                     <select th:field="*{estado}">
                         <option value="" disabled selected>Estado Inicial</option>
-                        <option value="reservacion">reservacion</option>
+                        <option value="reservacion">Reservación</option>
                         <option value="Ocupada">Ocupada</option>
                         <option value="Mantenimiento">Mantenimiento</option>
                     </select>
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                 </div>
-
                 <div class="campo-form">
                     <input type="number" th:field="*{capacidad}" placeholder="Capacidad máxima">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
                 </div>
-
-                <button type="submit">Guardar Registro</button>
+                <button type="submit" class="btn btn-primary">Guardar Registro</button>
             </form>
         </div>
 
         <!-- PANEL 3: EDITAR -->
         <div class="panel content3">
             <h3 class="panel_titulo">Modificar Registro</h3>
-            <form th:action="@{/amenidades/actualizar/{id}(id=${amenidadForm.idAmenidad})}" th:object="${amenidadForm}" method="post">
+            <div th:if="${amenidadForm.idAmenidad == null}" class="editar-bloqueado" style="text-align: center; padding: 20px;">
+                <p>Selecciona una amenidad desde la tabla para editar.</p>
+            </div>
+
+            <form th:if="${amenidadForm.idAmenidad != null}"
+                  th:action="@{/amenidades/actualizar/{id}(id=${amenidadForm.idAmenidad})}"
+                  th:object="${amenidadForm}"
+                  method="post">
                 <input type="hidden" th:field="*{idAmenidad}">
 
-                <div class="form-group">
-                    <div class="campo-form" style="flex: 1; min-width: 250px;">
-                        <input type="text" th:field="*{nombreAmenidad}" placeholder="Nombre">
-                        <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
-                    </div>
-
-                    <div class="campo-form" style="flex: 1; min-width: 200px;">
-                        <input type="text" th:field="*{horarioUso}" placeholder="Horario">
-                        <span class="mensaje-error" th:if="${#fields.hasErrors('horarioUso')}" th:errors="*{horarioUso}"></span>
-                    </div>
+                <div class="campo-form">
+                    <select th:field="*{nombreAmenidad}">
+                        <option value="Piscina">Piscina</option>
+                        <option value="cancha de futbol">cancha de futbol</option>
+                        <option value="salon social">salon social</option>
+                        <option value="Área de BBQ">Área de BBQ</option>
+                        <option value="lounge de estudio">lounge de estudio</option>
+                        <option value="cinema">cinema</option>
+                        <option value="salón de juegos">salón de juegos</option>
+                    </select>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
                 </div>
+                <div class="campo-form">
+                    <div style="display: flex; gap: 5px;">
+                        <!-- Input visual para la hora -->
+                        <input type="text" id="horaVisual" placeholder="08:00" style="flex: 2;">
 
-                <div class="form-group">
-                    <div class="campo-form" style="flex: 1;">
-                        <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
-                        <span class="mensaje-error" th:if="${#fields.hasErrors('costoUso')}" th:errors="*{costoUso}"></span>
-                    </div>
-
-                    <div class="campo-form" style="flex: 1;">
-                        <select th:field="*{estado}">
-                            <option value="reservacion">reservacion</option>
-                            <option value="Ocupada">Ocupada</option>
-                            <option value="Mantenimiento">Mantenimiento</option>
+                        <!-- Select visual para el periodo -->
+                        <select id="periodoVisual" style="flex: 1;">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
                         </select>
-                        <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                     </div>
 
-                    <div class="campo-form" style="flex: 1;">
-                        <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
-                        <span class="mensaje-error" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
-                    </div>
+                    <!-- El campo REAL que Spring Boot leerá (está oculto) -->
+                    <input type="hidden" th:field="*{horarioUso}" id="horarioReal">
+
+                    <span style="color:red; font-size: 0.8rem;"
+                          th:if="${#fields.hasErrors('horarioUso')}"
+                          th:errors="*{horarioUso}"></span>
                 </div>
 
+                <script>
+                    const horaInput = document.getElementById('horaVisual');
+                    const periodoSelect = document.getElementById('periodoVisual');
+                    const horarioReal = document.getElementById('horarioReal');
+
+                    // Función para unir los valores: "08:00" + " " + "AM"
+                    function actualizarHorario() {
+                        if(horaInput.value) {
+                            horarioReal.value = horaInput.value + " " + periodoSelect.value;
+                        }
+                    }
+
+                    // Escuchar cambios en ambos campos
+                    horaInput.addEventListener('input', actualizarHorario);
+                    periodoSelect.addEventListener('change', actualizarHorario);
+
+                </script>
+                <div class="campo-form">
+                    <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo">
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('costoUso')}" th:errors="*{costoUso}"></span>
+                </div>
+                <div class="campo-form">
+                    <select th:field="*{estado}">
+                        <option value="reservacion">Reservación</option>
+                        <option value="Ocupada">Ocupada</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
+                    </select>
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                </div>
+                <div class="campo-form">
+                    <input type="number" th:field="*{capacidad}" placeholder="Capacidad">
+                    <span style="color:red; font-size: 0.8rem;" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
+                </div>
                 <button type="submit" class="btn btn-edit">Actualizar Datos</button>
             </form>
         </div>
     </section>
 
-
-    <!-- AYUDA -->
-    <section class="seccion seccion--soft" id="ayuda">
+    <!-- AYUDA RÁPIDA -->
+    <section class="seccion" id="ayuda">
         <div class="container">
             <div class="seccion_panel">
                 <span>AYUDA RÁPIDA</span>
             </div>
-
             <div class="ayuda-grid">
                 <article class="ayuda-card">
                     <div class="ayuda-tip"><span class="num">01</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-eliminar">Eliminar</span>
                         <h3 class="ayuda-titulo">Borrado Seguro</h3>
-                        <p class="ayuda-texto">Haz clic en el icono de papelera. El sistema te pedirá una confirmación antes de borrar permanentemente.</p>
+                        <p class="ayuda-texto">Haz clic en el icono de papelera. El sistema te pedirá confirmación antes de borrar.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
                     <div class="ayuda-tip"><span class="num">02</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-busqueda">Búsqueda</span>
                         <h3 class="ayuda-titulo">Filtrado por ID</h3>
-                        <p class="ayuda-texto">Usa el buscador superior para localizar una amenidad específica. Para ver todo de nuevo, pulsa "Mostrar Todo".</p>
+                        <p class="ayuda-texto">Usa el buscador superior para localizar una amenidad específica rápidamente.</p>
                     </div>
                 </article>
-
                 <article class="ayuda-card">
                     <div class="ayuda-tip"><span class="num">03</span><span class="tip">TIP</span></div>
                     <div class="ayuda-contenido">
                         <span class="ayuda-tag tag-editar">Edición</span>
                         <h3 class="ayuda-titulo">Actualización</h3>
-                        <p class="ayuda-texto">El icono de lápiz carga los datos en la pestaña "Editar". No olvides guardar los cambios al finalizar.</p>
+                        <p class="ayuda-texto">El icono de lápiz carga los datos en la pestaña "Editar" para su modificación.</p>
                     </div>
                 </article>
             </div>
