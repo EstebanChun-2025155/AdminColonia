@@ -147,7 +147,7 @@
                 </div>
 
                 <div class="campo-form">
-                    <input type="text" th:field="*{estado}" placeholder="Estado (PENDIENTE, EN_REVISION, RESUELTO)">
+                    <input type="text" th:field="*{estado}" placeholder="Estado (pendiente, en_revisión, resuelto, anulado)">
                     <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                 </div>
 

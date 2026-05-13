@@ -1,6 +1,7 @@
 package com.Administracion.Colonia.Controller;
 
 import com.Administracion.Colonia.Entity.Pago;
+import com.Administracion.Colonia.Repository.ResidenteRepository;
 import com.Administracion.Colonia.Service.PagoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class PagoController {
 
     @Autowired
     private PagoService pagoService;
+
+    @Autowired
+    private ResidenteRepository residenteRepository;
 
     @GetMapping("/pago")
     public String mostrarPago (Model model) {
@@ -41,6 +45,20 @@ public class PagoController {
             model.addAttribute("panelActivo", "registrar");
             return "VistaPago";
         }
+
+        if (!residenteRepository.existsById(pago.getIdResidente())) {
+
+            result.rejectValue(
+                    "idResidente",
+                    "error.pago",
+                    "El ID del residente no existe"
+            );
+
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("panelActivo", "registrar");
+            return "VistaPago";
+        }
+
         try {
             pagoService.savePago(pago);
         } catch (RuntimeException e) {
@@ -72,6 +90,22 @@ public class PagoController {
             model.addAttribute("panelActivo", "editar");
             return "VistaPago";
         }
+
+        if (!residenteRepository.existsById(pago.getIdResidente())) {
+
+            result.rejectValue(
+                    "idResidente",
+                    "error.pago",
+                    "El ID del residente no existe"
+            );
+
+            pago.setIdPago(id);
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("pagoNuevo", new Pago());
+            model.addAttribute("panelActivo", "editar");
+            return "VistaPago";
+        }
+
         try {
             pagoService.updatePago(id, pago);
         } catch (RuntimeException e) {
