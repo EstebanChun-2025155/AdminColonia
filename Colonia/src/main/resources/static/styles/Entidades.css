@@ -586,6 +586,67 @@ tr:nth-child(even){
         letter-spacing:.25em;
     }
 }
+/* ── MODAL ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.activo { display: flex; }
+
+.modal-box {
+    background: var(--soft);
+    padding: 32px;
+    border-radius: 20px;
+    width: min(400px, 90%);
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: m-entrar .3s ease-out;
+}
+
+.modal-icono { font-size: 40px; color: var(--danger); margin-bottom: 15px; }
+
+.modal-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(196,106,60,0.1);
+    color: var(--primary);
+    border-radius: 8px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.modal-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.modal-btns :is(button, a) {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.modal-btns :is(button, a):hover { filter: brightness(1.1); }
+
+@keyframes m-entrar {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
 
 /* Animaciones */
 @keyframes fondoCasa{
