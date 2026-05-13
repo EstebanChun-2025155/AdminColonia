@@ -25,7 +25,7 @@ public class SeguridadController {
         return "seguridad";
     }
 
-    @PostMapping("/eliminar/seguridad/{id}")
+    @GetMapping("/eliminar/seguridad/{id}")
     public String eliminar(@PathVariable Integer id) {
         seguridadService.deleteSeguridad(id);
         return "redirect:/seguridad";
