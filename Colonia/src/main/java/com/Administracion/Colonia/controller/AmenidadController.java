@@ -2,6 +2,7 @@ package com.Administracion.Colonia.controller;
 
 import com.Administracion.Colonia.entity.Amenidad;
 import com.Administracion.Colonia.service.AmenidadService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,16 @@ public class AmenidadController {
     @Autowired
     private AmenidadService amenidadService;
 
-    // MOSTRAR LISTA
+
     @GetMapping
-    public String mostrarAmenidades(Model model) {
+    public String mostrarAmenidades(HttpSession session, Model model) {
         List<Amenidad> lista = amenidadService.getAllAmenidad();
         model.addAttribute("amenidades", lista);
         model.addAttribute("amenidadForm", new Amenidad());
         return "Amenidades";
     }
 
-    // NUEVO REGISTRO
+
     @GetMapping("/nueva")
     public String nuevaAmenidad(Model model) {
         model.addAttribute("amenidades", amenidadService.getAllAmenidad());
@@ -37,7 +38,7 @@ public class AmenidadController {
         return "Amenidades";
     }
 
-    // GUARDAR (CORREGIDO)
+
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute("amenidadForm") Amenidad amenidad,
                           BindingResult result,
@@ -62,7 +63,7 @@ public class AmenidadController {
         return "redirect:/amenidades";
     }
 
-    // EDITAR
+
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
         Amenidad amenidad = amenidadService.getAmenidadById(id);
@@ -72,7 +73,6 @@ public class AmenidadController {
         return "Amenidades";
     }
 
-    // ACTUALIZAR
     @PostMapping("/actualizar/{id}")
     public String actualizar(@PathVariable Integer id,
                              @Valid @ModelAttribute("amenidadForm") Amenidad amenidad,
@@ -100,14 +100,14 @@ public class AmenidadController {
         return "redirect:/amenidades";
     }
 
-    // ELIMINAR
+
     @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         amenidadService.deleteAmenidad(id);
         return "redirect:/amenidades";
     }
 
-    //BUSCAR
+
     @GetMapping("/buscar")
     public String buscarAmenidad(@RequestParam(name = "id", required = false) Integer id, Model model) {
         if (id == null) {
