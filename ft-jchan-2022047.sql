@@ -6,7 +6,7 @@ create table Casa(
 	id_Casa int auto_increment not null,
 	no_De_Casa varchar(5) not null,
 	Direccion varchar(25) not null,
-	Estado enum("ocupada", "reservación", "mantenimiento") not null,
+	Estado enum("ocupada", "disponible", "mantenimiento") not null,
 	Propietario varchar(100) not null,
 	precio_Casa decimal(12,2) not null,
 	primary key PK_id_casa(id_Casa)
@@ -49,7 +49,7 @@ create table Amenidades(
     nombre_Amenidad varchar(100) not null,
     horario_Uso varchar(30) not null,
     costo_Uso decimal(12,2) not null,
-    estado enum('disponible','ocupado','mantenimiento') not null,
+    estado enum('reservación','ocupado','mantenimiento') not null,
     capacidad int not null,
     primary key Pk_id_Amenidad(id_Amenidad)
 );
@@ -523,7 +523,6 @@ CALL sp_vehiculo_create('P010BCD','Toyota Hilux','Gris','Ricardo Flores',10);
 CALL sp_amenidad_create('Piscina','06:00 - 18:00',25.00,'reservación',30);
 CALL sp_amenidad_create('Cancha de Fútbol','07:00 - 20:00',40.00,'mantenimiento',22);
 CALL sp_amenidad_create('Salon Social','06:00 - 19:00',0.00,'reservación',40);
-CALL sp_amenidad_create('Cancha de Tenis','07:00 - 20:00',35.00,'reservación',4);
 CALL sp_amenidad_create('Área de BBQ','09:00 - 21:00',20.00,'ocupado',10);
 CALL sp_amenidad_create('Lounge de estudio','08:00 - 20:00',15.00,'reservación',6);
 CALL sp_amenidad_create('Cinema','10:00 - 22:00',10.00,'mantenimiento',15);
