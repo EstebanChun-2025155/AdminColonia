@@ -9,7 +9,6 @@
     --danger:#D57A66;
     --line:#D8CBB8;
     --radius:14px;
-    --shadow:0 10px 28px rgba(0,0,0,.08);
 }
 
 /* Base */
@@ -39,7 +38,7 @@ body::before{
         radial-gradient(circle at 18% 20%,rgba(196,106,60,.15),transparent 24%),
         radial-gradient(circle at 82% 70%,rgba(62,58,55,.10),transparent 28%),
         repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0,rgba(255,255,255,.045) 1px,transparent 1px,transparent 24px);
-    animation:textura 24s linear infinite
+    animation:textura 24s linear infinite;
 }
 
 a{
@@ -50,12 +49,6 @@ a{
 .container{
     width:min(1120px,92vw);
     margin:0 auto;
-}
-
-.hint{
-    margin:16px 0 0;
-    color:var(--muted);
-    font-size:13px;
 }
 
 /* Menú */
@@ -192,6 +185,7 @@ a{
     flex-wrap:wrap;
 }
 
+/* Botones */
 .btn{
     padding:10px 14px;
     border:1px solid rgba(255,255,255,.28);
@@ -266,7 +260,7 @@ a{
         radial-gradient(circle at bottom right,rgba(217,138,95,.10),transparent 40%);
 }
 
-/* Tarjetas */
+/* Grids */
 .tiles,
 .avisos-grid,
 .pasos-ayuda,
@@ -275,11 +269,20 @@ a{
     gap:22px;
 }
 
-.tiles{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-.avisos-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.pasos-ayuda,
-.canales-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.tiles{
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr))
+}
 
+.avisos-grid{
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr))
+}
+
+.pasos-ayuda,
+.canales-grid{
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr))
+}
+
+/* Tarjetas */
 .tile,
 .paso-card,
 .canal-card{
@@ -448,6 +451,7 @@ a{
     line-height:1.5;
 }
 
+/* Etiquetas */
 .tag-alerta{
     background:rgba(213,122,102,.18);
     color:var(--danger);
