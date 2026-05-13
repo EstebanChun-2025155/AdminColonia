@@ -15,7 +15,8 @@
         </div>
 
         <nav class="menu" aria-label="Menú principal">
-            <a class="menu_link is-active" href="#inicio">Inicio</a>
+            <a class="menu_link" th:href="@{/perfil}" th:if="${isResidente}">Mi perfil</a>
+            <a class="menu_link" th:href="@{/reporte}">Reportes</a>
             <a class="menu_link" href="#admin">Administración</a>
             <a class="menu_link" href="#ayuda">Ayuda</a>
             <a class="menu_link" href="#contacto">Contacto</a>
@@ -32,9 +33,6 @@
             <div class="container front_content">
 
                 <h1 class="hero-title">Bienvenido a Residenciales S.A</h1>
-                <p class="hero-text">
-                    Gestiona residentes y casas de manera eficiente.
-                </p>
 
                 <div class="front_cta">
                     <a class="btn btn--primary" href="#admin">Ir a Administración</a>
@@ -127,48 +125,129 @@
             <div class="tiles" aria-label="Panel de administración">
 
                 <a class="tile" th:href="@{/amenidades}" aria-label="Acceso a Amenidades">
-                            <span class="tile_icono" aria-hidden="true">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 10c3 0 4-2 7-2s4 2 7 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 21h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </span>
+                             <span class="tile_icono" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 10c3 0 4-2 7-2s4 2 7 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 21h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
                     <span class="tile_label">Amenidades</span>
                 </a>
 
                 <a class="tile" th:href="@{/vehiculos}" aria-label="Acceso a Vehiculos">
                             <span class="tile_icono" aria-hidden="true">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M3 16v-3.5c0-1 .6-1.9 1.5-2.3l2.2-1 1.3-2.6A3 3 0 0 1 10.7 5h2.6a3 3 0 0 1 2.7 1.6l1.3 2.6 2.2 1A2.5 2.5 0 0 1 21 12.5V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M3 16h3m15 0h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </span>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 16v-3.5c0-1 .6-1.9 1.5-2.3l2.2-1 1.3-2.6A3 3 0 0 1 10.7 5h2.6a3 3 0 0 1 2.7 1.6l1.3 2.6 2.2 1A2.5 2.5 0 0 1 21 12.5V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 16h3m15 0h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
                     <span class="tile_label">Vehículos</span>
                 </a>
-
             </div>
-
-            <p class="hint"> Aqui podras acceder a toda la informacion acerca de nuestra administración en nuestra colonia</p>
         </div>
     </section>
 
     <section class="seccion seccion--soft" id="ayuda">
         <div class="container">
-            <h2>Ayuda</h2>
-            <p class="muted">
-                Esta pagina esta hecha para que puedas llevar un control adecuado sobre la gestión y administración dentro de una colonia/condominio.
-                Podrás acceder a toda la información almacenada mediante las funciones ya vistas en el apartado de Administració, en donde podras
-                acceder a ellas y corroborar la información ya almacenada
-            </p>
+
+            <div class="seccion_panel">
+                <span>GUÍA DE USO</span>
+            </div>
+
+            <div class="pasos-ayuda">
+
+                <article class="paso-card" >
+                    <div class="paso-numero">01</div>
+                    <div class="paso-contenido">
+                        <h3>Selecciona un módulo</h3>
+                        <p>
+                            Ingresa al apartado de Administración, haz clic en la sección que desees trabajar.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card" >
+                    <div class="paso-numero">02</div>
+                    <div class="paso-contenido">
+                        <h3>Consulta la información</h3>
+                        <p>
+                            Revisa los registros existentes desde la tabla principal
+                            o utiliza el buscador por ID.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card" >
+                    <div class="paso-numero">03</div>
+                    <div class="paso-contenido">
+                        <h3>Registra nuevos datos</h3>
+                        <p>
+                            Usa el form de registrar que se encuentran dento de las secciones de Administración
+                            para agregar un registro nuevo dentro de la tabla.
+                        </p>
+                    </div>
+                </article>
+
+                <article class="paso-card" >
+                    <div class="paso-numero">04</div>
+                    <div class="paso-contenido">
+                        <h3>Actualiza o elimina registros</h3>
+                        <p>
+                            Utiliza los botones de acción para editar información
+                            existente o eliminar registros cuando sea necesario.
+                        </p>
+                    </div>
+                </article>
+
+
+            </div>
         </div>
     </section>
 
-    <section class="section" id="contacto">
+    <section class="seccion" id="contacto">
         <div class="container">
-            <h2> Contacto</h2>
-            <p class="muted">echun-2025155@kinal.edu.gt</p>
+
+            <div class="seccion_panel">
+                <span>CONTACTO</span>
+            </div>
+
+            <div class="canales-grid">
+
+                <article class="canal-card">
+                    <div class="canal-contenido">
+                        <span class="canal-tag">Correo</span>
+                        <h3>Soporte administrativo</h3>
+                        <p>
+                            Si tienes consultas generales sobre el sistema
+                            o relacionado con su funcionalidad, contactanos:
+                        </p>
+                        <p class="canal-dato">echun-2025155@kinal.edu.gt</p>
+                        <p class="canal-dato">wdepaz-2025275@kinal.edu.gt</p>
+                        <p class="canal-dato">wdepaz-2025275@kinal.edu.gt</p>
+                        <p class="canal-dato">afriely-2025553@kinal.edu.gt</p>
+                        <p class="canal-dato">jchan-2022047@kinal.edu.gt</p>
+                    </div>
+                </article>
+
+                <article class="canal-card">
+                    <div class="canal-contenido">
+                        <span class="canal-tag">Atención</span>
+                        <h3>Horario de soporte</h3>
+                        <p>
+                            Las consultas pueden realizarse durante días hábiles.
+                            Se recomienda que se sea especificos a la hora de dirigirse
+                            sobre cual es su consulta o duda.
+                        </p>
+                        <p class="canal-dato">Lunes horario: 8:00am A 7:00pm </p>
+                        <p class="canal-dato">Martes horario: 8:00am A 5:00pm</p>
+                        <p class="canal-dato">Miercoles horario: 8:00am A 4:00pm</p>
+                        <p class="canal-dato">Jueves horario: 8:00am A 5:00pm</p>
+                        <p class="canal-dato">Viernes horario: 8:00am A 3:00pm</p>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
 
