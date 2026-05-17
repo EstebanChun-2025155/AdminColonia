@@ -2,12 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amenidades | Gestión Residencial</title>
-
     <link rel="stylesheet" th:href="@{/styles/entidades.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
+
+<div class="modal-overlay" id="modalEliminar">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <i class="bi bi-trash-fill modal-icono"></i>
+
+        <h2 class="modal-titulo">¿Eliminar Amenidad?</h2>
+        <p class="modal-subtitulo">Esta acción no se puede deshacer.</p>
+
+        <div class="modal-badge">
+            <i class="bi bi-calendar2-check-fill"></i>
+            <span id="modalNombreTexto">—</span>
+        </div>
+
+        <div class="modal-btns">
+            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <form id="modalFormEliminar" method="post">
+                <button type="submit" class="btn-confirmar">Sí, eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <header class="menu">
     <div class="container menu_row">
@@ -46,7 +66,7 @@
         <div class="tabs">
             <label for="r1" class="tab">Consultar</label>
             <label for="r2" class="tab">Registrar</label>
-            <label for="r3" class="tab" th:if="${isSeguridad}">Editar</label>
+            <label for="r3" class="tab">Editar</label>
         </div>
 
 
@@ -68,8 +88,10 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>ID Residente</th>
                         <th>Nombre</th>
                         <th>Horario</th>
+                        <th>Fecha</th>
                         <th>Costo</th>
                         <th>Estado</th>
                         <th>Cap.</th>
@@ -79,29 +101,25 @@
                     <tbody>
                     <tr th:each="a : ${amenidades}">
                         <td th:text="${a.idAmenidad}"></td>
+                        <td th:text="${a.idResidente != null ? a.idResidente : 'Sin asignar'}"></td>
                         <td th:text="${a.nombreAmenidad}"></td>
-                        <td th:text="${a.horarioUso}"></td>
+                        <td th:text="${a.horario}"></td>
+                        <td th:text="${a.fecha}"></td>
                         <td th:text="${a.costoUso}"></td>
                         <td th:text="${a.estado}"></td>
                         <td th:text="${a.capacidad}"></td>
                         <td>
-                            <div class="acciones" th:if="${isSeguridad}">
+                            <div class="acciones">
                                 <a th:href="@{/amenidades/editar/{id}(id=${a.idAmenidad})}" class="btn btn-edit" title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg>
                                 </a>
-                                <form th:action="@{/amenidades/eliminar/{id}(id=${a.idAmenidad})}" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar esta Amenidad?')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-danger"
+                                        th:attr="data-url=@{'/amenidades/eliminar/' + ${a.idAmenidad}}, data-nombre=${a.nombreAmenidad}"
+                                        onclick="abrirModal(this)" title="Eliminar">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </div>
                         </td>
-                    </tr>
-
-                    <tr th:if="${#lists.isEmpty(amenidades)}">
-                        <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron registros.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,37 +133,38 @@
 
 
                 <div class="campo-form">
+                    <input type="number" th:field="*{idResidente}" placeholder="ID del residente (opcional)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idResidente')}" th:errors="*{idResidente}"></span>
+                </div>
+
+                <div class="campo-form">
                     <select th:field="*{nombreAmenidad}">
                         <option value="" disabled>Seleccione una amenidad</option>
-                        <option value="Piscina">Piscina</option>
-                        <option value="cancha de futbol">cancha de futbol</option>
+                        <option value="piscina">Piscina</option>
+                        <option value="cancha deportiva">cancha deportiva</option>
                         <option value="salon social">salon social</option>
-                        <option value="Área de BBQ">Área de BBQ</option>
                         <option value="lounge de estudio">lounge de estudio</option>
                         <option value="cinema">cinema</option>
-                        <option value="salón de juegos">salón de juegos</option>
+                        <option value="terraza">terraza</option>
                     </select>
-                    <span class="mensaje-error"
-                          th:if="${#fields.hasErrors('nombreAmenidad')}"
-                          th:errors="*{nombreAmenidad}">
-                    </span>
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
                 </div>
 
                 <div class="campo-form">
-                    <input type="text" th:field="*{horarioUso}" placeholder="Horario (Ej: 08:00 - 18:00)">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('horarioUso')}" th:errors="*{horarioUso}"></span>
+                    <input type="text" th:field="*{horario}" placeholder="Horario: En caso de reservación se permite un maximo de 5hrs (Ej: 08:00 - 11:00)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}"></span>
                 </div>
 
                 <div class="campo-form">
-                    <input type="number" step="0.01" th:field="*{costoUso}" placeholder="Costo de reserva">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('costoUso')}" th:errors="*{costoUso}"></span>
+                    <input type="date" th:field="*{fecha}">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></span>
                 </div>
 
                 <div class="campo-form">
                     <select th:field="*{estado}">
                         <option value="" disabled>Seleccione un estado</option>
-                        <option value="disponible">Disponible</option>
-                        <option value="ocupada">Ocupada</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="reservado">Reservado</option>
                         <option value="mantenimiento">Mantenimiento</option>
                     </select>
                     <span class="mensaje-error"
@@ -164,7 +183,7 @@
         </div>
 
         <!-- PANEL 3: EDITAR -->
-        <div class="panel content3" th:if="${isSeguridad}">
+        <div class="panel content3">
             <h3 class="panel_titulo">Modificar Amenidad</h3>
 
             <div th:if="${amenidadForm.idAmenidad == null}" class="editar-bloqueado">
@@ -183,28 +202,31 @@
                 </div>
 
                 <div class="campo-form">
-                    <select th:field="*{nombreAmenidad}">
-                        <option value="" disabled>Seleccione una amenidad</option>
-                        <option value="Piscina">Piscina</option>
-                        <option value="cancha de futbol">cancha de futbol</option>
-                        <option value="salon social">salon social</option>
-                        <option value="Área de BBQ">Área de BBQ</option>
-                        <option value="lounge de estudio">lounge de estudio</option>
-                        <option value="cinema">cinema</option>
-                        <option value="salón de juegos">salón de juegos</option>
-                    </select>
-                    <span class="mensaje-error"
-                          th:if="${#fields.hasErrors('nombreAmenidad')}"
-                          th:errors="*{nombreAmenidad}">
-                    </span>
+                    <input type="number" th:field="*{idResidente}" placeholder="ID del residente (opcional)">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idResidente')}" th:errors="*{idResidente}"></span>
                 </div>
 
                 <div class="campo-form">
-                    <input type="text" th:field="*{horarioUso}" placeholder="Horario">
-                    <span class="mensaje-error"
-                          th:if="${#fields.hasErrors('horarioUso')}"
-                          th:errors="*{horarioUso}">
-                    </span>
+                    <select th:field="*{nombreAmenidad}">
+                        <option value="" disabled>Seleccione una amenidad</option>
+                        <option value="piscina">Piscina</option>
+                        <option value="cancha deportiva">cancha deportiva</option>
+                        <option value="salon social">salon social</option>
+                        <option value="lounge de estudio">lounge de estudio</option>
+                        <option value="cinema">cinema</option>
+                        <option value="terraza">terraza</option>
+                    </select>
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{horario}" placeholder="Horario">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="date" th:field="*{fecha}">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></span>
                 </div>
 
                 <div class="campo-form">
@@ -218,8 +240,8 @@
                 <div class="campo-form">
                     <select th:field="*{estado}">
                         <option value="" disabled>Seleccione un estado</option>
-                        <option value="disponible">Disponible</option>
-                        <option value="ocupada">Ocupada</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="reservado">Reservado</option>
                         <option value="mantenimiento">Mantenimiento</option>
                     </select>
                     <span class="mensaje-error"
@@ -281,5 +303,8 @@
         </div>
     </section>
 </main>
+
+<script th:src="@{/js/entidades.js}"></script>
+
 </body>
 </html>
