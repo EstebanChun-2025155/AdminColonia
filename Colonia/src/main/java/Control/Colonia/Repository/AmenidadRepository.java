@@ -4,14 +4,20 @@ import Control.Colonia.Entity.Amenidad;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public interface AmenidadRepository extends JpaRepository<Amenidad,Integer> {
-    Boolean existsByNombreAmenidadAndHorarioUsoAndCostoUsoAndEstadoAndCapacidad(
+    boolean existsByNombreAmenidadAndHorarioAndFecha(
             String nombreAmenidad,
-            String horarioUso,
-            double costoUso,
-            String estado,
-            Integer capacidad
+            String horario,
+            LocalDate fecha
     );
 
+    boolean existsByNombreAmenidadAndHorarioAndFechaAndIdAmenidadNot(
+            String nombreAmenidad,
+            String horario,
+            LocalDate fecha,
+            Integer idAmenidad
+    );
     }

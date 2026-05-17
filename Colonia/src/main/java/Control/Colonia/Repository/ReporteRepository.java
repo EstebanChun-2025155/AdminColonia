@@ -19,4 +19,5 @@ public interface ReporteRepository extends JpaRepository<Reporte, Integer> {
     );
 
     List<Reporte> findByIdResidenteReportado(Integer idResidenteReportado);
+    List<Reporte> findByIdResidenteReportante(Integer idResidenteReportante);
 }
