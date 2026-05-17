@@ -43,6 +43,64 @@ body::before{
     animation:textura 24s linear infinite;
 }
 
+/* ── MODAL ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.activo { display: flex; }
+
+.modal-box {
+    background: var(--soft);
+    padding: 32px;
+    border-radius: 20px;
+    width: min(400px, 90%);
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: m-entrar .3s ease-out;
+}
+
+.modal-icono { font-size: 40px; color: var(--danger); margin-bottom: 15px; }
+
+.modal-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(196,106,60,0.1);
+    color: var(--primary);
+    border-radius: 8px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.modal-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.modal-btns :is(button, a) {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.modal-btns :is(button, a):hover { filter: brightness(1.1); }
+
+
 a{
     color:inherit;
     text-decoration:none;
@@ -450,6 +508,92 @@ tbody tr:hover td{
     background:#b85f4d;
 }
 
+/* Amenidades Residente */
+.amenidades-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:22px;
+    margin-top:30px;
+}
+
+.amenidad-card{
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.96), rgba(239,230,216,.92));
+    border:1px solid rgba(196,106,60,.35);
+    border-radius:18px;
+    padding:28px 22px;
+    color:var(--ink);
+    text-decoration:none;
+    box-shadow:
+        0 10px 24px rgba(0,0,0,.08),
+        inset 0 1px 0 rgba(255,255,255,.65);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+}
+
+.amenidad-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:5px;
+    background:linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
+.amenidad-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at top right, rgba(196,106,60,.10), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(255,255,255,.45), transparent 30%);
+    pointer-events:none;
+}
+
+.amenidad-card:hover{
+    transform:translateY(-6px) scale(1.01);
+    box-shadow:
+        0 16px 34px rgba(0,0,0,.12),
+        inset 0 1px 0 rgba(255,255,255,.75);
+    border-color:var(--primary);
+}
+
+.amenidad-card h3{
+    margin:6px 0 12px;
+    font-size:1.15rem;
+    color:var(--ink);
+    position:relative;
+    z-index:1;
+}
+
+.amenidad-card p{
+    margin:0;
+    color:var(--muted);
+    font-size:.95rem;
+    line-height:1.6;
+    position:relative;
+    z-index:1;
+}
+
+.form-reserva{
+    margin-top:35px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px;
+    box-shadow:var(--shadow);
+}
+
+.form-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
 /* Ayuda */
 .ayuda-grid {
     display: grid;
@@ -587,4 +731,9 @@ tbody tr:hover td{
 @keyframes zoomHero{
     from{transform:scale(1.04)}
     to{transform:scale(1.08)}
+}
+
+@keyframes m-entrar {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
