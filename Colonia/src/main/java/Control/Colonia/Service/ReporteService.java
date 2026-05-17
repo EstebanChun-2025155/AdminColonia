@@ -8,6 +8,7 @@ import java.util.List;
 @Service
 public interface ReporteService {
     List<Reporte> getAllReporte();
+    List<Reporte> buscarporReportante(Integer id);
     List<Reporte> buscarPorReportado(Integer id);
     Reporte getReporteById(Integer id);
     Reporte saveReporte(Reporte reporte) throws RuntimeException;

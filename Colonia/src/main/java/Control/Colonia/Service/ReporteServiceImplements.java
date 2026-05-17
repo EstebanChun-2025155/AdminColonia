@@ -19,6 +19,12 @@ public class ReporteServiceImplements implements ReporteService{
     }
 
     @Override
+    public List<Reporte> buscarporReportante(Integer id) {
+        return reporteRepository.findByIdResidenteReportante(id);
+    }
+
+
+    @Override
     public Reporte getReporteById(Integer id) {
         return reporteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("El reporte no existe"));
