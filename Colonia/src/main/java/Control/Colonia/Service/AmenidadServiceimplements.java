@@ -15,6 +15,22 @@ public class AmenidadServiceimplements implements AmenidadService {
         this.amenidadRepository = amenidadRepository;
     }
 
+    private Double obtenerCostoAmenidad(String nombreAmenidad) {
+        if (nombreAmenidad == null) {
+            throw new RuntimeException("Debe seleccionar una amenidad válida");
+        }
+
+        return switch (nombreAmenidad.toLowerCase()) {
+            case "salon social" -> 250.00;
+            case "piscina" -> 0.00;
+            case "cancha deportiva" -> 50.00;
+            case "lounge de estudio" -> 0.00;
+            case "terraza" -> 75.00;
+            case "cinema" -> 0.00;
+            default -> throw new RuntimeException("La amenidad seleccionada no tiene costo asignado");
+        };
+    }
+
     @Override
     public List<Amenidad> getAllAmenidad() {
         return amenidadRepository.findAll();
@@ -28,17 +44,13 @@ public class AmenidadServiceimplements implements AmenidadService {
 
     @Override
     public Amenidad saveAmenidad(Amenidad amenidad) {
-        // Forzar minúsculas antes de validar y guardar
-        if (amenidad.getEstado() != null) {
-            amenidad.setEstado(amenidad.getEstado().toLowerCase());
-        }
 
-        if (amenidadRepository.existsByNombreAmenidadAndHorarioUsoAndCostoUsoAndEstadoAndCapacidad(
+        amenidad.setCostoUso(obtenerCostoAmenidad(amenidad.getNombreAmenidad()));
+
+        if (amenidadRepository.existsByNombreAmenidadAndHorarioAndFecha(
                 amenidad.getNombreAmenidad(),
-                amenidad.getHorarioUso(),
-                amenidad.getCostoUso(),
-                amenidad.getEstado(),
-                amenidad.getCapacidad())) {
+                amenidad.getHorario(),
+                amenidad.getFecha())){
             throw new RuntimeException("Ya existe una amenidad con estos datos");
         }
 
@@ -47,16 +59,25 @@ public class AmenidadServiceimplements implements AmenidadService {
 
     @Override
     public Amenidad updateAmenidad(Integer id, Amenidad amenidad) {
-        // 1. Verificar existencia
         Amenidad existingAmenidad = amenidadRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("La amenidad no existe"));
 
-        // 2. Actualizar datos (Sin el IF de existsBy para evitar el bloqueo del mismo registro)
+        if (amenidadRepository.existsByNombreAmenidadAndHorarioAndFechaAndIdAmenidadNot(
+                amenidad.getNombreAmenidad(),
+                amenidad.getHorario(),
+                amenidad.getFecha(),
+                id)) {
+            throw new RuntimeException("Ya existe una amenidad registrada con esa fecha y horario");
+        }
+
+        amenidad.setCostoUso(obtenerCostoAmenidad(amenidad.getNombreAmenidad()));
+
+        existingAmenidad.setIdResidente(amenidad.getIdResidente());
         existingAmenidad.setNombreAmenidad(amenidad.getNombreAmenidad());
-        existingAmenidad.setHorarioUso(amenidad.getHorarioUso());
+        existingAmenidad.setHorario(amenidad.getHorario());
+        existingAmenidad.setFecha(amenidad.getFecha());
         existingAmenidad.setCostoUso(amenidad.getCostoUso());
-        // Forzamos a minúsculas para mantener consistencia en la BD
-        existingAmenidad.setEstado(amenidad.getEstado().toLowerCase());
+        existingAmenidad.setEstado(amenidad.getEstado());
         existingAmenidad.setCapacidad(amenidad.getCapacidad());
 
         return amenidadRepository.save(existingAmenidad);
