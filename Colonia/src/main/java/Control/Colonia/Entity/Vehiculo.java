@@ -16,7 +16,7 @@ public class Vehiculo {
     private Integer idVehiculo;
 
     @NotBlank(message = "Debe agregar la placa")
-    @Pattern(regexp = "^[A-Za-z0-9-]{8}$", message = "La placa solo puede contener letras, números o guion")
+    @Pattern(regexp = "^[A-Za-z0-9-]{8}$", message = "La placa solo puede contener letras, números o guion y un minimo de 8 caracteres")
     @Column(name = "placa", unique = true)
     private String placa;
 
