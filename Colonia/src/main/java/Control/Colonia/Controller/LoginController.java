@@ -27,16 +27,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String validar(
-            @RequestParam("username") String nombre,
-            @RequestParam("password") String credencial,
-            Model model,
-            HttpSession session) {
+    public String validar(@RequestParam("username") String nombre, @RequestParam("password") String credencial,
+            Model model, HttpSession session) {
 
         Residente res = residenteService.login(nombre, credencial);
+        
         if (res != null && res.getPosicion().equalsIgnoreCase("activo")) {
             session.setAttribute("usuarioLogueado", res);
             session.setAttribute("tipoUsuario", "RESIDENTE");
+            session.setAttribute("idResidente", res.getIdResidente());
             return "redirect:/home";
         }
 
