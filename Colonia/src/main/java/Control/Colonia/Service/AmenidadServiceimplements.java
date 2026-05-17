@@ -37,6 +37,11 @@ public class AmenidadServiceimplements implements AmenidadService {
     }
 
     @Override
+    public List<Amenidad> buscarPorResidente(Integer idResidente) {
+        return amenidadRepository.findByIdResidente(idResidente);
+    }
+
+    @Override
     public Amenidad getAmenidadById(Integer id) {
         return amenidadRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Amenidad no encontrada con el ID: " + id));

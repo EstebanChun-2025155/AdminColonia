@@ -26,7 +26,22 @@ public class AmenidadController {
             return false;
         }
 
-        model.addAttribute("amenidades", amenidadService.getAllAmenidad());
+        model.addAttribute("isResidente", tipo.equals("RESIDENTE"));
+        model.addAttribute("isSeguridad", tipo.equals("SEGURIDAD"));
+
+        if (tipo.equals("SEGURIDAD")){
+            model.addAttribute("amenidades", amenidadService.getAllAmenidad());
+        }
+
+        if (tipo.equals("RESIDENTE")){
+            Integer idResidente = (Integer) session.getAttribute("idResidente");
+
+            if (idResidente == null){
+                return false;
+            }
+
+            model.addAttribute("amenidades", amenidadService.buscarPorResidente(idResidente));
+        }
 
         return true;
     }

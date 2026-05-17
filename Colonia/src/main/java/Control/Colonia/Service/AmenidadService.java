@@ -8,6 +8,8 @@ public interface AmenidadService {
 
     List<Amenidad> getAllAmenidad();
 
+    List<Amenidad> buscarPorResidente(Integer idResidente);
+
     Amenidad getAmenidadById(Integer id);
 
     Amenidad saveAmenidad(Amenidad amenidad) throws RuntimeException;
