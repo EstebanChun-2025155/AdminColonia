@@ -5,9 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitas</title>
     <link rel="stylesheet" th:href="@{/styles/entidades.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
+
+<div class="modal-overlay" id="modalEliminar">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <i class="bi bi-trash-fill modal-icono"></i>
+
+        <h2 class="modal-titulo">¿Eliminar Visita?</h2>
+        <p class="modal-subtitulo">Esta acción no se puede deshacer.</p>
+
+        <div class="modal-badge">
+            <i class="bi bi-person-badge-fill"></i>
+            <span id="modalNombreTexto">—</span>
+        </div>
+
+        <div class="modal-btns">
+            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <form id="modalFormEliminar" method="post">
+                <button type="submit" class="btn-confirmar">Sí, eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="menu">
     <div class="container menu_row">
@@ -36,7 +58,9 @@
 
     <section class="vista">
 
-        <div class="alerta-error" th:if="${error}" th:text="${error}"></div>
+        <div th:if="${errorGeneral}" class="mensaje-error-general">
+            <p th:text="${errorGeneral}"></p>
+        </div>
 
         <!-- TABS -->
         <input type="radio" name="tabs_vis" id="r1" hidden
@@ -96,41 +120,18 @@
                         <div class="acciones">
 
                             <a th:href="@{/visitas/editar/{id}(id=${visita.id})}"
-                               class="btn btn-edit"
-                               title="Editar">
+                               class="btn btn-edit" title="Editar">
 
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     width="16"
-                                     height="16"
-                                     fill="currentColor"
-                                     class="bi bi-pencil-square"
-                                     viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                 </svg>
-
                             </a>
-
-                            <form th:action="@{/visitas/eliminar/{id}(id=${visita.id})}"
-                                  method="get"
-                                  onsubmit="return confirm('¿Seguro que deseas eliminar esta visita?');">
-
-                                <button type="submit"
-                                        class="btn btn-danger"
-                                        title="Eliminar">
-
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         width="16"
-                                         height="16"
-                                         fill="currentColor"
-                                         class="bi bi-trash3-fill"
-                                         viewBox="0 0 16 16">
-                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                    </svg>
-
+                                <button type="button" class="btn btn-danger"
+                                    th:attr="data-url=@{'/visitas/eliminar/' +${visita.id}}, data-nombre=${visita.nombreVisita}"
+                                    onclick="abrirModal(this)" title="Eliminar">
+                                    <i class="bi bi-trash-fill"></i>
                                 </button>
-                            </form>
-
                         </div>
                     </td>
                 </tr>
@@ -142,54 +143,40 @@
         <!-- REGISTRAR -->
         <div class="panel content2">
             <h3 class="panel_titulo">Registrar Visita</h3>
+
             <form th:action="@{/visitas/guardar}" th:object="${visitaForm}" method="post">
 
                 <div th:if="${errorGeneral}" class="mensaje-error-general">
                     <p th:text="${errorGeneral}"></p>
                 </div>
 
-                <input type="text" th:field="*{nombreVisita}" placeholder="Nombre">
+                <div class="campo-form">
+                    <input type="text" th:field="*{nombreVisita}" placeholder="Nombre">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreVisita')}" th:errors="*{nombreVisita}"></span>
+                </div>
 
-                <span class="campo-form"
-                      th:if="${#fields.hasErrors('nombreVisita')}"
-                      th:errors="*{nombreVisita}">
-                </span>
+                <div class="campo-form">
+                    <input type="text" th:field="*{documento}" placeholder="Documento">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></span>
+                </div>
 
-                <input type="text"
-                       th:field="*{documento}"
-                       placeholder="Documento">
+                <div class="campo-form">
+                    <input type="text" th:field="*{placa}" placeholder="Placa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}">
+            </span>
+                </div>
 
-                <span class="campo-form"
-                      th:if="${#fields.hasErrors('documento')}"
-                      th:errors="*{documento}">
-                </span>
+                <div class="campo-form">
+                    <input type="text" th:field="*{motivo}" placeholder="Motivo">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}">
+            </span>
+                </div>
 
-                <input type="text"
-                       th:field="*{placa}"
-                       placeholder="Placa">
-
-                <span class="campo-form"
-                      th:if="${#fields.hasErrors('placa')}"
-                      th:errors="*{placa}">
-                </span>
-
-                <input type="text"
-                       th:field="*{motivo}"
-                       placeholder="Motivo">
-
-                <span class="campo-form"
-                      th:if="${#fields.hasErrors('motivo')}"
-                      th:errors="*{motivo}">
-                </span>
-
-                <input type="number"
-                       th:field="*{idCasa}"
-                       placeholder="ID Casa">
-
-                <span class="campo-form"
-                      th:if="${#fields.hasErrors('idCasa')}"
-                      th:errors="*{idCasa}">
-                </span>
+                <div class="campo-form">
+                    <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}">
+            </span>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
@@ -205,52 +192,38 @@
 
             <div th:if="${tabActiva == 'editar'}">
 
-                <form th:action="@{/visitas/guardar}" th:object="${visitaForm}" method="post" >
+                <form th:action="@{/visitas/actualizar/{id}(id=${visitaForm.id})}" th:object="${visitaForm}" method="post">
 
-                    <input type="text"
-                           th:field="*{nombreVisita}"
-                           placeholder="Nombre">
+                    <input type="hidden" th:field="*{id}">
 
-                    <span class="campo-form"
-                          th:if="${#fields.hasErrors('nombreVisita')}"
-                          th:errors="*{nombreVisita}">
-                    </span>
+                    <div th:if="${errorGeneral}" class="mensaje-error-general">
+                        <p th:text="${errorGeneral}"></p>
+                    </div>
 
-                    <input type="text"
-                           th:field="*{documento}"
-                           placeholder="Documento">
+                    <div class="campo-form">
+                        <input type="text" th:field="*{nombreVisita}" placeholder="Nombre">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('nombreVisita')}" th:errors="*{nombreVisita}"></span>
+                    </div>
 
-                    <span class="campo-form"
-                          th:if="${#fields.hasErrors('documento')}"
-                          th:errors="*{documento}">
-                    </span>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{documento}" placeholder="Documento">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></span>
+                    </div>
 
-                    <input type="text"
-                           th:field="*{placa}"
-                           placeholder="Placa">
+                    <div class="campo-form">
+                        <input type="text" th:field="*{placa}" placeholder="Placa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
+                    </div>
 
-                    <span class="campo-form"
-                          th:if="${#fields.hasErrors('placa')}"
-                          th:errors="*{placa}">
-                    </span>
+                    <div class="campo-form">
+                        <input type="text" th:field="*{motivo}" placeholder="Motivo">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}"></span>
+                    </div>
 
-                    <input type="text"
-                           th:field="*{motivo}"
-                           placeholder="Motivo">
-
-                    <span class="campo-form"
-                          th:if="${#fields.hasErrors('motivo')}"
-                          th:errors="*{motivo}">
-                    </span>
-
-                    <input type="number"
-                           th:field="*{idCasa}"
-                           placeholder="ID Casa">
-
-                    <span class="campo-form"
-                          th:if="${#fields.hasErrors('idCasa')}"
-                          th:errors="*{idCasa}">
-                    </span>
+                    <div class="campo-form">
+                        <input type="number" th:field="*{idCasa}" placeholder="ID Casa">
+                        <span class="mensaje-error" th:if="${#fields.hasErrors('idCasa')}" th:errors="*{idCasa}"></span>
+                    </div>
 
                     <button type="submit" class="btn btn-edit">Actualizar</button>
                 </form>
@@ -315,6 +288,8 @@
     </section>
 
 </main>
+
+<script th:src="@{/js/entidades.js}"></script>
 
 </body>
 </html>

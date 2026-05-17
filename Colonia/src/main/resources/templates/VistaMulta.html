@@ -9,6 +9,27 @@
 </head>
 <body>
 
+<div class="modal-overlay" id="modalEliminar">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <i class="bi bi-trash-fill modal-icono"></i>
+
+        <h2 class="modal-titulo">¿Eliminar Multa?</h2>
+        <p class="modal-subtitulo">Esta acción no se puede deshacer.</p>
+
+        <div class="modal-badge">
+            <i class="bi bi-receipt-cutoff"></i>
+            <span id="modalNombreTexto">—</span>
+        </div>
+
+        <div class="modal-btns">
+            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <form id="modalFormEliminar" method="post">
+                <button type="submit" class="btn-confirmar">Sí, eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="menu">
     <div class="container menu_row">
         <div class="brand">
@@ -90,11 +111,11 @@
                                    class="btn btn-edit" title="Editar">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a th:href="@{'/multa/eliminar/' + ${multa.idMulta}}"
-                                   class="btn btn-danger" title="Eliminar"
-                                   onclick="return confirm('¿Seguro que deseas eliminar esta multa?')">
+                                <button type="button" class="btn btn-danger"
+                                        th:attr="data-url=@{'/multa/eliminar/' + ${multa.idMulta}}, data-nombre=${multa.estado}"
+                                        onclick="abrirModal(this)" title="Eliminar">
                                     <i class="bi bi-trash-fill"></i>
-                                </a>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -239,5 +260,7 @@
     </section>
 </main>
 
+
+<script th:src="@{/js/entidades.js}"></script>
 </body>
 </html>
