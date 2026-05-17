@@ -1,11 +1,9 @@
 package Control.Colonia.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Amenidades")
@@ -16,25 +14,32 @@ public class Amenidad {
     @Column(name = "idAmenidad")
     private Integer idAmenidad;
 
+    @Column(name = "idResidente")
+    private Integer idResidente;
+
     @NotBlank(message = "El nombre de la amenidad es obligatorio")
-    @Pattern(regexp = "(?i)^(piscina|cancha de futbol|salon social|área de bbq|lounge de estudio|cinema|salón de juegos)$",
-            message = "La amenidad solo puede ser: Piscina, cancha de futbol, salon social, Área de BBQ, lounge de estudio, cinema o salón de juegos"
+    @Pattern(regexp = "(?i)^(salon social|piscina|cancha deportiva|lounge de estudio|terraza|cinema)$",
+            message = "La amenidad solo puede ser: Salon social, piscina, cancha deportiva, lounge de estudio, terraza, cinema"
     )
     @Column(name = "nombreAmenidad")
     private String nombreAmenidad;
 
     @NotBlank(message = "El horario es obligatorio")
-    @Column(name = "horarioUso")
-    private String horarioUso;
+    @Column(name = "horario")
+    private String horario;
 
-    @NotNull(message = "El costo es obligatorio")
+    @NotNull(message = "La fecha es obligatoria")
+    @FutureOrPresent(message = "La fecha no puede ser anterior al día actual")
+    @Column(name = "fecha")
+    private LocalDate fecha ;
+
     @DecimalMin(value = "0.00", message = "El costo no puede ser negativo")
     @Column(name = "costoUso")
     private Double costoUso;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "(?i)^(ocupada|disponible|mantenimiento)$",
-            message = "El estado solo puede ser: ocupada, disponible o mantenimiento"
+    @Pattern(regexp = "(?i)^(reservado|pendiente|mantenimiento)$",
+            message = "El estado solo puede ser: reservado, pendiente o mantenimiento"
     )
     @Column(name = "estado")
     private String estado;
@@ -52,6 +57,14 @@ public class Amenidad {
         this.idAmenidad = idAmenidad;
     }
 
+    public Integer getIdResidente() {
+        return idResidente;
+    }
+
+    public void setIdResidente(Integer idResidente) {
+        this.idResidente = idResidente;
+    }
+
     public String getNombreAmenidad() {
         return nombreAmenidad;
     }
@@ -60,12 +73,20 @@ public class Amenidad {
         this.nombreAmenidad = nombreAmenidad;
     }
 
-    public String getHorarioUso() {
-        return horarioUso;
+    public String getHorario() {
+        return horario;
     }
 
-    public void setHorarioUso(String horarioUso) {
-        this.horarioUso = horarioUso;
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Double getCostoUso() {
