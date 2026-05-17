@@ -124,7 +124,18 @@
 
             <div class="tiles" aria-label="Panel de administración">
 
-                <a class="tile" th:href="@{/amenidades}" th:if="${isSeguridad or isResidente}" aria-label="Acceso a Amenidades">
+                <a class="tile" th:href="@{/amenidades}" th:if="${isSeguridad}" aria-label="Acceso a Amenidades">
+                <span class="tile_icono" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 10c3 0 4-2 7-2s4 2 7 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 21h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                    <span class="tile_label">Amenidades</span>
+                </a>
+
+                <a class="tile" th:href="@{/amenidades/residente}" th:if="${isResidente}" aria-label="Acceso a Amenidades">
                 <span class="tile_icono" aria-hidden="true">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
