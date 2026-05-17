@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Amenidades para Residentes</title>
+    <link rel="stylesheet" th:href="@{/styles/entidades.css}">
+</head>
+<body>
+
+<header class="menu">
+    <div class="container menu_row">
+        <div class="brand">
+            <img th:src="@{/Images/logo.png}" alt="Logo" class="brand_logo">
+        </div>
+
+        <nav class="menubar">
+            <a class="menu_link is-active" th:href="@{/home}">Inicio</a>
+            <a class="menu_link" href="#amenidades">Amenidades</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="front">
+        <video class="front_media" autoplay loop muted playsinline>
+            <source th:src="@{/images/Amenidades.mp4}" type="video/mp4">
+        </video>
+    </section>
+
+    <div class="panel_header">
+        <span>RESERVA DE AMENIDADES</span>
+    </div>
+
+    <section class="vista" id="amenidades">
+
+        <input type="radio" name="tabs_residente" id="r1" checked hidden>
+        <input type="radio" name="tabs_residente" id="r2" hidden>
+
+        <div class="tabs">
+            <label for="r1" class="tab">Reservaciones</label>
+            <label for="r2" class="tab">Consulta</label>
+        </div>
+
+        <div class="panel content1">
+            <h3 class="panel_titulo">Selecciona la amenidad que deseas reservar</h3>
+
+            <div class="amenidades-grid">
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='salon social')}">
+                    <h3>Salon social</h3>
+                    <p>Salón para eventos o reuniones.</p>
+                </a>
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='piscina')}">
+                    <h3>Piscina</h3>
+                    <p>Alberca amplia para nadar por horas.</p>
+                </a>
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='cancha deportiva')}">
+                    <h3>Cancha deportiva</h3>
+                    <p>Cancha multifuncional para jugar: futbol, voley o basquet.</p>
+                </a>
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='lounge de estudio')}">
+                    <h3>Lounge de estudio</h3>
+                    <p>Area/biblioteca para estudio o reuniones de negocio.</p>
+                </a>
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='terraza')}">
+                    <h3>Terraza</h3>
+                    <p>Área abierta para convivir en lo mas alto.</p>
+                </a>
+
+                <a class="amenidad-card" th:href="@{/amenidades/residente/reservar(nombre='cinema')}">
+                    <h3>Cinema</h3>
+                    <p>Sala para entretenimiento y películas.</p>
+                </a>
+
+            </div>
+
+        <div class="form-reserva" th:if="${mostrarFormulario}">
+            <h3 class="panel_titulo">Formulario de reserva</h3>
+
+            <div th:if="${errorGeneral}" class="mensaje-error-general">
+                <p th:text="${errorGeneral}"></p>
+            </div>
+
+            <form th:action="@{/amenidades/residente/guardar/amenidad}" th:object="${amenidadForm}" method="post">
+
+                <input type="hidden" th:field="*{idResidente}">
+
+                <div class="campo-form">
+                    <select th:field="*{nombreAmenidad}">
+                        <option th:value="${amenidadSeleccionada}"
+                                th:text="${amenidadSeleccionada}">
+                        </option>
+                    </select>
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="text" th:field="*{horario}" placeholder="Horario: En caso de reservación se permite un maximo de 5hrs (Ej: 08:00 - 13:00) ">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}">
+                    </span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="date" th:field="*{fecha}">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <select th:field="*{estado}">
+                        <option value="pendiente">pendiente</option>
+                    </select>
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
+                </div>
+
+                <div class="campo-form">
+                    <input type="number" th:field="*{capacidad}" placeholder="Cantidad de personas">
+                    <span class="mensaje-error" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+                    <a th:href="@{/amenidades/residente}" class="btn btn-edit">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+        <div class="panel content2">
+            <h3 class="panel_titulo">Consulta de amenidades</h3>
+
+            <div class="panel_list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Horario</th>
+                        <th>Fecha</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th>Cap.</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="a : ${amenidades}">
+                        <td th:text="${a.nombreAmenidad}"></td>
+                        <td th:text="${a.horario}"></td>
+                        <td th:text="${a.fecha}"></td>
+                        <td th:text="${a.costoUso}"></td>
+                        <td th:text="${a.estado}"></td>
+                        <td th:text="${a.capacidad}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
