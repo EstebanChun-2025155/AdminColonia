@@ -34,16 +34,6 @@ create table Limpieza (
     primary key PK_id_Limpieza(id_Limpieza)
 );
 
-create table Amenidades(
-    id_Amenidad int auto_increment not null,
-    nombre_Amenidad varchar(100) not null,
-    horario_Uso varchar(30) not null,
-    costo_Uso decimal(12,2) not null,
-    estado enum('disponible','ocupado','mantenimiento') not null,
-    capacidad int not null,
-    primary key Pk_id_Amenidad(id_Amenidad)
-);
-
 create table Multa (
 	id_Multa int not null auto_increment,
     monto decimal(12,2) not null,
@@ -76,6 +66,20 @@ create table Residente(
 	primary key PK_id_Residente(id_Residente),
 	constraint FK_Residente_Casa foreign key (id_Casa)
 	references Casa(id_Casa) on delete cascade
+);
+
+create table Amenidades(
+    id_Amenidad int auto_increment not null,
+    id_Residente int null,
+    nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema') not null,
+    horario varchar(30) not null,
+    fecha date not null,
+    costo_Uso decimal(12,2) not null,
+    estado enum('reservado','pendiente','mantenimiento') not null,
+    capacidad int not null,
+    primary key Pk_id_Amenidad(id_Amenidad),
+    constraint FK_id_residente_reservacion foreign key (id_Residente)
+    references Residente(id_Residente)
 );
 
 create table Visita(
@@ -273,51 +277,6 @@ Delimiter $$
     end $$
 Delimiter ;
 
--- AMENIDADES
--- Create
-	Delimiter $$
-	create procedure sp_amenidad_create(a_nombre_Amenidad varchar(100),a_horario_Uso varchar(30),
-    a_costo_Uso decimal(12,2),a_estado enum('disponible','ocupado','mantenimiento'),a_capacidad int)
-		begin
-			insert into Amenidades(nombre_Amenidad, horario_Uso, costo_Uso, estado, capacidad)
-			values(a_nombre_Amenidad, a_horario_Uso, a_costo_Uso, a_estado, a_capacidad);
-			select last_insert_id() as id_amenidad;
-		end $$
-	Delimiter ;
-
--- Delete
-	Delimiter $$
-	create procedure sp_amenidad_delete(in a_id_amenidad int)
-		begin
-			delete from Amenidades where id_Amenidad = a_id_amenidad;
-			select row_count() as filas_afectadas;
-		end $$
-	Delimiter ;
-
--- Read
-	Delimiter $$
-	create procedure sp_amenidad_read_all()
-		begin
-			select * from Amenidades order by id_Amenidad;
-		end $$
-	Delimiter ;
-
--- Update
-	Delimiter $$
-	create procedure sp_amenidad_update(in p_id_amenidad int, in p_nombre_Amenidad varchar(100),in p_horario_Uso varchar(30),
-    in p_costo_Uso decimal(12,2), in p_estado enum('disponible','ocupado','mantenimiento'), in p_capacidad int)
-		begin
-			update Amenidades
-			set nombre_Amenidad = p_nombre_Amenidad,
-				horario_Uso = p_horario_Uso,
-				costo_Uso = p_costo_Uso,
-				estado = p_estado,
-				capacidad = p_capacidad
-			where id_Amenidad = p_id_amenidad;
-		select row_count() as filas_afectadas;
-		end $$
-	Delimiter ;
-
 -- MULTAS --
 -- create --
 delimiter $$
@@ -462,6 +421,53 @@ Delimiter $$
 		select row_count() as filas_afectadas;
     end $$
 Delimiter ;
+
+	-- AMENIDADES --
+-- Create --
+	Delimiter $$
+	create procedure sp_amenidad_create(in a_id_Residente int, in a_nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema'), in a_horario varchar(30),
+    in a_fecha date, in a_costo_Uso decimal(12,2), in a_estado enum('reservado','pendiente','mantenimiento'), in a_capacidad int)
+		begin
+			insert into Amenidades(id_Residente, nombre_Amenidad, horario, fecha, costo_Uso, estado, capacidad)
+			values(a_id_Residente, a_nombre_Amenidad, a_horario, a_fecha, a_costo_Uso, a_estado, a_capacidad);
+			select last_insert_id() as id_amenidad;
+		end $$
+	Delimiter ;
+
+-- Delete --
+	Delimiter $$
+	create procedure sp_amenidad_delete(in a_id_amenidad int)
+		begin
+			delete from Amenidades where id_Amenidad = a_id_amenidad;
+			select row_count() as filas_afectadas;
+		end $$
+	Delimiter ;
+
+-- Read --
+	Delimiter $$
+	create procedure sp_amenidad_read_all()
+		begin
+			select * from Amenidades order by id_Amenidad;
+		end $$
+	Delimiter ;
+
+-- Update --
+	Delimiter $$
+	create procedure sp_amenidad_update(in p_id_amenidad int, in p_id_Residente int, in p_nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema'), in p_horario varchar(30),
+    in p_fecha date, in p_costo_Uso decimal(12,2), in p_estado enum('reservado','pendiente','mantenimiento'), in p_capacidad int)
+		begin
+			update Amenidades
+			set id_Residente = p_id_Residente,
+				nombre_Amenidad = p_nombre_Amenidad,
+				horario = p_horario,
+				fecha = p_fecha,
+				costo_Uso = p_costo_Uso,
+				estado = p_estado,
+				capacidad = p_capacidad
+			where id_Amenidad = p_id_amenidad;
+		select row_count() as filas_afectadas;
+		end $$
+	Delimiter ;
 
 -- Visitas --
 -- Create --
@@ -736,17 +742,6 @@ CALL sp_limpieza_create('Sofía Méndez', 'Limpieza Oficinas', 'manana', 3100.00
 CALL sp_limpieza_create('Raúl Cano', 'Mantenimiento General', 'tarde', 3250.00, '6677-4455');
 CALL sp_limpieza_create('Clara Villeda', 'Conserje', 'manana', 3100.00, '5566-5566');
 
-CALL sp_amenidad_create('Piscina','06:00 - 18:00',25.00,'disponible',30);
-CALL sp_amenidad_create('cancha de futbol','07:00 - 20:00',40.00,'mantenimiento',22);
-CALL sp_amenidad_create('salon social','08:00 - 23:00',150.00,'ocupado',50);
-CALL sp_amenidad_create('Área de BBQ','09:00 - 21:00',20.00,'ocupado',10);
-CALL sp_amenidad_create('lounge de estudio','06:00 - 22:00',5.00,'disponible',12);
-CALL sp_amenidad_create('cinema','10:00 - 22:00',15.00,'disponible',20);
-CALL sp_amenidad_create('salón de juegos','10:00 - 22:00',10.00,'mantenimiento',15);
-CALL sp_amenidad_create('Piscina','18:00 - 21:00',30.00,'disponible',20);
-CALL sp_amenidad_create('Área de BBQ','12:00 - 18:00',25.00,'disponible',8);
-CALL sp_amenidad_create('salon social','09:00 - 17:00',120.00,'disponible',40);
-
 CALL sp_multa_create(150.00,'Estacionarse en lugar prohibido','2026-01-10','pendiente','visita');
 CALL sp_multa_create(300.00,'Ruido excesivo','2026-01-15','pagado','residente');
 CALL sp_multa_create(200.00,'Basura fuera de horario','2026-01-18','pendiente','residente');
@@ -779,6 +774,17 @@ CALL sp_residente_create('Andrés León','7890123456789','55789012','activo',7);
 CALL sp_residente_create('Fernanda Gil','8901234567890','55890123','activo',8);
 CALL sp_residente_create('Kevin Cruz','9012345678901','55901234','inactivo',9);
 CALL sp_residente_create('Diana Rivas','0123456789012','55012345','activo',10);
+
+CALL sp_amenidad_create(1, 'salon social', '08:00 - 12:00', '2026-05-20', 150.00, 'pendiente', 50);
+CALL sp_amenidad_create(2, 'piscina', '10:00 - 13:00', '2026-05-21', 75.00, 'reservado', 25);
+CALL sp_amenidad_create(3, 'cancha deportiva', '15:00 - 17:00', '2026-05-22', 50.00, 'pendiente', 20);
+CALL sp_amenidad_create(4, 'area de churrasquera', '12:00 - 16:00', '2026-05-23', 100.00, 'reservado', 15);
+CALL sp_amenidad_create(null, 'gimnasio', '07:00 - 09:00', '2026-05-24', 0.00, 'mantenimiento', 10);
+CALL sp_amenidad_create(5, 'salon social', '18:00 - 22:00', '2026-05-25', 150.00, 'pendiente', 50);
+CALL sp_amenidad_create(6, 'piscina', '14:00 - 17:00', '2026-05-26', 75.00, 'reservado', 25);
+CALL sp_amenidad_create(null, 'cinema', '08:00 - 10:00', '2026-05-27', 0.00, 'mantenimiento', 20);
+CALL sp_amenidad_create(7, 'area de juegos', '09:00 - 11:00', '2026-05-28', 25.00, 'pendiente', 12);
+CALL sp_amenidad_create(8, 'terraza ', '17:00 - 20:00', '2026-05-29', 125.00, 'reservado', 30);
 
 CALL sp_Visita_create('Carlos Ruiz',       '1234567890', 'ABC-123', 'Visita familiar a residente',          1);
 CALL sp_Visita_create('María Fernández',   '0987654321', 'XYZ-456', 'Entrega de paquete',                   2);
