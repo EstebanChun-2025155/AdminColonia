@@ -9,6 +9,27 @@
 </head>
 <body>
 
+<div class="modal-overlay" id="modalEliminar">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <i class="bi bi-trash-fill modal-icono"></i>
+
+        <h2 class="modal-titulo">¿Eliminar Reporte?</h2>
+        <p class="modal-subtitulo">Esta acción no se puede deshacer.</p>
+
+        <div class="modal-badge">
+            <i class="bi bi-clipboard-data-fill"></i>
+            <span id="modalNombreTexto">—</span>
+        </div>
+
+        <div class="modal-btns">
+            <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <form id="modalFormEliminar" method="post">
+                <button type="submit" class="btn-confirmar">Sí, eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="menu">
     <div class="container menu_row">
         <div class="brand">
@@ -48,7 +69,7 @@
             <label for="r1" class="tab">Consultar</label>
             <label for="r2" class="tab">Registrar</label>
             <label for="r3" class="tab" th:if="${isSeguridad}">Editar</label>
-            <label for="r4" class="tab">Historial</label>
+            <label for="r4" class="tab" th:if="${isSeguridad}">Historial</label>
         </div>
 
         <!-- CONSULTAR -->
@@ -76,7 +97,7 @@
                         <th>Descripción</th>
                         <th>Fecha</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th th:if="${isSeguridad}">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,11 +114,11 @@
                                 <a th:href="@{'/reporte/editar/' + ${reporte.idReporte}}" class="btn btn-edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a th:href="@{'/reporte/eliminar/' + ${reporte.idReporte}}"
-                                   class="btn btn-danger"
-                                   onclick="return confirm('¿Seguro que deseas eliminar este reporte?')">
+                                <button type="button" class="btn btn-danger"
+                                    th:attr="data-url=@{'/reporte/eliminar/' + ${reporte.idReporte}}, data-nombre=${reporte.tipoReporte}"
+                                    onclick="abrirModal(this)" title="Eliminar">
                                     <i class="bi bi-trash-fill"></i>
-                                </a>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -121,6 +142,8 @@
                     <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportante')}" th:errors="*{idResidenteReportante}"></span>
                 </div>
 
+                <input type="hidden" th:if="${isResidente}" th:field="*{idResidenteReportante}">
+
                 <div class="campo-form">
                     <input type="number" th:field="*{idResidenteReportado}" placeholder="Residente Reportado (ID)">
                     <span class="mensaje-error" th:if="${#fields.hasErrors('idResidenteReportado')}" th:errors="*{idResidenteReportado}"></span>
@@ -142,7 +165,9 @@
                 </div>
 
                 <div class="campo-form">
-                    <input type="text" th:field="*{estado}" placeholder="Estado (PENDIENTE, EN_REVISION, RESUELTO)">
+                    <select th:field="*{estado}">
+                        <option th:value="'pendiente'" th:text="'pendiente'"</option>
+                    </select>
                     <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                 </div>
 
@@ -186,7 +211,12 @@
                     </div>
 
                     <div class="campo-form">
-                        <input type="text" th:field="*{estado}">
+                        <select th:field="*{estado}">
+                            <option value="pendiente">pendiente</option>
+                            <option value="anulado">anulado</option>
+                            <option value="resuelto">resuelto</option>
+                            <option value="en_revision">en revisión</option>
+                        </select>
                         <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
                     </div>
 
@@ -292,6 +322,8 @@
         </div>
     </section>
 </main>
+
+<script th:src="@{/js/entidades.js}"></script>
 
 </body>
 </html>
