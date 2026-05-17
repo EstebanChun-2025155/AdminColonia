@@ -85,7 +85,7 @@ public class MultaController {
         return "redirect:/multa";
     }
 
-    @GetMapping("/multa/eliminar/{id}")
+    @PostMapping("/multa/eliminar/{id}")
     public String eliminarMulta(@PathVariable Integer id) {
         multaService.deleteMulta(id);
         return "redirect:/multa";

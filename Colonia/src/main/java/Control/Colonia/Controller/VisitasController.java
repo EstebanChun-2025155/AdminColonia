@@ -1,8 +1,10 @@
 package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Visitas;
+import Control.Colonia.Repository.CasaRepository;
 import Control.Colonia.Service.VisitasService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,11 +16,11 @@ import java.util.List;
 @RequestMapping("/visitas")
 public class VisitasController {
 
-    private final VisitasService visitasService;
+    @Autowired
+    private VisitasService visitasService;
 
-    public VisitasController(VisitasService visitasService) {
-        this.visitasService = visitasService;
-    }
+    @Autowired
+    private CasaRepository casaRepository;
 
     @GetMapping
     public String verVisitas(Model model) {
@@ -38,7 +40,7 @@ public class VisitasController {
             model.addAttribute("visitas", List.of(visita));
         } catch (RuntimeException e) {
             model.addAttribute("visitas", List.of());
-            model.addAttribute("error", "No se encontró la visita con ID: " + id);
+            model.addAttribute("errorGeneral", "No se encontró la visita con ID: " + id);
         }
 
         model.addAttribute("visitaForm", new Visitas());
@@ -58,11 +60,19 @@ public class VisitasController {
             return "visitas";
         }
 
+        if (!casaRepository.existsById(visita.getIdCasa())){
+            result.rejectValue("idCasa", "error.casa", "El ID de esta vivienda no Existe");
+
+            model.addAttribute("visitas", visitasService.getAllVisitas());
+            model.addAttribute("tabActiva", "registrar");
+            return "visitas";
+        }
+
         try {
             visitasService.saveVisitas(visita);
         } catch (RuntimeException e) {
             model.addAttribute("visitas", visitasService.getAllVisitas());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorGeneral", e.getMessage());
             model.addAttribute("tabActiva", "registrar");
             return "visitas";
         }
@@ -83,7 +93,7 @@ public class VisitasController {
         } catch (RuntimeException e) {
             model.addAttribute("visitaForm", new Visitas());
             model.addAttribute("visitas", visitasService.getAllVisitas());
-            model.addAttribute("error", "No se encontró la visita con ID: " + id);
+            model.addAttribute("errorGeneral", "No se encontró la visita con ID: " + id);
             model.addAttribute("tabActiva", "consultar");
         }
 
@@ -106,6 +116,16 @@ public class VisitasController {
             return "visitas";
         }
 
+        if (!casaRepository.existsById(visita.getIdCasa())){
+            result.rejectValue("idCasa", "error.casa", "El ID de la vivienda no Existe");
+
+            visita.setId(id);
+            model.addAttribute("visitaForm", visita);
+            model.addAttribute("visitas", visitasService.getAllVisitas());
+            model.addAttribute("tabActiva", "editar");
+            return "visitas";
+        }
+
         try {
             visitasService.getVisitasById(id);
 
@@ -117,7 +137,7 @@ public class VisitasController {
 
             model.addAttribute("visitaForm", visita);
             model.addAttribute("visitas", visitasService.getAllVisitas());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorGeneral", e.getMessage());
             model.addAttribute("tabActiva", "editar");
 
             return "visitas";
@@ -126,7 +146,7 @@ public class VisitasController {
         return "redirect:/visitas";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
 
         visitasService.deleteVisitas(id);

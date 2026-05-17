@@ -1,6 +1,7 @@
 package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Pago;
+import Control.Colonia.Repository.ResidenteRepository;
 import Control.Colonia.Service.PagoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class PagoController {
 
     @Autowired
     private PagoService pagoService;
+
+    @Autowired
+    private ResidenteRepository residenteRepository;
 
     @GetMapping("/pago")
     public String mostrarPago (Model model) {
@@ -41,6 +45,15 @@ public class PagoController {
             model.addAttribute("panelActivo", "registrar");
             return "VistaPago";
         }
+
+        if (!residenteRepository.existsById(pago.getIdResidente())){
+            result.rejectValue("idResidente", "error.pago", "El ID del residente no Existe");
+
+            model.addAttribute("pagpo", pagoService.getAllPago());
+            model.addAttribute("panelActivo", "registrar");
+            return "VistaPago";
+        }
+
         try {
             pagoService.savePago(pago);
         } catch (RuntimeException e) {
@@ -62,9 +75,7 @@ public class PagoController {
     }
 
     @PostMapping("/pago/editar/{id}")
-    public String actualizarPago(@PathVariable Integer id,
-                                 @Valid @ModelAttribute("pagoEditar") Pago pago,
-                                 BindingResult result, Model model) {
+    public String actualizarPago(@PathVariable Integer id, @Valid @ModelAttribute("pagoEditar") Pago pago, BindingResult result, Model model) {
         if (result.hasErrors()) {
             pago.setIdPago(id);
             model.addAttribute("pagos", pagoService.getAllPago());
@@ -72,6 +83,17 @@ public class PagoController {
             model.addAttribute("panelActivo", "editar");
             return "VistaPago";
         }
+
+        if (!residenteRepository.existsById(pago.getIdResidente())){
+            result.rejectValue("idResidente", "error.pago", "El ID del residente no Existe");
+
+            pago.setIdPago(id);
+            model.addAttribute("pagos", pagoService.getAllPago());
+            model.addAttribute("pagoNuevo", new Pago());
+            model.addAttribute("panelActivo", "registrar");
+            return "VistaPago";
+        }
+
         try {
             pagoService.updatePago(id, pago);
         } catch (RuntimeException e) {
@@ -85,7 +107,7 @@ public class PagoController {
         return "redirect:/pago";
     }
 
-    @GetMapping("/pago/eliminar/{id}")
+    @PostMapping("/pago/eliminar/{id}")
     public String eliminarPago(@PathVariable Integer id) {
         pagoService.deletePago(id);
         return "redirect:/pago";

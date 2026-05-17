@@ -1,6 +1,7 @@
 package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Vehiculo;
+import Control.Colonia.Repository.CasaRepository;
 import Control.Colonia.Service.VehiculoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class VehiculoController {
 
     @Autowired
     private VehiculoService vehiculoService;
+
+    @Autowired
+    private CasaRepository casaRepository;
 
     // MOSTRAR LISTA
     @GetMapping
@@ -44,6 +48,14 @@ public class VehiculoController {
                           Model model) {
 
         if (br.hasErrors()) {
+            model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
+            model.addAttribute("tab", "registrar");
+            return "Vehiculos";
+        }
+
+        if (!casaRepository.existsById(vehiculo.getIdCasa())){
+            br.rejectValue("idCasa", "error.casa", "El ID de la vivienda no Existe");
+
             model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
             model.addAttribute("tab", "registrar");
             return "Vehiculos";
@@ -84,6 +96,16 @@ public class VehiculoController {
             vehiculo.setIdVehiculo(id);
             model.addAttribute("vehiculos", vehiculoService.getAllVehiculo());
             model.addAttribute("tab", "editar");
+            return "Vehiculos";
+        }
+
+        if (!casaRepository.existsById(vehiculo.getIdCasa())){
+            br.rejectValue("idCasa", "error.casa", "El ID de la vivienda no Existe");
+
+            vehiculo.setIdVehiculo(id);
+            model.addAttribute("vehiculo", vehiculoService.getAllVehiculo());
+            model.addAttribute("vehiculo", new Vehiculo());
+            model.addAttribute("tab", "registrar");
             return "Vehiculos";
         }
 

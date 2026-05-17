@@ -1,9 +1,9 @@
 package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Residente;
+import Control.Colonia.Repository.CasaRepository;
 import Control.Colonia.Service.ResidenteService;
 import jakarta.validation.Valid;
-import org.aspectj.internal.lang.annotation.ajcDeclareSoft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,9 @@ import java.util.List;
 public class ResidenteController {
     @Autowired
     private ResidenteService residenteService;
+
+    @Autowired
+    private CasaRepository casaRepository;
 
     @GetMapping("/residente")
     public String mostrarResidente(Model model){
@@ -49,6 +52,14 @@ public class ResidenteController {
             return "residente";
         }
 
+        if (!casaRepository.existsById(residente.getIdCasa())){
+            result.rejectValue("idCasa", "error.casa", "El ID de esta vivienda no Existe");
+
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("tab", "registrar");
+            return "residente";
+        }
+
         try {
             residenteService.saveResidente(residente);
         } catch (RuntimeException e) {
@@ -75,6 +86,16 @@ public class ResidenteController {
     public String actualizarResidente(@PathVariable Integer id, @Valid @ModelAttribute("residenteForm") Residente residente, BindingResult result, Model model){
         if (result.hasErrors()){
             residente.setIdResidente(id);
+            model.addAttribute("residente", residenteService.getAllResidente());
+            model.addAttribute("tab", "editar");
+            return "residente";
+        }
+
+        if (!casaRepository.existsById(residente.getIdCasa())){
+            result.rejectValue("idCasa", "error.casa", "El ID de la vivienda no Existe");
+
+            residente.setIdResidente(id);
+            model.addAttribute("residenteForm", residente);
             model.addAttribute("residente", residenteService.getAllResidente());
             model.addAttribute("tab", "editar");
             return "residente";

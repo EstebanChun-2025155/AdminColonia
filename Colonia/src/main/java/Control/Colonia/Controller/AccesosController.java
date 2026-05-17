@@ -1,8 +1,10 @@
 package Control.Colonia.Controller;
 
 import Control.Colonia.Entity.Accesos;
+import Control.Colonia.Repository.SeguridadRepository;
 import Control.Colonia.Service.AccesosService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,11 +16,11 @@ import java.util.List;
 @RequestMapping("/accesos")
 public class AccesosController {
 
-    private final AccesosService accesosService;
+    @Autowired
+    private AccesosService accesosService;
 
-    public AccesosController(AccesosService accesosService) {
-        this.accesosService = accesosService;
-    }
+    @Autowired
+    private SeguridadRepository seguridadRepository;
 
     @GetMapping
     public String verAccesos(Model model) {
@@ -38,7 +40,7 @@ public class AccesosController {
             model.addAttribute("accesos", List.of(acceso));
         } catch (RuntimeException e) {
             model.addAttribute("accesos", List.of());
-            model.addAttribute("error", "No se encontró el acceso con ID: " + id);
+            model.addAttribute("errorGeneral", "No se encontró el acceso con ID: " + id);
         }
 
         model.addAttribute("acceso", new Accesos());
@@ -58,11 +60,19 @@ public class AccesosController {
             return "Accesos";
         }
 
+        if (!seguridadRepository.existsById(acceso.getIdSeguridad())){
+            result.rejectValue("idSeguridad", "error.seguridad", "El ID del empleado de seguridad no Existe");
+
+            model.addAttribute("accesos", accesosService.getAllAccesos());
+            model.addAttribute("tabActiva", "registrar");
+            return "Accesos";
+        }
+
         try {
             accesosService.saveAcceso(acceso);
         } catch (RuntimeException e) {
             model.addAttribute("accesos", accesosService.getAllAccesos());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorGeneral", e.getMessage());
             model.addAttribute("tabActiva", "registrar");
             return "Accesos";
         }
@@ -83,7 +93,7 @@ public class AccesosController {
         } catch (RuntimeException e) {
             model.addAttribute("acceso", new Accesos());
             model.addAttribute("accesos", accesosService.getAllAccesos());
-            model.addAttribute("error", "No se encontró el acceso con ID: " + id);
+            model.addAttribute("errorGeneral", "No se encontró el acceso con ID: " + id);
             model.addAttribute("tabActiva", "consultar");
         }
 
@@ -106,6 +116,16 @@ public class AccesosController {
             return "Accesos";
         }
 
+        if (!seguridadRepository.existsById(acceso.getIdSeguridad())){
+            result.rejectValue("idSeguridad", "error.seguridad", "El ID del empleado de Seguridad no Existe");
+
+            acceso.setId(id);
+            model.addAttribute("acceso", acceso);
+            model.addAttribute("accesos", accesosService.getAllAccesos());
+            model.addAttribute("tabActiva", "editar");;
+            return "Accesos";
+        }
+
         try {
             accesosService.updateAcceso(id, acceso);
         } catch (RuntimeException e) {
@@ -113,7 +133,7 @@ public class AccesosController {
 
             model.addAttribute("acceso", acceso);
             model.addAttribute("accesos", accesosService.getAllAccesos());
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorGeneral", e.getMessage());
             model.addAttribute("tabActiva", "editar");
 
             return "Accesos";
@@ -122,7 +142,7 @@ public class AccesosController {
         return "redirect:/accesos";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
 
         accesosService.deleteAcceso(id);
