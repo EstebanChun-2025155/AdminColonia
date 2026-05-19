@@ -24,6 +24,7 @@
 
     <section class="front">
         <video class="front_media" autoplay loop muted playsinline>
+
             <source th:src="@{/images/Amenidades.mp4}" type="video/mp4">
         </video>
     </section>
@@ -79,57 +80,82 @@
 
             </div>
 
-        <div class="form-reserva" th:if="${mostrarFormulario}">
-            <h3 class="panel_titulo">Formulario de reserva</h3>
+            <div class="form-reserva" th:if="${mostrarFormulario}">
+                <h3 class="panel_titulo">Formulario de reserva</h3>
 
-            <div th:if="${errorGeneral}" class="mensaje-error-general">
-                <p th:text="${errorGeneral}"></p>
+                <div th:if="${errorGeneral}" class="mensaje-error-general">
+                    <p th:text="${errorGeneral}"></p>
+                </div>
+
+                <form th:action="@{/amenidades/residente/guardar/amenidad}"
+                      th:object="${amenidadForm}"
+                      method="post">
+
+                    <input type="hidden" th:field="*{idResidente}">
+
+                    <div class="campo-form">
+                        <select th:field="*{nombreAmenidad}">
+                            <option th:value="${amenidadSeleccionada}"
+                                    th:text="${amenidadSeleccionada}">
+                            </option>
+                        </select>
+
+                        <span class="mensaje-error"
+                              th:if="${#fields.hasErrors('nombreAmenidad')}"
+                              th:errors="*{nombreAmenidad}">
+                        </span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="text"
+                               th:field="*{horario}"
+                               placeholder="Horario: En caso de reservación se permite un maximo de 5hrs (Ej: 08:00 - 13:00) ">
+
+                        <span class="mensaje-error"
+                              th:if="${#fields.hasErrors('horario')}"
+                              th:errors="*{horario}">
+                        </span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="date" th:field="*{fecha}">
+
+                        <span class="mensaje-error"
+                              th:if="${#fields.hasErrors('fecha')}"
+                              th:errors="*{fecha}">
+                        </span>
+                    </div>
+
+                    <div class="campo-form">
+                        <select th:field="*{estado}">
+                            <option value="pendiente">pendiente</option>
+                        </select>
+
+                        <span class="mensaje-error"
+                              th:if="${#fields.hasErrors('estado')}"
+                              th:errors="*{estado}">
+                        </span>
+                    </div>
+
+                    <div class="campo-form">
+                        <input type="number"
+                               th:field="*{capacidad}"
+                               placeholder="Cantidad de personas">
+
+                        <span class="mensaje-error"
+                              th:if="${#fields.hasErrors('capacidad')}"
+                              th:errors="*{capacidad}">
+                        </span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+                        <a th:href="@{/amenidades/residente}" class="btn btn-edit">Cancelar</a>
+                    </div>
+
+                </form>
             </div>
-
-            <form th:action="@{/amenidades/residente/guardar/amenidad}" th:object="${amenidadForm}" method="post">
-
-                <input type="hidden" th:field="*{idResidente}">
-
-                <div class="campo-form">
-                    <select th:field="*{nombreAmenidad}">
-                        <option th:value="${amenidadSeleccionada}"
-                                th:text="${amenidadSeleccionada}">
-                        </option>
-                    </select>
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('nombreAmenidad')}" th:errors="*{nombreAmenidad}"></span>
-                </div>
-
-                <div class="campo-form">
-                    <input type="text" th:field="*{horario}" placeholder="Horario: En caso de reservación se permite un maximo de 5hrs (Ej: 08:00 - 13:00) ">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}">
-                    </span>
-                </div>
-
-                <div class="campo-form">
-                    <input type="date" th:field="*{fecha}">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></span>
-                </div>
-
-                <div class="campo-form">
-                    <select th:field="*{estado}">
-                        <option value="pendiente">pendiente</option>
-                    </select>
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></span>
-                </div>
-
-                <div class="campo-form">
-                    <input type="number" th:field="*{capacidad}" placeholder="Cantidad de personas">
-                    <span class="mensaje-error" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></span>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enviar solicitud</button>
-                    <a th:href="@{/amenidades/residente}" class="btn btn-edit">Cancelar</a>
-                </div>
-
-            </form>
         </div>
-    </div>
 
         <div class="panel content2">
             <h3 class="panel_titulo">Consulta de amenidades</h3>
