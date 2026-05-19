@@ -71,7 +71,7 @@ create table Residente(
 create table Amenidades(
     id_Amenidad int auto_increment not null,
     id_Residente int null,
-    nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema') not null,
+    nombre_Amenidad enum('salon social','piscina','cancha deportiva','lounge de estudio','terraza','cinema') not null,
     horario varchar(30) not null,
     fecha date not null,
     costo_Uso decimal(12,2) not null,
@@ -425,7 +425,7 @@ Delimiter ;
 	-- AMENIDADES --
 -- Create --
 	Delimiter $$
-	create procedure sp_amenidad_create(in a_id_Residente int, in a_nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema'), in a_horario varchar(30),
+	create procedure sp_amenidad_create(in a_id_Residente int, in a_nombre_Amenidad enum('salon social','piscina','cancha deportiva','lounge de estudio','terraza','cinema'), in a_horario varchar(30),
     in a_fecha date, in a_costo_Uso decimal(12,2), in a_estado enum('reservado','pendiente','mantenimiento'), in a_capacidad int)
 		begin
 			insert into Amenidades(id_Residente, nombre_Amenidad, horario, fecha, costo_Uso, estado, capacidad)
@@ -453,7 +453,7 @@ Delimiter ;
 
 -- Update --
 	Delimiter $$
-	create procedure sp_amenidad_update(in p_id_amenidad int, in p_id_Residente int, in p_nombre_Amenidad enum('salon social','piscina','cancha deportiva','area de churrasquera','gimnasio','area de juegos','terraza','cinema'), in p_horario varchar(30),
+	create procedure sp_amenidad_update(in p_id_amenidad int, in p_id_Residente int, in p_nombre_Amenidad enum('salon social','piscina','cancha deportiva','lounge de estudio','terraza','cinema'), in p_horario varchar(30),
     in p_fecha date, in p_costo_Uso decimal(12,2), in p_estado enum('reservado','pendiente','mantenimiento'), in p_capacidad int)
 		begin
 			update Amenidades
@@ -775,16 +775,16 @@ CALL sp_residente_create('Fernanda Gil','8901234567890','55890123','activo',8);
 CALL sp_residente_create('Kevin Cruz','9012345678901','55901234','inactivo',9);
 CALL sp_residente_create('Diana Rivas','0123456789012','55012345','activo',10);
 
-CALL sp_amenidad_create(1, 'salon social', '08:00 - 12:00', '2026-05-20', 150.00, 'pendiente', 50);
-CALL sp_amenidad_create(2, 'piscina', '10:00 - 13:00', '2026-05-21', 75.00, 'reservado', 25);
-CALL sp_amenidad_create(3, 'cancha deportiva', '15:00 - 17:00', '2026-05-22', 50.00, 'pendiente', 20);
-CALL sp_amenidad_create(4, 'area de churrasquera', '12:00 - 16:00', '2026-05-23', 100.00, 'reservado', 15);
-CALL sp_amenidad_create(null, 'gimnasio', '07:00 - 09:00', '2026-05-24', 0.00, 'mantenimiento', 10);
-CALL sp_amenidad_create(5, 'salon social', '18:00 - 22:00', '2026-05-25', 150.00, 'pendiente', 50);
-CALL sp_amenidad_create(6, 'piscina', '14:00 - 17:00', '2026-05-26', 75.00, 'reservado', 25);
-CALL sp_amenidad_create(null, 'cinema', '08:00 - 10:00', '2026-05-27', 0.00, 'mantenimiento', 20);
-CALL sp_amenidad_create(7, 'area de juegos', '09:00 - 11:00', '2026-05-28', 25.00, 'pendiente', 12);
-CALL sp_amenidad_create(8, 'terraza ', '17:00 - 20:00', '2026-05-29', 125.00, 'reservado', 30);
+CALL sp_amenidad_create(5, 'salon social', '08:00 - 13:00', '2026-05-20', 250.00, 'pendiente', 50);
+CALL sp_amenidad_create(4, 'piscina', '09:00 - 12:00', '2026-05-21', 0.00, 'pendiente', 25);
+CALL sp_amenidad_create(null, 'cancha deportiva', '14:00 - 17:00', '2026-05-22', 50.00, 'mantenimiento', 20);
+CALL sp_amenidad_create(7, 'lounge de estudio', '10:00 - 13:00', '2026-05-23', 0.00, 'pendiente', 15);
+CALL sp_amenidad_create(8, 'terraza', '16:00 - 21:00', '2026-05-24', 75.00, 'pendiente', 30);
+CALL sp_amenidad_create(9, 'cinema', '18:00 - 21:00', '2026-05-25', 0.00, 'pendiente', 20);
+CALL sp_amenidad_create(1, 'salon social', '13:00 - 17:00', '2026-05-26', 250.00, 'reservado', 45);
+CALL sp_amenidad_create(2, 'piscina', '08:00 - 11:00', '2026-05-27', 0.00, 'reservado', 20);
+CALL sp_amenidad_create(3, 'cancha deportiva', '17:00 - 20:00', '2026-05-28', 50.00, 'reservado', 18);
+CALL sp_amenidad_create(null, 'cinema', '15:00 - 18:00', '2026-05-29', 0.00, 'mantenimiento', 20);
 
 CALL sp_Visita_create('Carlos Ruiz',       '1234567890', 'ABC-123', 'Visita familiar a residente',          1);
 CALL sp_Visita_create('María Fernández',   '0987654321', 'XYZ-456', 'Entrega de paquete',                   2);
