@@ -21,12 +21,12 @@ public class LoginController {
     @Autowired
     private SeguridadService seguridadService;
 
-    @GetMapping("/login")
+    @GetMapping({"/", "/index"})
     public String login() {
         return "index";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/index")
     public String validar(@RequestParam("username") String nombre, @RequestParam("password") String credencial,
             Model model, HttpSession session) {
 
