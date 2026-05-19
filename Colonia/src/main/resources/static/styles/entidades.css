@@ -1,14 +1,14 @@
 /* Variables */
 :root{
-    --bg:#D6C2A8;
-    --ink:#3E3A37;
-    --muted:#7A746E;
-    --primary:#C46A3C;
-    --primary-light:#D98A5F;
-    --soft:#EFE6D8;
-    --surface:#E4D6C3;
-    --danger:#D57A66;
-    --line:#D8CBB8;
+    --bg:#D6C2A8; /* beige */
+    --ink:#3E3A37; /* gris café */
+    --muted:#7A746E; /* gris cálido */
+    --primary:#C46A3C; /* terracota */
+    --primary-light:#D98A5F; /* naranja terracota claro */
+    --soft:#EFE6D8;  /* crema cálido */
+    --surface:#E4D6C3; /* beige tostado suave */
+    --danger:#D57A66; /* salmón oscuro */
+    --line:#D8CBB8; /* beige grisáceo claro */
     --radius:14px;
     --shadow:0 10px 28px rgba(0,0,0,.08);
 }

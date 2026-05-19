@@ -18,7 +18,7 @@ public class CasaController {
     private CasaService casaService;
 
     @GetMapping("/casa")
-    public String mostrarCasa(Model model) {
+    public String mostrarCasa(Model model){
         List<Casa> lista = casaService.getAllCasa();
         model.addAttribute("casa", lista);
         model.addAttribute("casaForm", new Casa());
@@ -27,13 +27,13 @@ public class CasaController {
     }
 
     @PostMapping("/eliminar/casa/{id}")
-    public String eliminar(@PathVariable Integer id) {
+    public String eliminarCasa(@PathVariable Integer id){
         casaService.deleteCasa(id);
         return "redirect:/casa";
     }
 
     @GetMapping("/nueva/casa")
-    public String nuevaCasa(Model model) {
+    public String nuevaCasa(Model model){
         model.addAttribute("casa", casaService.getAllCasa());
         model.addAttribute("casaForm", new Casa());
         model.addAttribute("tab", "registrar");
@@ -42,9 +42,8 @@ public class CasaController {
     }
 
     @PostMapping("/guardar/casa")
-    public String guardar(@Valid @ModelAttribute("casaForm") Casa casa, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
+    public String guardarCasa(@Valid @ModelAttribute("casaForm") Casa casa, BindingResult result, Model model){
+        if (result.hasErrors()){
             model.addAttribute("casa", casaService.getAllCasa());
             model.addAttribute("tab", "registrar");
             return "casa";
@@ -54,7 +53,7 @@ public class CasaController {
             casaService.saveCasa(casa);
         } catch (RuntimeException e) {
             model.addAttribute("casa", casaService.getAllCasa());
-            model.addAttribute("errorGeneral", e.getMessage());
+            model.addAttribute("erroGeneral", e.getMessage());
             model.addAttribute("tab", "registrar");
             return "casa";
         }
@@ -63,7 +62,7 @@ public class CasaController {
     }
 
     @GetMapping("/editar/casa/{id}")
-    public String editar(@PathVariable Integer id, Model model) {
+    public String editarCasa (@PathVariable Integer id, Model model){
         Casa casa = casaService.getCasaById(id);
 
         model.addAttribute("casa", casaService.getAllCasa());
@@ -74,9 +73,9 @@ public class CasaController {
     }
 
     @PostMapping("/actualizar/casa/{id}")
-    public String actualizar(@PathVariable Integer id, @Valid @ModelAttribute("casaForm") Casa casa, BindingResult result, Model model) {
+    public String actualizarCasa(@PathVariable Integer id, @Valid @ModelAttribute("casaForm") Casa casa, BindingResult result, Model model){
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()){
             casa.setIdCasa(id);
             model.addAttribute("casa", casaService.getAllCasa());
             model.addAttribute("tab", "editar");
@@ -96,14 +95,14 @@ public class CasaController {
         return "redirect:/casa";
     }
 
-    @GetMapping("/buscar/casa")
-    public String buscarCasa(@RequestParam Integer id, Model model) {
+    @GetMapping("/buscar/casa/{id}")
+    public String buscarCasa(@PathVariable Integer id, Model model){
         try {
             Casa casa = casaService.getCasaById(id);
             model.addAttribute("casa", List.of(casa));
         } catch (Exception e) {
-            model.addAttribute("casa", List.of());
-            model.addAttribute("errorGeneral", "No se existe una vivienda con ID: " + id);
+            model.addAttribute("cas", List.of());
+            model.addAttribute("errorGeneral", "No existe una vivienda con el ID" + id);
         }
         model.addAttribute("casaForm", new Casa());
         model.addAttribute("tab", "consultar");

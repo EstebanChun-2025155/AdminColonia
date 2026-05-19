@@ -13,34 +13,32 @@ public class CasaServiceImplements implements CasaService {
     private CasaRepository casaRepository;
 
     @Override
-    public List<Casa> getAllCasa() { return casaRepository.findAll(); }
+    public List<Casa> getAllCasa() {
+        return casaRepository.findAll();
+    }
 
     @Override
     public Casa getCasaById(Integer id) {
-        return casaRepository.findById(id).orElseThrow(() -> new RuntimeException("Casa no encontrada"));
+        return casaRepository.findById(id).orElseThrow(() -> new RuntimeException("Vivienda no encontrada"));
     }
 
     @Override
     public Casa saveCasa(Casa casa) throws RuntimeException {
-        try {
-            if (casaRepository.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
-                    casa.getNoDeCasa(),
-                    casa.getDireccion(),
-                    casa.getEstado(),
-                    casa.getPropietario(),
-                    casa.getPrecioCasa())){
-                throw new RuntimeException("Ya existe una casa con estos datos");
-            }
-
-            return casaRepository.save(casa);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
+        if (casaRepository.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
+                casa.getNoDeCasa(),
+                casa.getDireccion(),
+                casa.getEstado(),
+                casa.getPropietario(),
+                casa.getPrecioCasa())){
+            throw new RuntimeException("Ya existe una vivienda con estos datos");
         }
+
+        return saveCasa(casa);
     }
 
     @Override
     public Casa updateCasa(Integer id, Casa casa) {
-        Casa existingCasa = casaRepository.findById(id).orElseThrow(() -> new RuntimeException("La casa no existe"));
+        Casa existingCasa = casaRepository.findById(id).orElseThrow(() -> new RuntimeException("Vivienda no econtrada"));
 
         if (casaRepository.existsByNoDeCasaAndDireccionAndEstadoAndPropietarioAndPrecioCasa(
                 casa.getNoDeCasa(),
@@ -48,7 +46,7 @@ public class CasaServiceImplements implements CasaService {
                 casa.getEstado(),
                 casa.getPropietario(),
                 casa.getPrecioCasa())){
-            throw new RuntimeException("Ya existe una casa con estos datos");
+            throw new RuntimeException("Ya existe una vivienda con estos datos");
         }
 
         existingCasa.setNoDeCasa(casa.getNoDeCasa());
