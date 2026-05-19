@@ -49,7 +49,7 @@ public class AmenidadController {
     @GetMapping
     public String mostrarAmenidades(HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         model.addAttribute("amenidadForm", new Amenidad());
@@ -61,7 +61,7 @@ public class AmenidadController {
     @GetMapping("/nueva")
     public String nuevaAmenidad(HttpSession session, Model model) {
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
         model.addAttribute("amenidadForm", new Amenidad());
         model.addAttribute("tab", "registrar");
@@ -72,7 +72,7 @@ public class AmenidadController {
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute("amenidadForm") Amenidad amenidad, BindingResult result, HttpSession session, Model model) {
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         if (result.hasErrors()) {
@@ -94,7 +94,7 @@ public class AmenidadController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, HttpSession session, Model model) {
        if (!cargarDatos(session, model)){
-           return "redirect:/login";
+           return "redirect:/index";
        }
 
         Amenidad amenidad = amenidadService.getAmenidadById(id);
@@ -109,7 +109,7 @@ public class AmenidadController {
                              BindingResult result, HttpSession session, Model model) {
 
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         amenidad.setIdAmenidad(id);
@@ -136,7 +136,7 @@ public class AmenidadController {
         String tipo = (String) session.getAttribute("tipoUsuario");
 
         if (tipo == null){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         amenidadService.deleteAmenidad(id);
@@ -147,7 +147,7 @@ public class AmenidadController {
     @GetMapping("/buscar")
     public String buscar(@RequestParam Integer id, HttpSession session, Model model) {
        if (!cargarDatos(session, model)){
-           return "redirect:/login";
+           return "redirect:/index";
        }
 
         try {
@@ -166,7 +166,7 @@ public class AmenidadController {
     @GetMapping("/residente")
     public String vistaAmenidadesResidente(HttpSession session, Model model) {
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         model.addAttribute("amenidadForm", new Amenidad());
@@ -180,7 +180,7 @@ public class AmenidadController {
     public String mostrarFormularioReserva(@RequestParam String nombre, HttpSession session, Model model) {
 
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         Amenidad amenidad = new Amenidad();
@@ -201,7 +201,7 @@ public class AmenidadController {
     @PostMapping("/residente/guardar/amenidad")
     public String guardarReservaResidente(@Valid @ModelAttribute("amenidadForm") Amenidad amenidad, BindingResult result, HttpSession session, Model model) {
         if (!cargarDatos(session, model)){
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         Integer idResidente = (Integer) session.getAttribute("idResidente");

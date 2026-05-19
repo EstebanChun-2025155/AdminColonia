@@ -19,7 +19,7 @@ public class HomeController {
         String tipo = (String) session.getAttribute("tipoUsuario");
 
         if (tipo == null) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         model.addAttribute("isResidente", tipo.equals("RESIDENTE"));

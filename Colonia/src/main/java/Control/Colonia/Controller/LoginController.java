@@ -23,7 +23,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "index";
     }
 
     @PostMapping("/login")
@@ -31,7 +31,7 @@ public class LoginController {
             Model model, HttpSession session) {
 
         Residente res = residenteService.login(nombre, credencial);
-        
+
         if (res != null && res.getPosicion().equalsIgnoreCase("activo")) {
             session.setAttribute("usuarioLogueado", res);
             session.setAttribute("tipoUsuario", "RESIDENTE");
@@ -47,12 +47,12 @@ public class LoginController {
         }
 
         model.addAttribute("error", "Nombre o credencial incorrectos");
-        return "login";
+        return "index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/index";
     }
 }

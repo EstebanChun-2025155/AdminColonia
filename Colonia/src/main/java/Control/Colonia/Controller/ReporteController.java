@@ -50,7 +50,7 @@ public class ReporteController {
     @GetMapping("/reporte")
     public String mostrarReporte(HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
@@ -60,7 +60,7 @@ public class ReporteController {
             Integer idResidente = (Integer) session.getAttribute("idResidente");
 
             if (idResidente == null){
-                return "redirect:/login";
+                return "redirect:/index";
             }
 
             reporte.setIdResidenteReportante(idResidente);
@@ -75,7 +75,7 @@ public class ReporteController {
     @GetMapping("/reporte/nuevo")
     public String nuevoReporte(HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
@@ -85,7 +85,7 @@ public class ReporteController {
             Integer idResidente = (Integer) session.getAttribute("idResidente");
 
             if (idResidente == null){
-                return "redirect:/login";
+                return "redirect:/index";
             }
 
             reporte.setIdResidenteReportante(idResidente);
@@ -100,7 +100,7 @@ public class ReporteController {
     @PostMapping("/reporte/nuevo")
     public String guardarReporte(@Valid @ModelAttribute("reporteNuevo") Reporte reporte, BindingResult result, HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         if (result.hasErrors()) {
@@ -137,7 +137,7 @@ public class ReporteController {
     @GetMapping("/reporte/editar/{id}")
     public String editarReporte(@PathVariable Integer id, HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
@@ -157,7 +157,7 @@ public class ReporteController {
     @PostMapping("/reporte/editar/{id}")
     public String actualizarReporte(@PathVariable Integer id, @Valid @ModelAttribute("reporteEditar") Reporte reporte, BindingResult result,  HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
@@ -210,8 +210,8 @@ public class ReporteController {
     public String eliminarReporte(@PathVariable Integer id, HttpSession session) {
        String tipo = (String) session.getAttribute("tipoUsuario");
 
-       if (tipo == null){
-           return "redirect:/login";
+        if (tipo == null){
+           return "redirect:/index";
        }
 
        if (!tipo.equals("SEGURIDAD")){
@@ -225,7 +225,7 @@ public class ReporteController {
     @GetMapping("/reporte/buscar")
     public String buscarReporte(@RequestParam Integer id, HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
@@ -250,7 +250,7 @@ public class ReporteController {
     @GetMapping("/reporte/historial")
     public String historial(@RequestParam("id") Integer id,HttpSession session, Model model) {
         if (!cargarDatos(session, model)) {
-            return "redirect:/login";
+            return "redirect:/index";
         }
 
         String tipo = (String) session.getAttribute("tipoUsuario");
