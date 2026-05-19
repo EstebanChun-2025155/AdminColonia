@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     private SeguridadService seguridadService;
 
-    @GetMapping({"/", "/index"})
+    @GetMapping("/index")
     public String login() {
         return "index";
     }
